@@ -124,12 +124,12 @@ Setyenv™ turns a WordPress install into a self-hosted automation platform — 
 
 | Piece | What it is | License | Links |
 |---|---|:---:|---|
-| **WP-PFManagement™** | The **low-code platform**. A ServiceNow-style layer, native to WordPress: model your processes, assets and services — entities, fields, forms, lists, row- and field-level permissions and business rules — and ship real apps (ITSM, CRM, asset/CMDB, service desk) with no code. Includes first-class Agile project management: a Kanban board and a Gantt where each task's width is its duration, with typed dependencies and milestones. | proprietary | [setyenv.com](https://setyenv.com) · [repo](https://github.com/setyenv/wp-pfmanagement) |
-| **WP-PFWorkflow™** | The **visual workflow engine**. Automations as diagrams you can open and read — triggers, conditional branches, function calls and error boundaries on a real execution canvas, with queue, retries, replay and idempotency. It reacts to your site's events natively (orders, record changes, schedules, webhooks). | proprietary | [setyenv.com](https://setyenv.com) · [repo](https://github.com/setyenv/wp-pfworkflow) |
+| **WP-PFManagement™** | The **low-code platform**. A ServiceNow-style layer, native to WordPress: model your processes, assets and services — entities, fields, forms, lists, row- and field-level permissions and business rules — and ship real apps (ITSM, CRM, asset/CMDB, service desk) with no code. Includes first-class Agile project management: a Kanban board and a Gantt where each task's width is its duration, with typed dependencies and milestones. | Community (free) / Enterprise | [setyenv.com](https://setyenv.com) · [repo](https://github.com/setyenv/wp-pfmanagement) |
+| **WP-PFWorkflow™** | The **visual workflow engine**. Automations as diagrams you can open and read — triggers, conditional branches, function calls and error boundaries on a real execution canvas, with queue, retries, replay and idempotency. It reacts to your site's events natively (orders, record changes, schedules, webhooks). | Community (free) / Enterprise | [setyenv.com](https://setyenv.com) · [repo](https://github.com/setyenv/wp-pfworkflow) |
 | **WP-PFAgent™** *(this repo)* | The **AI agent**. Describe what you want; it manages your site and — with the suite present — designs the schema or the workflow, using your own LLM provider keys. | **open source** | [repo](https://github.com/setyenv/wp-pfagent) |
 | **wp-executor** | The **host-side runner**. A single Rust binary that takes workflow events and runs them on *your own machine* — shell, files, outbound HTTP — under a capability and egress allowlist you define. | **open source** | [repo](https://github.com/setyenv/wp-executor) |
 
-**How they fit:** you **define** data and processes in WP-PFManagement, **automate** them in WP-PFWorkflow, reach your **own machine** through wp-executor, and drive all of it in **plain language** with WP-PFAgent. WP-PFManagement and WP-PFWorkflow are proprietary and licensed per domain (the standard build ships obfuscated and is refundable; an optional annual add-on delivers the clean PHP source). **WP-PFAgent and wp-executor are open source and free.** Try a live sandbox at [setyenv.com/demo](https://setyenv.com/demo/).
+**How they fit:** you **define** data and processes in WP-PFManagement, **automate** them in WP-PFWorkflow, reach your **own machine** through wp-executor, and drive all of it in **plain language** with WP-PFAgent. WP-PFManagement and WP-PFWorkflow ship in two editions of the same code: the **Community Edition** is free for personal and non-commercial use with every feature and no key, and the **Enterprise Edition** is the subscription for commercial use — one key licenses both plugins on a site. **WP-PFAgent and wp-executor are open source and free.** Try a live sandbox at [setyenv.com/demo](https://setyenv.com/demo/), or run the whole suite with one command from [Docker Hub](https://hub.docker.com/r/setyenv/setyenv).
 
 ### The visual workflow engine — WP-PFWorkflow™
 
@@ -181,14 +181,25 @@ The pieces are designed to hand off to each other. Here a WooCommerce order beco
 
 **Requirements:** WordPress 6.5+, PHP 8.1+.
 
+## Docker
+
+The whole suite is published as a Docker image, **[`setyenv/setyenv`](https://hub.docker.com/r/setyenv/setyenv)**: WordPress with WP-PFManagement, WP-PFWorkflow and WP-PFAgent installed and activated.
+
+```bash
+docker run -d -p 8080:80 --name setyenv setyenv/setyenv
+# then open http://localhost:8080 and complete the WordPress install
+```
+
+It runs on its own — with no external database given, the container starts an embedded MariaDB — or with your own database through the usual `WORDPRESS_DB_*` variables. It starts as the Community Edition and switches to Enterprise the moment a key is provided. Guide: [Deploying with Docker](https://setyenv.com/docs/deploy-docker/).
+
 ## Our repositories
 
 - **[wp-pfagent](https://github.com/setyenv/wp-pfagent)** *(this repo)* — the open-source (GPL-2.0-or-later) AI agent.
 - **[wp-executor](https://github.com/setyenv/wp-executor)** — the open-source (MIT OR Apache-2.0) Rust runner that executes workflow events on a machine you control.
-- **[wp-pfworkflow](https://github.com/setyenv/wp-pfworkflow)** — the visual workflow engine (proprietary; landing page).
-- **[wp-pfmanagement](https://github.com/setyenv/wp-pfmanagement)** — the low-code platform (proprietary; landing page).
+- **[wp-pfworkflow](https://github.com/setyenv/wp-pfworkflow)** — the visual workflow engine (Community / Enterprise; landing page).
+- **[wp-pfmanagement](https://github.com/setyenv/wp-pfmanagement)** — the low-code platform (Community / Enterprise; landing page).
 
-WP-PFManagement™ and WP-PFWorkflow™ are available for evaluation, purchase and licensing at **[setyenv.com](https://setyenv.com)** — the license is per-domain and refundable, so the purchase is the trial.
+WP-PFManagement™ and WP-PFWorkflow™ are free for personal and non-commercial use (Community Edition) and licensed per domain for commercial use (Enterprise Edition) at **[setyenv.com](https://setyenv.com)** — see [Community & Enterprise](https://setyenv.com/docs/editions/).
 
 ## License
 
