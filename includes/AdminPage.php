@@ -56,10 +56,21 @@ final class AdminPage
     }
 
     /**
-     * Convert <script src="...pfagent-app..."></script> into
-     * <script type="module" src="..."></script>. Required because vite
-     * emits an ES module entrypoint, which classic <script> tags would
-     * reject (top-level imports throw a SyntaxError).
+     * Make the bundle's tag a real ES module.
+     *
+     * Not cosmetic: vite emits an ESM entrypoint, and a classic <script> both
+     * rejects its top-level imports AND — when the bundle has none — leaks
+     * every top-level declaration into the page's globals. wp-pfworkflow was
+     * shipping its editor that way and its minified `_` replaced WordPress'
+     * underscore, killing wp.Backbone on the screen.
+     *
+     * The attribute is INJECTED into the existing tag, never rebuilt. What
+     * WordPress passes here is the whole block for the handle: any inline
+     * script attached to it (wp_add_inline_script) comes glued in front, and
+     * returning a freshly-built tag silently throws that away — which is
+     * exactly how wp-pfworkflow's SPA bootstrap disappeared for one commit.
+     * This page prints its own bootstrap today, so nothing is attached; the
+     * injection keeps it that way if that ever changes.
      */
     public function filter_script_module_tag(string $tag, string $handle, string $src): string
     {
@@ -69,12 +80,23 @@ final class AdminPage
         if (strpos($tag, 'type="module"') !== false) {
             return $tag;
         }
-        // This is the script_loader_tag filter rewriting the ALREADY-ENQUEUED
-        // bundle's own <script> tag to add type="module" (vite ESM entrypoint).
-        // The script is registered/enqueued via wp_enqueue_script; nothing new
-        // is injected here, so the non-enqueued-script sniff mis-fires.
-        // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- rewriting the enqueued bundle's own tag to add type="module".
-        return '<script type="module" src="' . esc_url($src) . '" id="' . esc_attr($handle) . '-js"></script>' . "\n";
+
+        $id = self::SCRIPT_HANDLE . '-js';
+
+        return (string) preg_replace_callback(
+            '#<script\b[^>]*>#i',
+            static function (array $m) use ($id): string {
+                // Only this handle's own src tag; an inline sibling must stay a
+                // classic script (a module would scope its assignment away
+                // from the window).
+                if (strpos($m[0], 'id="' . $id . '"') === false || stripos($m[0], ' type=') !== false) {
+                    return $m[0];
+                }
+
+                return str_replace('<script ', '<script type="module" ', $m[0]);
+            },
+            $tag
+        );
     }
 
     public function render_full_screen(): void
@@ -82,6 +104,11 @@ final class AdminPage
         if (!current_user_can('manage_options')) {
             return;
         }
+
+        // Maintenance window in force → the maintenance page replaces the SPA.
+        // Defense in depth: today only administrators (who bypass) reach this
+        // page, but if the capability model ever widens, the gate is standing.
+        MaintenanceGate::render_and_exit_if_blocked();
 
         nocache_headers();
         if (!headers_sent()) {
@@ -239,7 +266,7 @@ body.pfa-fullscreen .pfa-shell { min-height: calc(100vh - 40px); }
             'providerId' => (string) ($active_llm_raw['providerId'] ?? ''),
             'model' => (string) ($active_llm_raw['model'] ?? ''),
             'sessionId' => isset($active_llm_raw['sessionId']) && $active_llm_raw['sessionId'] !== null
-                ? (int) $active_llm_raw['sessionId']
+                ? (string) $active_llm_raw['sessionId']
                 : null,
             'updatedAt' => (string) ($active_llm_raw['updatedAt'] ?? ''),
         ];

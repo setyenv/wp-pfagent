@@ -35,7 +35,7 @@ final class LoopResult
      */
     public function __construct(
         public readonly string $subtype,
-        public readonly int $conversationId,
+        public readonly string $conversationId,
         public readonly string $finalText,
         public readonly int $rounds,
         public readonly array $usage,

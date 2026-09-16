@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ProjectFlash\Agent\Sourcecode;
 
+use ProjectFlash\Agent\WorkflowDependency;
+
 /**
  * The virtual filesystem the authoring LLM sees.
  *
@@ -14,6 +16,11 @@ namespace ProjectFlash\Agent\Sourcecode;
  *   /workflows/new__<slug>.pfflow            (write to create a new workflow)
  *   /templates/<slug>.pfflow                 (read-only, built-in templates)
  *
+ * Workflow ids in paths are OPAQUE strings (W2): the char(36) uuid of
+ * the `wp_pfw_workflows` row — a numeric id in a path still resolves
+ * for in-flight compatibility (the migration keeps the legacy map),
+ * but everything this class emits uses the canonical id.
+ *
  * Every TS-flavoured artefact is pre-built and cached at the moment
  * its source-of-truth changes — never on read. Specifically:
  *   - /lib/nodes.d.ts   is built by wp-pfworkflow's TypingsBuilder
@@ -22,8 +29,9 @@ namespace ProjectFlash\Agent\Sourcecode;
  *   - /lib/manage.d.ts  is built by wp-pfmanagement's TypingsBuilder
  *                       and pulled through the filter
  *                       `projectflash_management_typings_dts`.
- *   - /workflows/*      come from `DecompileCache` (postmeta-cached
- *                       per workflow id, refreshed on each save).
+ *   - /workflows/*      come from `DecompileCache` (cached per
+ *                       workflow in wp-pfworkflow's state store,
+ *                       refreshed on each save).
  *   - /templates/*      come from `TemplateDecompileCache` (option-
  *                       cached map keyed by slug, refreshed on plugin
  *                       upgrade).
@@ -40,6 +48,8 @@ final class VirtualFileSystem
 {
     public const PATH_PREFIX_WORKFLOWS = '/workflows/';
     public const PATH_PREFIX_TEMPLATES = '/templates/';
+    /** State-store key mapping a `new__<slug>` path slug to its workflow. */
+    public const STATE_KEY_PATH_SLUG = 'pfa_path_slug';
     public const PATH_LIB_NODES = '/lib/nodes.d.ts';
     public const PATH_LIB_MANAGE = '/lib/manage.d.ts';
     public const PATH_LIB_VARIABLES = '/lib/variables.d.ts';
@@ -93,9 +103,10 @@ final class VirtualFileSystem
     }
 
     /**
+     * @param mixed $workflow_id  opaque workflow id (uuid string or legacy int)
      * @return array<string, mixed>  { path, source, draft?, lastError?, kind }
      */
-    public function read(string $path, ?int $workflow_id = null): array
+    public function read(string $path, $workflow_id = null): array
     {
         $path = $this->normalizePath($path);
         if ($path === self::PATH_LIB_NODES) {
@@ -123,7 +134,8 @@ final class VirtualFileSystem
             //      (covers the "just wrote a draft, now reads the variables"
             //      pattern without forcing the agent to repeat the id);
             //   3. null → stub explaining there is no workflow in context.
-            $resolved_id = $workflow_id > 0 ? $workflow_id : $this->inferActiveWorkflowId();
+            $explicit_id = WorkflowDependency::normalize_workflow_id($workflow_id ?? '');
+            $resolved_id = $explicit_id !== '' ? $explicit_id : $this->inferActiveWorkflowId();
             $source = LibraryBuilder::variablesLibrary($resolved_id);
             return [
                 'path' => $path,
@@ -196,20 +208,20 @@ final class VirtualFileSystem
 
     /**
      * Write a complete file. Compiles and, on success, persists the
-     * workflow into wp-pfworkflow directly as a real draft (post_status
-     * 'draft' equivalent — the wp-pfworkflow status field is forced to
-     * 'draft' regardless of any value the source declared). The
-     * operator sees it immediately in the workflow list filtered by
-     * Draft, the same place every other draft lives. Activating the
-     * workflow (draft → active) is a separate, side-effecting tool
-     * (`activate_workflow`) that always asks for confirmation.
+     * workflow into wp-pfworkflow directly as a real draft (the status
+     * field is forced to 'draft' regardless of any value the source
+     * declared). The operator sees it immediately in the workflow list
+     * filtered by Draft, the same place every other draft lives.
+     * Activating the workflow (draft → active) is a separate,
+     * side-effecting tool (`activate_workflow`) that always asks for
+     * confirmation.
      *
      * If the path is `/workflows/<id>__<slug>.pfflow` the existing
      * workflow is updated. If the path is `/workflows/new__<slug>.pfflow`
-     * we look up any workflow already published by this conversation
-     * with the same slug (post_name) — same slug means same workflow,
-     * so iterations of the LLM during one turn rewrite the same draft
-     * instead of creating a fresh row each compile cycle.
+     * we look up any workflow already persisted from this VFS with the
+     * same path slug (state-store stamp) — same slug means same
+     * workflow, so iterations of the LLM during one turn rewrite the
+     * same draft instead of creating a fresh row each compile cycle.
      *
      * @return array<string, mixed>  { path, source, workflowId, created, status, name }
      */
@@ -226,7 +238,7 @@ final class VirtualFileSystem
 
         // Resolve the workflow id BEFORE compiling. The compiler asks
         // the variables resolver for `<Var>$Variable$Get/Set` entries
-        // keyed by workflow_id; if we pass 0 here on a `new__<slug>`
+        // keyed by workflow_id; if we pass none here on a `new__<slug>`
         // path that already maps to a real workflow with variables,
         // the compiler can't see them and rejects every `Var$Variable$Get`
         // identifier as unknown_virtual_node — even though create_variable
@@ -235,7 +247,7 @@ final class VirtualFileSystem
         // so compilation and persistence are aligned.
         $slug = $this->slugFromPath($path);
         $targetWorkflowId = $this->resolveWorkflowIdFromPath($path);
-        $wf_id_for_compile = (int) ($wfIdFromPath ?? $targetWorkflowId ?? 0);
+        $wf_id_for_compile = (string) ($wfIdFromPath ?? $targetWorkflowId ?? '');
         $compiled = Compiler::compile($source, $wf_id_for_compile);
         $graph = is_array($compiled['graph'] ?? null) ? $compiled['graph'] : [];
 
@@ -248,7 +260,7 @@ final class VirtualFileSystem
         // honour the discipline.
         $payload = [
             'workflow' => [
-                'id' => $is_new ? -1 : $targetWorkflowId,
+                'id' => $is_new ? -1 : WorkflowDependency::workflow_id_payload($targetWorkflowId),
                 'name' => $name,
                 'status' => 'draft',
             ],
@@ -263,17 +275,19 @@ final class VirtualFileSystem
         if (is_wp_error($envelope)) {
             throw new \RuntimeException($envelope->get_error_message());
         }
-        $persistedId = (int) ($envelope['content']['workflow']['id'] ?? 0);
+        $persistedId = WorkflowDependency::normalize_workflow_id(
+            $envelope['content']['workflow']['id'] ?? ''
+        );
 
-        // Stamp the path slug as postmeta so later read/activate/delete
-        // calls on the same `/workflows/new__<slug>.pfflow` path resolve
-        // back to the same workflow. We can't rely on post_name —
-        // WordPress derives it from the title, which has spaces and
-        // gets a different slug than the path declares ("Status check"
-        // → post_name `status-check` but the path says `status-check`
-        // only when the title happens to match; usually they diverge).
-        if ($persistedId > 0 && $slug !== null) {
-            update_post_meta($persistedId, '_pfa_path_slug', $slug);
+        // Stamp the path slug in the per-workflow state store so later
+        // read/activate/delete calls on the same
+        // `/workflows/new__<slug>.pfflow` path resolve back to the same
+        // workflow. The slug is OURS (declared by the path), not derived
+        // from the workflow name — names have spaces and diverge from
+        // the path slug almost always.
+        if ($persistedId !== '' && $slug !== null
+            && class_exists('\\ProjectFlash\\Workflow\\Helpers\\WorkflowStateStore')) {
+            \ProjectFlash\Workflow\Helpers\WorkflowStateStore::set($persistedId, self::STATE_KEY_PATH_SLUG, $slug);
         }
 
         return [
@@ -298,16 +312,16 @@ final class VirtualFileSystem
      * @param array<string, mixed> $graph
      * @return array<string, mixed>
      */
-    private function mergeStudioVariables(array $graph, ?int $existingWorkflowId): array
+    private function mergeStudioVariables(array $graph, ?string $existingWorkflowId): array
     {
-        if ($existingWorkflowId === null) {
+        if ($existingWorkflowId === null || $existingWorkflowId === '') {
             return $graph;
         }
         $service = apply_filters('projectflash_workflow_agent_api', null);
         if (!is_object($service) || !method_exists($service, 'get_workflow')) {
             return $graph;
         }
-        $live = $service->get_workflow($existingWorkflowId);
+        $live = $service->get_workflow(WorkflowDependency::workflow_id_payload($existingWorkflowId));
         $live_graph = is_array($live) && is_array($live['graph'] ?? null) ? $live['graph'] : [];
         $live_studio = is_array($live_graph['studio'] ?? null) ? $live_graph['studio'] : [];
         $live_vars = is_array($live_studio['variables'] ?? null)
@@ -378,11 +392,12 @@ final class VirtualFileSystem
         if (!is_object($service) || !method_exists($service, 'update_workflow')) {
             throw new \RuntimeException('wp-pfworkflow service unavailable.');
         }
-        $existing = $service->get_workflow($wf_id);
+        $wf_ref = WorkflowDependency::workflow_id_payload($wf_id);
+        $existing = $service->get_workflow($wf_ref);
         if (!is_array($existing)) {
-            throw new \RuntimeException(sprintf('Workflow #%d not found.', $wf_id));
+            throw new \RuntimeException(sprintf('Workflow %s not found.', $wf_id));
         }
-        $service->update_workflow($wf_id, [
+        $service->update_workflow($wf_ref, [
             'name' => $this->humanizeSlug($new_slug),
             'status' => (string) ($existing['status'] ?? 'draft'),
             'graph' => is_array($existing['graph'] ?? null) ? $existing['graph'] : [],
@@ -400,7 +415,7 @@ final class VirtualFileSystem
         if (!is_object($service) || !method_exists($service, 'delete_workflow')) {
             throw new \RuntimeException('wp-pfworkflow service unavailable.');
         }
-        $service->delete_workflow($wf_id, true);
+        $service->delete_workflow(WorkflowDependency::workflow_id_payload($wf_id), true);
     }
 
     /**
@@ -424,13 +439,14 @@ final class VirtualFileSystem
         if (!is_object($service) || !method_exists($service, 'agent_workflow_apply')) {
             throw new \RuntimeException('wp-pfworkflow service unavailable.');
         }
-        $existing = $service->get_workflow($wf_id);
+        $wf_ref = WorkflowDependency::workflow_id_payload($wf_id);
+        $existing = $service->get_workflow($wf_ref);
         if (!is_array($existing)) {
-            throw new \RuntimeException(sprintf('Workflow #%d not found.', $wf_id));
+            throw new \RuntimeException(sprintf('Workflow %s not found.', $wf_id));
         }
         $envelope = $service->agent_workflow_apply([
             'workflow' => [
-                'id' => $wf_id,
+                'id' => $wf_ref,
                 'name' => (string) ($existing['name'] ?? $this->humanizeSlug($this->slugFromPath($path) ?? 'workflow')),
                 'status' => 'active',
             ],
@@ -440,17 +456,17 @@ final class VirtualFileSystem
             throw new \RuntimeException($envelope->get_error_message());
         }
 
-        // Confirmar por READ-BACK, no reportar 'active' a ciegas. El apply puede
-        // devolver un envelope sin error y AUN ASÍ dejar el workflow en draft
-        // (visto tras un write_file grande de re-estructura): un success
-        // silencioso que engaña al agente. Releemos el estado REAL persistido y,
-        // si no cuajó la activación, fallamos RUIDOSO para que el agente
-        // reintente en vez de creer que quedó vivo.
-        $after = $service->get_workflow($wf_id);
+        // Confirm by READ-BACK, never report 'active' blindly. The apply can
+        // return an error-free envelope and STILL leave the workflow in draft
+        // (seen after a large re-structuring write_file): a silent success
+        // that misleads the agent. Re-read the REAL persisted status and, if
+        // the activation did not stick, fail LOUD so the agent retries
+        // instead of believing the workflow went live.
+        $after = $service->get_workflow($wf_ref);
         $actual_status = is_array($after) ? (string) ($after['status'] ?? '') : '';
         if ($actual_status !== 'active') {
             throw new \RuntimeException(sprintf(
-                'activate_workflow did not stick: workflow #%d is still "%s" after apply (expected "active"). Re-run activate_workflow on %s.',
+                'activate_workflow did not stick: workflow %s is still "%s" after apply (expected "active"). Re-run activate_workflow on %s.',
                 $wf_id,
                 $actual_status !== '' ? $actual_status : 'unknown',
                 $path
@@ -468,12 +484,12 @@ final class VirtualFileSystem
     /**
      * Resolve the wp-pfworkflow id behind a /workflows/... path. The
      * explicit `<id>__<slug>` form wins; the `new__<slug>` form falls
-     * back to a postmeta `_pfa_path_slug` lookup, the slug we stamped
-     * when write_file first persisted the workflow. We don't use
-     * post_name because WordPress derives it from the title and the
-     * two only line up by coincidence.
+     * back to a state-store `pfa_path_slug` lookup, the slug we stamped
+     * when write_file first persisted the workflow. The slug is the
+     * path's own declaration — workflow names diverge from it almost
+     * always, so they are never used for resolution.
      */
-    private function resolveWorkflowIdFromPath(string $path): ?int
+    private function resolveWorkflowIdFromPath(string $path): ?string
     {
         $explicit = $this->workflowIdFromPath($path);
         if ($explicit !== null) {
@@ -483,15 +499,11 @@ final class VirtualFileSystem
         if ($slug === null) {
             return null;
         }
-        $existing = get_posts([
-            'post_type' => 'pfw_workflow',
-            'post_status' => 'any',
-            'meta_key' => '_pfa_path_slug',
-            'meta_value' => $slug,
-            'numberposts' => 1,
-            'fields' => 'ids',
-        ]);
-        return is_array($existing) && !empty($existing) ? (int) $existing[0] : null;
+        if (!class_exists('\\ProjectFlash\\Workflow\\Helpers\\WorkflowStateStore')) {
+            return null;
+        }
+        $found = \ProjectFlash\Workflow\Helpers\WorkflowStateStore::find_workflow_by(self::STATE_KEY_PATH_SLUG, $slug);
+        return $found !== '' ? $found : null;
     }
 
     private function normalizePath(string $path): string
@@ -503,10 +515,17 @@ final class VirtualFileSystem
         return $path;
     }
 
-    public function workflowIdFromPath(string $path): ?int
+    /**
+     * Extract the explicit workflow id from a
+     * `/workflows/<id>__<slug>.pfflow` path. Accepts the canonical
+     * char(36) uuid and, for in-flight compatibility, a legacy numeric
+     * id (normalize_workflow_id resolves both against the store).
+     */
+    public function workflowIdFromPath(string $path): ?string
     {
-        if (preg_match('#^' . preg_quote(self::PATH_PREFIX_WORKFLOWS, '#') . '(\d+)__[a-z0-9_\-]+\.pfflow$#i', $path, $m)) {
-            return (int) $m[1];
+        if (preg_match('#^' . preg_quote(self::PATH_PREFIX_WORKFLOWS, '#') . '([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|\d+)__[a-z0-9_\-]+\.pfflow$#i', $path, $m)) {
+            $id = WorkflowDependency::normalize_workflow_id($m[1]);
+            return $id !== '' ? $id : null;
         }
         return null;
     }
@@ -518,20 +537,17 @@ final class VirtualFileSystem
      * assumption is the agent just wrote or is editing that workflow.
      * Returns null on a fresh install with zero workflows.
      */
-    public function inferActiveWorkflowId(): ?int
+    public function inferActiveWorkflowId(): ?string
     {
-        $rows = get_posts([
-            'post_type' => 'pfw_workflow',
-            'post_status' => 'any',
-            'numberposts' => 1,
-            'orderby' => 'modified',
-            'order' => 'DESC',
-            'fields' => 'ids',
-        ]);
-        if (!is_array($rows) || $rows === []) {
+        if (!class_exists('\\ProjectFlash\\Workflow\\WorkflowRepository')) {
             return null;
         }
-        return (int) $rows[0];
+        global $wpdb;
+        $id = $wpdb->get_var(
+            'SELECT id FROM ' . \ProjectFlash\Workflow\WorkflowRepository::table()
+            . ' ORDER BY updated_at DESC, id DESC LIMIT 1'
+        );
+        return is_string($id) && $id !== '' ? $id : null;
     }
 
     private function isNewWorkflowPath(string $path): bool
@@ -600,8 +616,10 @@ final class VirtualFileSystem
         foreach ($items as $item) {
             $content = is_array($item['content'] ?? null) ? $item['content'] : [];
             $wf = is_array($content['workflow'] ?? null) ? $content['workflow'] : [];
-            $id = (int) ($wf['id'] ?? 0);
-            if ($id <= 0) {
+            // Opaque id (W2): an (int) cast here turned every char(36) id
+            // into 0 and this loop listed ZERO workflows in the VFS.
+            $id = WorkflowDependency::normalize_workflow_id($wf['id'] ?? '');
+            if ($id === '') {
                 continue;
             }
             $slug = $this->slugify((string) ($wf['name'] ?? ('workflow-' . $id)));

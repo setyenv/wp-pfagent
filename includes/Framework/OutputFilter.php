@@ -189,10 +189,15 @@ final class OutputFilter
         }
         if ($foundTerms !== []) {
             $unique = array_values(array_unique($foundTerms));
+            // Written in English like every other instruction the model gets:
+            // a directive in one language is also an instruction to answer in
+            // that language, and this one fires mid-turn, right before the
+            // rewrite. Which language the customer gets is theirs to decide,
+            // never a side effect of a vocabulary check.
             $directive = sprintf(
-                "Tu última respuesta contiene términos prohibidos: %s. "
-                . "Reescribela en lenguaje de cliente — sin tecnicismos, sin nombres de plugin, sin marcadores del provider. "
-                . "Mantén el contenido útil; sólo cambia el vocabulario.",
+                "Your last reply used words the customer should never see: %s. "
+                . "Rewrite it in product language — no jargon, no plugin names, no provider markers. "
+                . "Keep the substance and keep the language you were already writing in; change only the vocabulary.",
                 implode(', ', array_map(static fn(string $t) => '"' . $t . '"', $unique)),
             );
             return ['ok' => false, 'reason' => 'forbidden_terms', 'found' => $unique, 'directive' => $directive];

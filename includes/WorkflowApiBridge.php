@@ -51,8 +51,8 @@ final class WorkflowApiBridge
      */
     private function workflow_get(object $service, array $arguments, string $tool_name)
     {
-        $workflow_id = (int) ($arguments['workflowId'] ?? 0);
-        if ($workflow_id <= 0) {
+        $workflow_id = WorkflowDependency::normalize_workflow_id($arguments['workflowId'] ?? '');
+        if ($workflow_id === '') {
             return new WP_Error('pfa_agent_workflow_id_required', __('workflowId is required.', 'wp-pfagent'), ['status' => 400]);
         }
 
@@ -159,9 +159,13 @@ final class WorkflowApiBridge
      *
      * @return array<string, mixed>|null
      */
-    public function snapshot_workflow(int $workflow_id): ?array
+    public function snapshot_workflow($workflow_id): ?array
     {
-        if ($workflow_id <= 0 || !WorkflowDependency::is_active()) {
+        // A workflow id is opaque: PFW mints uuids. Declared `int` this could
+        // only ever be called with the shape that no longer exists — under
+        // strict_types a uuid reaching it is a TypeError, and a cast would be 0.
+        $workflow_id = WorkflowDependency::normalize_workflow_id($workflow_id);
+        if ($workflow_id === '' || !WorkflowDependency::is_active()) {
             return null;
         }
 
@@ -171,7 +175,7 @@ final class WorkflowApiBridge
         }
 
         try {
-            $result = $service->agent_workflow_full($workflow_id);
+            $result = $service->agent_workflow_full(WorkflowDependency::workflow_id_payload($workflow_id));
         } catch (\Throwable $e) {
             return null;
         }
@@ -184,7 +188,9 @@ final class WorkflowApiBridge
         $workflow = is_array($content['workflow'] ?? null) ? $content['workflow'] : $content;
 
         return [
-            'id' => (int) ($workflow['id'] ?? $workflow_id),
+            'id' => WorkflowDependency::workflow_id_payload(
+                WorkflowDependency::normalize_workflow_id($workflow['id'] ?? $workflow_id)
+            ),
             'name' => (string) ($workflow['name'] ?? ''),
             'status' => (string) ($workflow['status'] ?? ''),
             'graph' => is_array($workflow['graph'] ?? null) ? $workflow['graph'] : null,

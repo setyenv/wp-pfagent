@@ -46,13 +46,39 @@ final class WpDbStore implements Store
         $this->prefix = $this->wpdb->prefix . 'pfaf_';
     }
 
+    /**
+     * Create this version's tables, and remember that it was done.
+     *
+     * Called from the activation hook AND from `plugins_loaded` behind a
+     * version marker, because activation is the one thing an upgrading
+     * customer never runs. The marker is written only after the tables are
+     * settled, so an install that fails half way tries again on the next
+     * request instead of recording a lie.
+     *
+     * It carries no history: the package is the truth, and the steps that used
+     * to drag an older install forward are gone.
+     */
+    public static function run_schema_upgrade(): void
+    {
+        global $wpdb;
+        if (!$wpdb instanceof \wpdb) {
+            return;
+        }
+        (new self($wpdb))->migrate();
+        update_option(
+            'wp_pfagent_schema_version',
+            defined('WP_PFAGENT_VERSION') ? WP_PFAGENT_VERSION : 'unknown',
+            true
+        );
+    }
+
     public function migrate(): void
     {
         $charset = $this->wpdb->get_charset_collate();
         $tables = [
             "{$this->prefix}conversations" => "
-                id            BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-                owner_user_id BIGINT UNSIGNED NOT NULL DEFAULT 0,
+                id            CHAR(36)     NOT NULL,
+                owner_user_id CHAR(32) NULL DEFAULT NULL,
                 label         VARCHAR(190) NOT NULL DEFAULT '',
                 status        VARCHAR(32)  NOT NULL DEFAULT 'open',
                 created_at    VARCHAR(32)  NOT NULL,
@@ -65,8 +91,8 @@ final class WpDbStore implements Store
                 KEY owner_idx (owner_user_id)
             ",
             "{$this->prefix}messages" => "
-                id              BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-                conversation_id BIGINT UNSIGNED NOT NULL,
+                id              CHAR(36) NOT NULL,
+                conversation_id CHAR(36) NOT NULL,
                 ordinal         INT UNSIGNED NOT NULL,
                 role            VARCHAR(16) NOT NULL,
                 content_json    LONGTEXT NOT NULL,
@@ -83,8 +109,9 @@ final class WpDbStore implements Store
                 KEY msg_role_idx (conversation_id, role)
             ",
             "{$this->prefix}tool_calls" => "
-                id                BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-                conversation_id   BIGINT UNSIGNED NOT NULL,
+                id                CHAR(36) NOT NULL,
+                seq               INT UNSIGNED NOT NULL DEFAULT 0,
+                conversation_id   CHAR(36) NOT NULL,
                 message_ordinal   INT UNSIGNED NOT NULL,
                 tool_call_id      VARCHAR(190) NOT NULL,
                 tool_name         VARCHAR(190) NOT NULL,
@@ -101,11 +128,13 @@ final class WpDbStore implements Store
                 ended_at          VARCHAR(32) NOT NULL DEFAULT '',
                 PRIMARY KEY (id),
                 KEY tc_conv_idx (conversation_id),
+                KEY tc_seq_idx (conversation_id, seq),
                 KEY tc_fp_idx   (conversation_id, fingerprint)
             ",
             "{$this->prefix}traces" => "
-                id                 BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-                conversation_id    BIGINT UNSIGNED NOT NULL,
+                id                 CHAR(36) NOT NULL,
+                seq                INT UNSIGNED NOT NULL DEFAULT 0,
+                conversation_id    CHAR(36) NOT NULL,
                 turn               INT UNSIGNED NOT NULL DEFAULT 0,
                 round              INT UNSIGNED NOT NULL DEFAULT 0,
                 kind               VARCHAR(64) NOT NULL,
@@ -114,32 +143,37 @@ final class WpDbStore implements Store
                 created_at         VARCHAR(32) NOT NULL,
                 PRIMARY KEY (id),
                 KEY trace_conv_idx (conversation_id, turn, round),
+                KEY trace_seq_idx (conversation_id, seq),
                 KEY trace_kind_idx (kind)
             ",
         ];
+
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         foreach ($tables as $name => $columns) {
             $sql = "CREATE TABLE {$name} (\n{$columns}\n) {$charset};";
             dbDelta($sql);
         }
-
-        // One-off cleanup: earlier schemas carried provider_id + model on the
-        // conversations row, which let stale values survive across turns and
-        // override whatever model the operator had active in the wizard. The
-        // active model is now a global selection living in the credential
-        // store + injected from the frontend on every turn; conversations
-        // hold no model state. Drop the legacy columns if they still exist.
-        $convs_table = $this->prefix . 'conversations';
-        $columns = (array) $this->wpdb->get_col("SHOW COLUMNS FROM {$convs_table}", 0);
-        if (in_array('provider_id', $columns, true)) {
-            $this->wpdb->query("ALTER TABLE {$convs_table} DROP COLUMN provider_id");
-        }
-        if (in_array('model', $columns, true)) {
-            $this->wpdb->query("ALTER TABLE {$convs_table} DROP COLUMN model");
-        }
     }
 
-    public function createConversation(string $label, array $metadata = []): int
+    /** A uuid for a new conversation. */
+    public static function new_uuid(): string
+    {
+        return function_exists('wp_generate_uuid4')
+            ? wp_generate_uuid4()
+            : sprintf(
+                '%04x%04x-%04x-4%03x-%04x-%04x%04x%04x',
+                wp_rand(0, 0xffff),
+                wp_rand(0, 0xffff),
+                wp_rand(0, 0xffff),
+                wp_rand(0, 0x0fff),
+                wp_rand(0, 0x3fff) | 0x8000,
+                wp_rand(0, 0xffff),
+                wp_rand(0, 0xffff),
+                wp_rand(0, 0xffff)
+            );
+    }
+
+    public function createConversation(string $label, array $metadata = []): string
     {
         $this->wpdb->insert($this->prefix . 'conversations', [
             // owner_user_id is a WordPress concept the framework core knows
@@ -151,21 +185,28 @@ final class WpDbStore implements Store
             // conversation invisible to ChatSessions::list_sessions() (it
             // filters WHERE owner_user_id = current user) and unreachable by
             // live-polling — orphaned the moment it was created.
-            'owner_user_id' => (int) ($metadata['ownerUserId'] ?? get_current_user_id()),
+            // The conversation belongs to a PERSON, not to an account.
+            'owner_user_id' => isset($metadata['ownerUserId'])
+                ? strtolower((string) $metadata['ownerUserId'])
+                : (\ProjectFlash\Agent\PersonColumns::current() ?: null),
             'label' => $label,
             'status' => 'open',
             'created_at' => gmdate('c'),
             'last_turn_at' => '',
             'turn_count' => 0,
             'metadata_json' => (string) wp_json_encode($metadata),
+            // The key is minted here, not handed out by the database: an
+            // auto-increment id only means something inside one install.
+            'id' => $id = self::new_uuid(),
         ]);
-        return (int) $this->wpdb->insert_id;
+
+        return $id;
     }
 
-    public function loadConversation(int $id): ?Conversation
+    public function loadConversation(string $id): ?Conversation
     {
         $row = $this->wpdb->get_row(
-            $this->wpdb->prepare("SELECT * FROM {$this->prefix}conversations WHERE id = %d", $id),
+            $this->wpdb->prepare("SELECT * FROM {$this->prefix}conversations WHERE id = %s", $id),
             ARRAY_A,
         );
         if (!is_array($row)) {
@@ -173,7 +214,7 @@ final class WpDbStore implements Store
         }
         $rows = $this->wpdb->get_results(
             $this->wpdb->prepare(
-                "SELECT * FROM {$this->prefix}messages WHERE conversation_id = %d ORDER BY ordinal ASC",
+                "SELECT * FROM {$this->prefix}messages WHERE conversation_id = %s ORDER BY ordinal ASC",
                 $id,
             ),
             ARRAY_A,
@@ -197,7 +238,7 @@ final class WpDbStore implements Store
             $metadata = [];
         }
         return new Conversation(
-            id: (int) $row['id'],
+            id: (string) $row['id'],
             label: (string) $row['label'],
             status: (string) $row['status'],
             messages: $messages,
@@ -206,15 +247,16 @@ final class WpDbStore implements Store
         );
     }
 
-    public function appendMessage(int $conversationId, Message $message): int
+    public function appendMessage(string $conversationId, Message $message): int
     {
         $next = (int) $this->wpdb->get_var(
             $this->wpdb->prepare(
-                "SELECT COALESCE(MAX(ordinal), 0) + 1 FROM {$this->prefix}messages WHERE conversation_id = %d",
+                "SELECT COALESCE(MAX(ordinal), 0) + 1 FROM {$this->prefix}messages WHERE conversation_id = %s",
                 $conversationId,
             ),
         );
         $this->wpdb->insert($this->prefix . 'messages', [
+            'id' => self::new_uuid(),
             'conversation_id' => $conversationId,
             'ordinal' => $next,
             'role' => $message->role,
@@ -228,9 +270,16 @@ final class WpDbStore implements Store
             'cost_micros' => 0,
             'created_at' => gmdate('c'),
         ]);
+        // A turn is what the USER started, which is what the conversation list
+        // means by "3 turns". This counted every row appended — the user
+        // message, the assistant's, and one per tool result — so a seven-turn
+        // conversation read twenty-eight on screen. The stamp still moves on
+        // every append: the list is sorted by when something last happened.
         $this->wpdb->query(
             $this->wpdb->prepare(
-                "UPDATE {$this->prefix}conversations SET turn_count = turn_count + 1, last_turn_at = %s WHERE id = %d",
+                $message->role === 'user'
+                    ? "UPDATE {$this->prefix}conversations SET turn_count = turn_count + 1, last_turn_at = %s WHERE id = %s"
+                    : "UPDATE {$this->prefix}conversations SET last_turn_at = %s WHERE id = %s",
                 gmdate('c'),
                 $conversationId,
             ),
@@ -238,10 +287,10 @@ final class WpDbStore implements Store
         return $next;
     }
 
-    public function updateConversationMetadata(int $conversationId, array $partial): void
+    public function updateConversationMetadata(string $conversationId, array $partial): void
     {
         $existing = $this->wpdb->get_var(
-            $this->wpdb->prepare("SELECT metadata_json FROM {$this->prefix}conversations WHERE id = %d", $conversationId),
+            $this->wpdb->prepare("SELECT metadata_json FROM {$this->prefix}conversations WHERE id = %s", $conversationId),
         );
         $current = is_string($existing) ? (array) (json_decode($existing, true) ?? []) : [];
         $merged = array_replace_recursive($current, $partial);
@@ -252,13 +301,13 @@ final class WpDbStore implements Store
         );
     }
 
-    public function closeConversation(int $conversationId, string $status = 'closed'): void
+    public function closeConversation(string $conversationId, string $status = 'closed'): void
     {
         $this->wpdb->update($this->prefix . 'conversations', ['status' => $status], ['id' => $conversationId]);
     }
 
     public function logToolCall(
-        int $conversationId,
+        string $conversationId,
         int $messageOrdinal,
         string $toolCallId,
         string $toolName,
@@ -273,8 +322,11 @@ final class WpDbStore implements Store
         int $durationMs,
         string $startedAt,
         string $endedAt,
-    ): int {
+    ): string {
+        $id = self::new_uuid();
         $this->wpdb->insert($this->prefix . 'tool_calls', [
+            'id' => $id,
+            'seq' => $this->next_seq($this->prefix . 'tool_calls', $conversationId),
             'conversation_id' => $conversationId,
             'message_ordinal' => $messageOrdinal,
             'tool_call_id' => $toolCallId,
@@ -291,16 +343,17 @@ final class WpDbStore implements Store
             'started_at' => $startedAt,
             'ended_at' => $endedAt,
         ]);
-        return (int) $this->wpdb->insert_id;
+
+        return $id;
     }
 
-    public function findIdempotentResult(int $conversationId, string $fingerprint): ?array
+    public function findIdempotentResult(string $conversationId, string $fingerprint): ?array
     {
         $row = $this->wpdb->get_row(
             $this->wpdb->prepare(
                 "SELECT result_json, state_after_json FROM {$this->prefix}tool_calls
-                 WHERE conversation_id = %d AND fingerprint = %s AND status = 'ok'
-                 ORDER BY id DESC LIMIT 1",
+                 WHERE conversation_id = %s AND fingerprint = %s AND status = 'ok'
+                 ORDER BY seq DESC LIMIT 1",
                 $conversationId,
                 $fingerprint,
             ),
@@ -315,12 +368,12 @@ final class WpDbStore implements Store
         ];
     }
 
-    public function countFingerprint(int $conversationId, string $fingerprint, int $sinceOrdinal = 0): int
+    public function countFingerprint(string $conversationId, string $fingerprint, int $sinceOrdinal = 0): int
     {
         return (int) $this->wpdb->get_var(
             $this->wpdb->prepare(
                 "SELECT COUNT(*) FROM {$this->prefix}tool_calls
-                 WHERE conversation_id = %d AND fingerprint = %s AND message_ordinal >= %d",
+                 WHERE conversation_id = %s AND fingerprint = %s AND message_ordinal >= %d",
                 $conversationId,
                 $fingerprint,
                 $sinceOrdinal,
@@ -328,7 +381,7 @@ final class WpDbStore implements Store
         );
     }
 
-    public function countSuccessfulSideEffects(int $conversationId): int
+    public function countSuccessfulSideEffects(string $conversationId): int
     {
         // Authoritative signal: any successful (`status = 'ok'`) row
         // in pfaf_tool_calls whose tool_name is on the canonical
@@ -346,7 +399,7 @@ final class WpDbStore implements Store
         $names = self::SIDE_EFFECT_TOOL_NAMES;
         $placeholders = implode(',', array_fill(0, count($names), '%s'));
         $sql = "SELECT COUNT(*) FROM {$this->prefix}tool_calls
-                WHERE conversation_id = %d AND status = 'ok'
+                WHERE conversation_id = %s AND status = 'ok'
                   AND tool_name IN ({$placeholders})";
         $params = array_merge([$conversationId], $names);
         return (int) $this->wpdb->get_var($this->wpdb->prepare($sql, ...$params));
@@ -376,9 +429,11 @@ final class WpDbStore implements Store
         'activate_workflow',
     ];
 
-    public function logTrace(int $conversationId, int $turn, int $round, string $kind, array $payload, string $systemFingerprint = ''): void
+    public function logTrace(string $conversationId, int $turn, int $round, string $kind, array $payload, string $systemFingerprint = ''): void
     {
         $this->wpdb->insert($this->prefix . 'traces', [
+            'id' => self::new_uuid(),
+            'seq' => $this->next_seq($this->prefix . 'traces', $conversationId),
             'conversation_id' => $conversationId,
             'turn' => $turn,
             'round' => $round,
@@ -387,6 +442,24 @@ final class WpDbStore implements Store
             'system_fingerprint' => $systemFingerprint,
             'created_at' => gmdate('c'),
         ]);
+    }
+
+    /**
+     * The next place in this conversation's sequence.
+     *
+     * What the auto-increment key used to provide by accident, said out loud:
+     * the live-progress endpoint asks "what happened after the point I had
+     * reached", and that question is about order within one conversation, not
+     * about identity.
+     */
+    private function next_seq(string $table, string $conversationId): int
+    {
+        return 1 + (int) $this->wpdb->get_var(
+            $this->wpdb->prepare(
+                "SELECT COALESCE(MAX(seq), 0) FROM `{$table}` WHERE conversation_id = %s",
+                $conversationId,
+            ),
+        );
     }
 
     private function decodeContent(string $json): mixed

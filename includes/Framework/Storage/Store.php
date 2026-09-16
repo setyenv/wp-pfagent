@@ -31,19 +31,19 @@ interface Store
     public function createConversation(
         string $label,
         array $metadata = [],
-    ): int;
+    ): string;
 
     /** Load a conversation with all its messages in ordinal order. */
-    public function loadConversation(int $id): ?Conversation;
+    public function loadConversation(string $id): ?Conversation;
 
     /** Append a message and return its assigned ordinal. */
-    public function appendMessage(int $conversationId, Message $message): int;
+    public function appendMessage(string $conversationId, Message $message): int;
 
     /** Update conversation metadata (merged, not replaced). */
-    public function updateConversationMetadata(int $conversationId, array $partial): void;
+    public function updateConversationMetadata(string $conversationId, array $partial): void;
 
     /** Mark conversation as closed / aborted. */
-    public function closeConversation(int $conversationId, string $status = 'closed'): void;
+    public function closeConversation(string $conversationId, string $status = 'closed'): void;
 
     /**
      * Log a tool-call execution.
@@ -53,7 +53,7 @@ interface Store
      * @param mixed $stateAfter
      */
     public function logToolCall(
-        int $conversationId,
+        string $conversationId,
         int $messageOrdinal,
         string $toolCallId,
         string $toolName,
@@ -68,7 +68,7 @@ interface Store
         int $durationMs,
         string $startedAt,
         string $endedAt,
-    ): int;
+    ): string;
 
     /**
      * Look up a prior tool call by fingerprint. Used by the idempotency guard:
@@ -78,10 +78,10 @@ interface Store
      *
      * @return array{result: mixed, stateAfter: mixed}|null
      */
-    public function findIdempotentResult(int $conversationId, string $fingerprint): ?array;
+    public function findIdempotentResult(string $conversationId, string $fingerprint): ?array;
 
     /** Count how many prior tool calls in this conversation match the given fingerprint. Used by Fingerprint::oscillating(). */
-    public function countFingerprint(int $conversationId, string $fingerprint, int $sinceOrdinal = 0): int;
+    public function countFingerprint(string $conversationId, string $fingerprint, int $sinceOrdinal = 0): int;
 
     /**
      * Count side-effect tool calls in this conversation that completed
@@ -90,7 +90,7 @@ interface Store
      * (first-person past tense) but this count is zero, the claim is a
      * fabrication and the loop must reject the reply.
      */
-    public function countSuccessfulSideEffects(int $conversationId): int;
+    public function countSuccessfulSideEffects(string $conversationId): int;
 
     /**
      * Log a generic trace event. `$systemFingerprint` is the provider
@@ -98,7 +98,7 @@ interface Store
      * other kinds.
      */
     public function logTrace(
-        int $conversationId,
+        string $conversationId,
         int $turn,
         int $round,
         string $kind,

@@ -194,6 +194,14 @@ TXT;
      *     two awaiting_* variants tell the host UI what the model
      *     considers itself blocked on.
      */
+    /**
+     * The tool result that stands in for a confirmation the user walked away
+     * from. One constant so the settled row and its replayed twin are the
+     * same bytes — a difference between them would move the prefix and cost
+     * a cache hit on every later turn.
+     */
+    private const ABANDONED_TOOL_RESULT = '{"error":{"code":"user_abandoned","message":"The user left this action unconfirmed and moved on. It never ran.","retriable":false}}';
+
     private const STRUCTURED_FINAL_REPLY_FORMAT = [
         'type' => 'json_schema',
         'json_schema' => [
@@ -348,7 +356,7 @@ TXT;
      * @param array{contextLength: int, maxOutputTokens: int} $caps
      * @return list<Message>
      */
-    private function maybeCompactWireMessages(array $messages, array $caps, int $conversationId, int $turn, int $round, ?array $priorState = null): array
+    private function maybeCompactWireMessages(array $messages, array $caps, string $conversationId, int $turn, int $round, ?array $priorState = null): array
     {
         if ($this->compactor === null) {
             return $messages;
@@ -471,7 +479,7 @@ TXT;
      *  (NOT in the message rows — the audit trail / replay history stays
      *  byte-for-byte intact). Read back at the top of the next round so the
      *  fold is reused instead of recomputed. */
-    private function persistCompactionState(int $conversationId, string $summary, int $foldedThrough): void
+    private function persistCompactionState(string $conversationId, string $summary, int $foldedThrough): void
     {
         $this->store->updateConversationMetadata($conversationId, [
             'compaction' => [
@@ -647,7 +655,7 @@ TXT;
      * Start or continue a conversation by adding a user message and running
      * the loop. Pass conversationId=null to create a new conversation.
      */
-    public function run(?int $conversationId, string $userMessage, ?string $label = null): LoopResult
+    public function run(?string $conversationId, string $userMessage, ?string $label = null): LoopResult
     {
         if ($conversationId === null) {
             $conversationId = $this->store->createConversation(
@@ -658,10 +666,89 @@ TXT;
             $this->store->appendMessage($conversationId, Message::system($this->systemPrompt));
         }
 
+        $this->settleAbandonedToolCalls($conversationId);
         $userOrdinal = $this->store->appendMessage($conversationId, Message::user($userMessage));
         $turn = $this->store->loadConversation($conversationId)?->turnCount ?? 1;
 
         return $this->driveLoop($conversationId, $userOrdinal, $turn);
+    }
+
+    /**
+     * Close any tool call the user walked away from.
+     *
+     * A confirmation dialog the user never answers — they reload the page, or
+     * just type their next message instead of clicking — leaves an assistant
+     * message whose tool_calls have no matching tool results. Appending the
+     * next user message on top of that yields a transcript every
+     * OpenAI-compatible provider rejects ("an assistant message with
+     * 'tool_calls' must be followed by tool messages responding to each
+     * tool_call_id"), and because a transcript only ever grows, the
+     * conversation then fails on EVERY later turn: the chat is dead for good
+     * and nothing in the UI explains why.
+     *
+     * Runs BEFORE the new user message is appended, so from here on the
+     * settlement lands where the wire protocol wants it and the stored history
+     * needs no fixing up later. A call that is already buried under later
+     * messages (a conversation recorded by an older build) cannot be closed by
+     * appending — its id is recorded in conversation metadata instead, ONCE,
+     * and repairOrphanToolCalls() replays that record identically on every
+     * request so the provider's prefix cache keeps hitting.
+     */
+    private function settleAbandonedToolCalls(string $conversationId): void
+    {
+        $conv = $this->store->loadConversation($conversationId);
+        if ($conv === null) {
+            return;
+        }
+
+        // A call counts as answered only when its result sits in the block
+        // right after the assistant message — that is the only place the wire
+        // protocol accepts one. A result parked anywhere else answers nothing.
+        /** @var array<string, string> $awaiting call id => tool name */
+        $awaiting = [];
+        /** @var array<string, string> $buried call id => tool name */
+        $buried = [];
+        foreach ($conv->messages as $message) {
+            if ($message->role === Message::ROLE_TOOL) {
+                unset($awaiting[$message->toolCallId]);
+                continue;
+            }
+            foreach ($awaiting as $callId => $toolName) {
+                $buried[$callId] = $toolName;
+            }
+            $awaiting = [];
+            if ($message->role !== Message::ROLE_ASSISTANT) {
+                continue;
+            }
+            foreach ($message->toolCalls as $call) {
+                $callId = (string) ($call['id'] ?? '');
+                if ($callId !== '') {
+                    $awaiting[$callId] = (string) ($call['name'] ?? '');
+                }
+            }
+        }
+
+        // Still awaiting at the end of the history: the assistant's call is the
+        // last thing recorded, so its result can simply be appended and the
+        // stored history comes out well-formed.
+        foreach ($awaiting as $callId => $toolName) {
+            $this->store->appendMessage($conversationId, Message::tool(
+                toolCallId: $callId,
+                content: self::ABANDONED_TOOL_RESULT,
+                toolName: $toolName,
+            ));
+        }
+
+        if ($buried === []) {
+            return;
+        }
+        $alreadyRecorded = is_array($conv->metadata['settledToolCalls'] ?? null)
+            ? array_map('strval', $conv->metadata['settledToolCalls'])
+            : [];
+        $recorded = array_values(array_unique(array_merge($alreadyRecorded, array_keys($buried))));
+        if ($recorded !== $alreadyRecorded) {
+            $this->store->updateConversationMetadata($conversationId, ['settledToolCalls' => $recorded]);
+        }
     }
 
     /**
@@ -672,7 +759,7 @@ TXT;
      * calling this while the result is SUBTYPE_PAUSED_TIME_BUDGET, so the work
      * finishes across several short requests instead of one that fatals.
      */
-    public function continueAfterBudget(int $conversationId): LoopResult
+    public function continueAfterBudget(string $conversationId): LoopResult
     {
         $turn = $this->store->loadConversation($conversationId)?->turnCount ?? 0;
         return $this->driveLoop($conversationId, 0, $turn);
@@ -682,10 +769,10 @@ TXT;
      * Continue after a needs_confirmation. The host calls this with the token
      * from the LoopResult and the user's approval verdict.
      */
-    public function resume(int $conversationId, string $confirmationToken, bool $approved): LoopResult
+    public function resume(string $conversationId, string $confirmationToken, bool $approved): LoopResult
     {
         $pending = $this->options->approvalStore->loadPending($confirmationToken);
-        if ($pending === null || (int) ($pending['conversation_id'] ?? 0) !== $conversationId) {
+        if ($pending === null || (string) ($pending['conversation_id'] ?? '') !== $conversationId) {
             return new LoopResult(
                 subtype: LoopResult::SUBTYPE_ERROR_LLM,
                 conversationId: $conversationId,
@@ -694,6 +781,29 @@ TXT;
                 usage: [],
                 errorMessage: 'Unknown confirmation token.',
             );
+        }
+
+        // The same call may already have been settled — the user typed instead
+        // of answering and settleAbandonedToolCalls() closed it. Executing now
+        // would append a second tool result for one tool_call_id, which is the
+        // malformed transcript we just stopped producing.
+        $heldCallId = (string) ($pending['tool_call_id'] ?? '');
+        $conversation = $this->store->loadConversation($conversationId);
+        if ($heldCallId !== '' && $conversation !== null) {
+            foreach ($conversation->messages as $message) {
+                if ($message->role === Message::ROLE_TOOL && $message->toolCallId === $heldCallId) {
+                    $this->options->approvalStore->resolve($confirmationToken);
+
+                    return new LoopResult(
+                        subtype: LoopResult::SUBTYPE_ERROR_LLM,
+                        conversationId: $conversationId,
+                        finalText: '',
+                        rounds: 0,
+                        usage: [],
+                        errorMessage: 'This confirmation is no longer pending: the conversation moved on without it.',
+                    );
+                }
+            }
         }
 
         if (!$approved) {
@@ -792,6 +902,23 @@ TXT;
         }
         $def = $tool->definition();
 
+        // Arguments the provider sent but nobody could read.
+        $argumentsError = (string) ($call['argumentsError'] ?? '');
+        if ($argumentsError !== '') {
+            return ['kind' => 'bad_args', 'errors' => [$argumentsError . ' — send the call again with the complete arguments object.']];
+        }
+
+        // A call that changes data has to say WHAT it changes. An empty
+        // argument set on a side-effecting tool can only produce a
+        // confirmation dialog with nothing in it: the customer is asked to
+        // approve a blank, and approving it runs the write with no payload.
+        // Some of these tools accept several shapes and so declare nothing
+        // strictly required, which is exactly why the schema does not catch
+        // this one.
+        if ($def->sideEffect && $arguments === []) {
+            return ['kind' => 'bad_args', 'errors' => ['This tool changes data and you sent no arguments. Send the call again with the full payload.']];
+        }
+
         // First fill missing optional fields with their schema `default`
         // — relieves bridges from having to coerce nulls on middle-
         // positional args every time.
@@ -828,6 +955,61 @@ TXT;
         }
 
         return ['kind' => 'execute', 'tool' => $tool, 'fingerprint' => $fingerprint, 'normalizedArgs' => $arguments];
+    }
+
+    /**
+     * Put back the tool results a legacy transcript is missing — from the
+     * decision already taken and stored, never from a fresh scan.
+     *
+     * Conversations recorded before settleAbandonedToolCalls() existed can
+     * carry an assistant tool_call with the user's next message on top of it
+     * and no tool result in between: a shape providers reject outright, which
+     * killed every later turn of that conversation. settleAbandonedToolCalls()
+     * decides ONCE which calls were abandoned and writes the ids into
+     * conversation metadata; this only replays that record, so what goes on
+     * the wire is the same bytes turn after turn and the provider's prefix
+     * cache still hits. Anything not in the record is left exactly as stored.
+     *
+     * @param list<Message> $messages
+     * @param mixed $settledCallIds ids recorded by settleAbandonedToolCalls()
+     * @return list<Message>
+     */
+    private static function repairOrphanToolCalls(array $messages, mixed $settledCallIds): array
+    {
+        if (!is_array($settledCallIds) || $settledCallIds === []) {
+            return $messages;
+        }
+        $settled = array_fill_keys(array_map('strval', $settledCallIds), true);
+
+        $repaired = [];
+        foreach ($messages as $message) {
+            // A settlement row an older build appended at the END of the
+            // history sits after the user message, where it is as malformed
+            // as the gap it was meant to close. Its replacement goes in at
+            // the right place below.
+            if ($message->role === Message::ROLE_TOOL && isset($settled[$message->toolCallId])) {
+                continue;
+            }
+
+            $repaired[] = $message;
+
+            if ($message->role !== Message::ROLE_ASSISTANT) {
+                continue;
+            }
+            foreach ($message->toolCalls as $call) {
+                $callId = (string) ($call['id'] ?? '');
+                if ($callId === '' || !isset($settled[$callId])) {
+                    continue;
+                }
+                $repaired[] = Message::tool(
+                    toolCallId: $callId,
+                    content: self::ABANDONED_TOOL_RESULT,
+                    toolName: (string) ($call['name'] ?? ''),
+                );
+            }
+        }
+
+        return $repaired;
     }
 
     /**
@@ -936,7 +1118,7 @@ TXT;
         return $found;
     }
 
-    private function driveLoop(int $conversationId, int $userOrdinal, int $turn): LoopResult
+    private function driveLoop(string $conversationId, int $userOrdinal, int $turn): LoopResult
     {
         // H5: a multi-round turn can outlive PHP's own max_execution_time (30s on
         // the web SAPI) and die as an opaque fatal mid-round. Lift PHP's timer so
@@ -1028,6 +1210,12 @@ TXT;
             // is purely for replay. The gateway expects only the chat tail.
             $wireMessages = array_values(array_filter($conv->messages, static fn(Message $m) => $m->role !== Message::ROLE_SYSTEM));
             $wireMessages = array_merge([Message::system($this->composedSystemPrompt())], $wireMessages);
+            // Conversations recorded before settleAbandonedToolCalls() existed
+            // can still carry an unanswered tool_call with a user message on
+            // top of it — a shape providers reject outright, which made every
+            // later turn in that conversation fail. Repair the wire shape here
+            // so those histories keep working; the stored rows stay untouched.
+            $wireMessages = self::repairOrphanToolCalls($wireMessages, $conv->metadata['settledToolCalls'] ?? null);
 
             // Kilo Tier 2.7: auto-compaction. When the running prompt
             // estimate gets close to the model's context window, fold the

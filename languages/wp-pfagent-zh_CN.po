@@ -4,1536 +4,2343 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: Setyenv Build <build@setyenv.com>\n"
 "Language-Team: Chinese (Simplified) <zh-cn@setyenv.com>\n"
-"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-07-26T15:26:48+00:00\n"
+"PO-Revision-Date: 2026-07-26T15:26:48+00:00\n"
+"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Domain: wp-pfagent\n"
 
+#: assets/src/ConversationPicker.tsx:189
+#, javascript-format
 msgid "\"%s\" will be permanently deleted along with its messages. This action cannot be undone."
 msgstr "「%s」及其消息将被永久删除。此操作无法撤销。"
 
+#: assets/src/Diagnostic.tsx:194
 msgid "$0 (no pricing configured)"
 msgstr "$0 (未配置定价)"
 
-msgid "%1$d turn(s) · updated %2$s"
-msgstr "%1$d 轮 · 更新于 %2$s"
-
+#: assets/src/wpTarget.ts:422
+#, javascript-format
 msgid "%1$s %2$s%3$s"
 msgstr "%1$s %2$s%3$s"
 
+#: assets/src/App.tsx:1214
+#, javascript-format
 msgid "%1$s / %2$s tokens (%3$d%%)"
 msgstr "%1$s / %2$s tokens(%3$d%%)"
 
+#: assets/src/wpTarget.ts:414
+#, javascript-format
 msgid "%1$s coupon%2$s"
 msgstr "%1$s 个优惠券%2$s"
 
+#: assets/src/wpTarget.ts:415
+#, javascript-format
 msgid "%1$s order%2$s"
 msgstr "%1$s 个订单%2$s"
 
+#: assets/src/wpTarget.ts:413
+#, javascript-format
 msgid "%1$s product%2$s"
 msgstr "%1$s 个产品%2$s"
 
+#: assets/src/Diagnostic.tsx:108
+#, javascript-format
 msgid "%1$s tokens, %2$s"
 msgstr "%1$s 个 token,%2$s"
 
-msgid "%d execution(s)"
-msgstr "%d 次执行"
-
-msgid "%d issue(s)"
-msgstr "%d 个问题"
-
+#: assets/src/ProviderWizard.tsx:867
 msgid "(manual)"
 msgstr "(手动)"
 
+#: assets/src/ProviderWizard.tsx:777
 msgid "+ Add new credential"
 msgstr "+ 添加新凭据"
 
+#: assets/src/App.tsx:1110
 msgid "+ New"
 msgstr "+ 新建"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:243
 msgid "A coupon code is required."
 msgstr "需要优惠券代码。"
 
+#: assets/src/ProviderWizard.tsx:1435
 msgid "A custom rule is in place. Use the advanced editor to change it."
 msgstr "已设置自定义规则。请使用高级编辑器进行修改。"
 
+#: includes/ThirdParty/FormsAgentApi.php:83
 msgid "A form id is required."
 msgstr "需要表单 id。"
 
+#: includes/ChatSessions.php:145
+#: includes/ChatSessions.php:205
+#: includes/ChatSessions.php:254
 msgid "A logged-in user is required."
 msgstr "需要已登录的用户。"
 
+#: includes/WpCore/WpCoreAgentApi.php:753
 msgid "A menu name is required."
 msgstr "需要菜单名称。"
 
+#: includes/WpCore/WpCoreAgentApi.php:333
 msgid "A non-empty list of terms is required."
 msgstr "需要一个非空的分类项列表。"
 
+#: includes/ThirdParty/FormsAgentApi.php:162
 msgid "A note is required."
 msgstr "需要备注。"
 
+#: includes/WpCore/WpCoreAgentApi.php:612
 msgid "A reply needs content."
 msgstr "回复需要内容。"
 
+#: includes/WpCore/WpCoreAgentApi.php:1017
 msgid "A role is required."
 msgstr "需要角色。"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:270
 msgid "A stock quantity is required."
 msgstr "需要库存数量。"
 
+#: includes/WpCore/WpCoreAgentApi.php:298
 msgid "A term name is required."
 msgstr "需要分类项名称。"
 
+#: includes/WpCore/WpCoreAgentApi.php:146
 msgid "A title or content is required."
 msgstr "需要标题或内容。"
 
+#: includes/ThirdParty/LearnDashAgentApi.php:42
 msgid "A user_id is required to read enrollments."
 msgstr "读取报名信息需要 user_id。"
 
+#: includes/WpCore/WpCoreAgentApi.php:912
 msgid "A valid http(s) URL is required."
 msgstr "需要有效的 http(s) URL。"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:141
 msgid "A valid order status is required."
 msgstr "需要有效的订单状态。"
 
+#: includes/WpCore/WpCoreAgentApi.php:290
+#: includes/WpCore/WpCoreAgentApi.php:329
 msgid "A valid taxonomy is required."
 msgstr "需要有效的分类法。"
 
+#: includes/ThirdParty/LearnDashAgentApi.php:78
 msgid "A valid user_id and course_id are required."
 msgstr "需要有效的 user_id 和 course_id。"
 
+#: includes/ThirdParty/MemberPressAgentApi.php:82
 msgid "A valid user_id and membership_id are required."
 msgstr "需要有效的 user_id 和 membership_id。"
 
+#: includes/ThirdParty/MemberPressAgentApi.php:43
 msgid "A valid user_id is required."
 msgstr "需要有效的 user_id。"
 
+#: includes/WpCore/WpCoreAgentApi.php:490
 msgid "A valid username and email are required."
 msgstr "需要有效的用户名和邮箱。"
 
+#: includes/WpCore/WpCoreAgentApi.php:673
+#: includes/WpCore/WpCoreAgentApi.php:888
 msgid "A value is required."
 msgstr "需要一个值。"
 
+#: assets/src/ProviderWizard.tsx:829
 msgid "API key"
 msgstr "API 密钥"
 
+#: includes/CredentialStore.php:72
 msgid "API key is required and must be at least 8 characters."
 msgstr "需要 API 密钥,且至少 8 个字符。"
 
+#: assets/src/App.tsx:918
 msgid "Action cancelled by the user."
 msgstr "用户取消了操作。"
 
+#: assets/src/ProviderWizard.tsx:101
 msgid "Activate a workflow"
 msgstr "激活 workflow"
 
+#: assets/src/App.tsx:1455
 msgid "Activate this workflow so it starts firing on its trigger?"
 msgstr "激活此 workflow,使其在触发器触发时开始运行?"
 
+#: assets/src/App.tsx:1454
+#, javascript-format
 msgid "Activate workflow \"%s\" so it starts firing on its trigger?"
 msgstr "激活 workflow「%s」,使其在触发器触发时开始运行?"
 
+#: assets/src/Diagnostic.tsx:167
+#, javascript-format
 msgid "Active (%s)"
 msgstr "已激活 (%s)"
 
+#: assets/src/App.tsx:1090
 msgid "Active LLM"
 msgstr "当前 LLM"
 
+#: assets/src/wpTarget.ts:201
 msgid "Added"
 msgstr "已添加"
 
+#: assets/src/wpTarget.ts:319
+#, javascript-format
 msgid "Added an order note%s"
 msgstr "已添加订单备注%s"
 
+#: assets/src/wpTarget.ts:204
 msgid "Adjusted"
 msgstr "已调整"
 
+#: assets/src/wpTarget.ts:416
 msgid "Adjusted stock"
 msgstr "已调整库存"
 
+#: includes/AgentContract.php:184
 msgid "Agent capability manifest is invalid."
 msgstr "代理能力清单无效。"
 
+#: includes/AgentContract.php:179
 msgid "Agent capability manifest is missing."
 msgstr "缺少代理能力清单。"
 
+#: assets/src/App.tsx:769
+#: assets/src/App.tsx:905
+#, javascript-format
 msgid "Agent runtime failed: %s"
 msgstr "代理运行时失败:%s"
 
+#: includes/AgentToolRegistry.php:103
 msgid "Agent tool contract file is invalid."
 msgstr "代理工具契约文件无效。"
 
+#: includes/AgentToolRegistry.php:98
 msgid "Agent tool contract file is missing."
 msgstr "缺少代理工具契约文件。"
 
+#: includes/AgentToolRegistry.php:201
 msgid "Agent tool entries must be objects."
 msgstr "代理工具条目必须是对象。"
 
+#: assets/src/ConversationPicker.tsx:232
+#, javascript-format
 msgid "All conversations whose last activity is older than %d days will be permanently deleted. This action cannot be undone."
 msgstr "所有最近活动早于 %d 天的会话都将被永久删除。此操作无法撤销。"
 
+#: assets/src/ProviderWizard.tsx:1417
+#: assets/src/ProviderWizard.tsx:1445
 msgid "Allow"
 msgstr "允许"
 
+#: includes/ThirdParty/FormsAgentApi.php:154
 msgid "An entry_id and a valid action (read/spam/trash/star/note) are required."
 msgstr "需要 entry_id 和有效的操作(read/spam/trash/star/note)。"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:212
 msgid "An item_id is required to remove a line."
 msgstr "移除行项目需要 item_id。"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:113
 msgid "An order id and a note are required."
 msgstr "需要订单 id 和备注。"
 
+#: assets/src/wpTarget.ts:200
 msgid "Applied"
 msgstr "已应用"
 
+#: assets/src/wpTarget.ts:329
+#, javascript-format
 msgid "Applied a coupon to order%s"
 msgstr "已为订单应用优惠券%s"
 
+#: assets/src/App.tsx:1664
 msgid "Applying changes…"
 msgstr "正在应用更改…"
 
+#: assets/src/ProviderWizard.tsx:1418
+#: assets/src/ProviderWizard.tsx:1446
 msgid "Ask"
 msgstr "询问"
 
+#: includes/DashboardWidget.php:63
 msgid "Ask it in plain language to manage your posts, media, users, comments and settings — and your WooCommerce, SEO and forms when those plugins are active. It proposes; you approve every change."
 msgstr "用日常语言让它管理您的文章、媒体、用户、评论和设置 — 以及在相关插件激活时管理您的 WooCommerce、SEO 和表单。它提出建议;每一项更改都由您批准。"
 
+#: includes/DashboardWidget.php:62
 msgid "Ask it to create entities, draw workflows or explore your data. The agent knows the PFM model and the PFW catalog — it builds whatever you describe."
 msgstr "让它创建实体、绘制 workflow 或探索您的数据。代理了解 PFM 模型和 PFW 目录 — 您描述什么,它就构建什么。"
 
+#: assets/src/App.tsx:1323
 msgid "Ask the agent…"
 msgstr "向代理提问…"
 
+#: assets/src/wpTarget.ts:204
 msgid "Assigned"
 msgstr "已分配"
 
+#: assets/src/wpTarget.ts:267
 msgid "Assigned terms"
 msgstr "已分配分类项"
 
+#: includes/ProviderModelDiscovery.php:625
 msgid "At least one manual model id is required."
 msgstr "至少需要一个手动模型 id。"
 
+#: assets/src/ProviderWizard.tsx:847
 msgid "Back"
 msgstr "返回"
 
-msgid "Back to WordPress admin"
-msgstr "返回 WordPress 管理后台"
-
+#: includes/AdminPage.php:158
 msgid "Back to admin"
 msgstr "返回管理后台"
 
+#: assets/src/App.tsx:1148
+#: assets/src/App.tsx:1149
 msgid "Back to conversations"
 msgstr "返回会话列表"
 
+#: assets/src/ProviderWizard.tsx:1150
+#, javascript-format
 msgid "Balance: %1$s %2$s (topped up %3$s · granted %4$s)"
 msgstr "余额:%1$s %2$s(充值 %3$s · 赠送 %4$s)"
 
+#: assets/src/ProviderWizard.tsx:1034
 msgid "Base URL"
 msgstr "基础 URL"
 
+#: assets/src/ProviderWizard.tsx:82
 msgid "Browse records (customers, orders, anything you store). Read-only."
 msgstr "浏览记录(客户、订单、任何你存储的数据)。只读。"
 
+#: assets/src/ProviderWizard.tsx:46
 msgid "Browse your workflow library"
 msgstr "浏览你的 workflow 库"
 
+#: assets/src/ProviderWizard.tsx:1246
 msgid "Cache read $/Mtok"
 msgstr "缓存读取 $/Mtok"
 
+#: assets/src/ProviderWizard.tsx:1258
 msgid "Cache write $/Mtok"
 msgstr "缓存写入 $/Mtok"
 
+#: assets/src/App.tsx:1256
+#: assets/src/ConversationPicker.tsx:195
+#: assets/src/ConversationPicker.tsx:238
+#: assets/src/ProviderWizard.tsx:784
+#: assets/src/ProviderWizard.tsx:938
+#: assets/src/ProviderWizard.tsx:976
 msgid "Cancel"
 msgstr "取消"
 
+#: assets/src/wpTarget.ts:201
 msgid "Cancelled"
 msgstr "已取消"
 
+#: assets/src/wpTarget.ts:325
+#, javascript-format
 msgid "Cancelled order%s"
 msgstr "已取消订单%s"
 
+#: assets/src/ProviderWizard.tsx:1278
 msgid "Capabilities:"
 msgstr "能力:"
 
+#: assets/src/Diagnostic.tsx:138
 msgid "Capability matrix"
 msgstr "能力矩阵"
 
+#: assets/src/App.tsx:1101
 msgid "Change"
 msgstr "更换"
 
+#: assets/src/App.tsx:1099
 msgid "Change LLM"
 msgstr "更换 LLM"
 
+#: assets/src/ProviderWizard.tsx:62
 msgid "Change a specific section of an existing workflow without rewriting the rest."
 msgstr "修改现有 workflow 的特定部分,而不重写其余内容。"
 
+#: assets/src/ProviderWizard.tsx:934
 msgid "Change provider"
 msgstr "更换提供商"
 
+#: assets/src/ProviderWizard.tsx:67
 msgid "Change the name of a workflow as it appears in your library."
 msgstr "更改 workflow 在库中显示的名称。"
 
+#: includes/ChatSessions.php:288
 msgid "Chat session not found after creation."
 msgstr "创建后未找到聊天会话。"
 
+#: includes/ChatSessions.php:306
+#: includes/ChatSessions.php:355
+#: includes/ChatSessions.php:432
+#: includes/ChatSessions.php:490
 msgid "Chat session not found."
 msgstr "未找到聊天会话。"
 
+#: assets/src/App.tsx:495
 msgid "Checking Workflow API endpoints…"
 msgstr "正在检查 Workflow API 端点…"
 
+#: assets/src/ProviderWizard.tsx:1014
+#: assets/src/ProviderWizard.tsx:1372
+#: assets/src/ProviderWizard.tsx:1390
+#: assets/src/ProviderWizard.tsx:1502
 msgid "Close"
 msgstr "关闭"
 
+#: assets/src/App.tsx:1121
 msgid "Configure"
 msgstr "配置"
 
+#: assets/src/App.tsx:1119
 msgid "Configure LLM"
 msgstr "配置 LLM"
 
+#: assets/src/Diagnostic.tsx:173
+#, javascript-format
 msgid "Configured providers (%d)"
 msgstr "已配置的提供商 (%d)"
 
+#: assets/src/App.tsx:1253
+#: assets/src/ProviderWizard.tsx:922
 msgid "Confirm"
 msgstr "确认"
 
+#. translators: %s: redacted underlying error message
+#: includes/CredentialStore.php:172
+#, php-format
 msgid "Connection failed: %s"
 msgstr "连接失败:%s"
 
+#. translators: %d: HTTP status code
+#: includes/CredentialStore.php:194
+#, php-format
 msgid "Connection test returned HTTP %d without a valid models payload."
 msgstr "连接测试返回 HTTP %d,但未包含有效的模型负载。"
 
+#: includes/CredentialStore.php:186
 msgid "Connection validated through provider model discovery."
 msgstr "已通过提供商模型发现验证连接。"
 
+#: includes/CredentialStore.php:355
 msgid "Connection validation updated."
 msgstr "连接验证已更新。"
 
+#: includes/ThirdParty/FormsAgentApi.php:131
 msgid "Contact Form 7 does not store submissions; there are no entries to list."
 msgstr "Contact Form 7 不存储提交内容;没有可列出的条目。"
 
+#: assets/src/ProviderWizard.tsx:889
+#: assets/src/ProviderWizard.tsx:1175
 msgid "Context length (tokens)"
 msgstr "上下文长度(tokens)"
 
+#: assets/src/ProviderWizard.tsx:675
 msgid "Context length and max output tokens are required (greater than zero) before confirming the model."
 msgstr "在确认模型之前,需要填写上下文长度和最大输出 tokens(必须大于零)。"
 
+#: assets/src/App.tsx:1211
 msgid "Context window usage"
 msgstr "上下文窗口用量"
 
+#: assets/src/ConversationPicker.tsx:107
 msgid "Continue a previous conversation or proceed to start a new one."
 msgstr "继续之前的会话,或继续以开始一个新会话。"
 
+#: assets/src/App.tsx:655
 msgid "Continuing…"
 msgstr "正在继续…"
 
+#: assets/src/ConversationPicker.tsx:95
 msgid "Conversation"
 msgstr "会话"
 
+#: assets/src/ConversationPicker.tsx:144
 msgid "Conversation pages"
 msgstr "会话分页"
 
+#: assets/src/App.tsx:1174
 msgid "Conversation title"
 msgstr "会话标题"
 
+#: includes/DashboardWidget.php:82
 msgid "Conversations (30d)"
 msgstr "会话数(30 天)"
 
+#: assets/src/Diagnostic.tsx:88
+#, javascript-format
 msgid "Cost and tokens (last %dh)"
 msgstr "成本和 token (最近 %d 小时)"
 
+#: assets/src/App.tsx:1582
+#, javascript-format
 msgid "Create %1$s \"%2$s\"?"
 msgstr "创建 %1$s「%2$s」?"
 
+#: assets/src/App.tsx:1586
+#, javascript-format
 msgid "Create a new %s?"
 msgstr "创建新的 %s?"
 
+#: assets/src/ProviderWizard.tsx:91
 msgid "Create or change records"
 msgstr "创建或修改记录"
 
+#: assets/src/ProviderWizard.tsx:56
 msgid "Create or replace a workflow"
 msgstr "创建或替换 workflow"
 
+#: assets/src/App.tsx:1555
+#, javascript-format
 msgid "Create record in %1$s%2$s?"
 msgstr "在 %1$s 中创建记录%2$s?"
 
+#: assets/src/App.tsx:1474
+#, javascript-format
 msgid "Create workflow \"%s\"?"
 msgstr "创建 workflow「%s」?"
 
+#: assets/src/wpTarget.ts:196
 msgid "Created"
 msgstr "已创建"
 
+#: assets/src/wpTarget.ts:247
+#, javascript-format
 msgid "Created %1$s%2$s%3$s"
 msgstr "已创建 %1$s%2$s%3$s"
 
+#: assets/src/wpTarget.ts:321
+#, javascript-format
 msgid "Created an order%s"
 msgstr "已创建订单%s"
 
+#: assets/src/wpTarget.ts:265
+#, javascript-format
 msgid "Created term%s"
 msgstr "已创建分类项%s"
 
+#: assets/src/wpTarget.ts:279
+#, javascript-format
 msgid "Created user%1$s%2$s"
 msgstr "已创建用户%1$s%2$s"
 
+#: assets/src/ProviderWizard.tsx:1053
 msgid "Credential"
 msgstr "凭据"
 
+#: includes/CredentialStore.php:467
 msgid "Credential decryption failed."
 msgstr "凭据解密失败。"
 
+#: includes/CredentialStore.php:433
 msgid "Credential encryption failed."
 msgstr "凭据加密失败。"
 
+#: includes/CredentialStore.php:76
 msgid "Credential encryption is not available on this WordPress runtime."
 msgstr "此 WordPress 运行时不可用凭据加密。"
 
+#: includes/CredentialStore.php:99
 msgid "Credential stored but connection has not been validated."
 msgstr "凭据已存储,但连接尚未验证。"
 
+#: assets/src/ProviderWizard.tsx:723
 msgid "Credentials"
 msgstr "凭据"
 
+#: assets/src/ProviderWizard.tsx:965
+#, javascript-format
 msgid "Credentials for \"%s\" will be removed from the encrypted store. This action cannot be undone."
 msgstr "「%s」的凭据将从加密存储中移除。此操作无法撤销。"
 
+#: assets/src/App.tsx:486
 msgid "Current user cannot view workflows. API calls were skipped."
 msgstr "当前用户无法查看 workflow。已跳过 API 调用。"
 
+#: assets/src/ProviderWizard.tsx:1436
 msgid "Custom rule"
 msgstr "自定义规则"
 
+#: includes/RestApi.php:973
 msgid "Database unavailable."
 msgstr "数据库不可用。"
 
+#: assets/src/ProviderWizard.tsx:96
 msgid "Declare a workflow variable"
 msgstr "声明一个 workflow 变量"
 
+#: assets/src/ProviderWizard.tsx:1406
 msgid "Default for any other action"
 msgstr "其他所有操作的默认值"
 
+#: assets/src/ProviderWizard.tsx:1199
 msgid "Default reasoning effort"
 msgstr "默认推理强度"
 
+#: assets/src/ProviderWizard.tsx:1297
 msgid "Defaults:"
 msgstr "默认值:"
 
+#: assets/src/ProviderWizard.tsx:97
 msgid "Define a new variable that workflows can read or write."
 msgstr "定义一个新变量,以便 workflow 读取或写入。"
 
+#: assets/src/ConversationPicker.tsx:205
+#: assets/src/ProviderWizard.tsx:986
 msgid "Delete"
 msgstr "删除"
 
+#: assets/src/ProviderWizard.tsx:71
 msgid "Delete a workflow"
 msgstr "删除 workflow"
 
+#: assets/src/ConversationPicker.tsx:101
+#, javascript-format
 msgid "Delete all conversations older than %d days"
 msgstr "删除所有超过 %d 天的会话"
 
+#: assets/src/ConversationPicker.tsx:135
+#: assets/src/ConversationPicker.tsx:184
 msgid "Delete conversation"
 msgstr "删除会话"
 
+#: assets/src/ConversationPicker.tsx:134
+#, javascript-format
 msgid "Delete conversation %s"
 msgstr "删除会话 %s"
 
+#: assets/src/ConversationPicker.tsx:248
 msgid "Delete conversations"
 msgstr "删除会话"
 
+#: assets/src/ProviderWizard.tsx:766
+#: assets/src/ProviderWizard.tsx:960
 msgid "Delete credential"
 msgstr "删除凭据"
 
+#: assets/src/ProviderWizard.tsx:765
+#, javascript-format
 msgid "Delete credential %s"
 msgstr "删除凭据 %s"
 
+#: assets/src/App.tsx:1461
 msgid "Delete this workflow? This cannot be undone."
 msgstr "删除此 workflow?此操作无法撤销。"
 
+#: assets/src/App.tsx:1460
+#, javascript-format
 msgid "Delete workflow \"%s\"? This cannot be undone."
 msgstr "删除 workflow「%s」?此操作无法撤销。"
 
+#: assets/src/wpTarget.ts:197
 msgid "Deleted"
 msgstr "已删除"
 
+#: assets/src/ConversationPicker.tsx:205
+#: assets/src/ProviderWizard.tsx:986
 msgid "Deleting…"
 msgstr "删除中…"
 
+#: assets/src/ProviderWizard.tsx:1419
+#: assets/src/ProviderWizard.tsx:1447
 msgid "Deny"
 msgstr "拒绝"
 
+#: assets/src/App.tsx:1396
+#: assets/src/Diagnostic.tsx:35
+#: assets/src/Diagnostic.tsx:46
+#: assets/src/Diagnostic.tsx:66
 msgid "Diagnostic"
 msgstr "诊断"
 
+#: assets/src/ProviderWizard.tsx:76
 msgid "Discover your data model"
 msgstr "探索你的数据模型"
 
+#: assets/src/ProviderWizard.tsx:1036
 msgid "Discovery"
 msgstr "发现方式"
 
+#: assets/src/App.tsx:2225
 msgid "Done."
 msgstr "完成。"
 
+#: assets/src/ProviderWizard.tsx:61
 msgid "Edit part of a workflow"
 msgstr "编辑 workflow 的某一部分"
 
+#: assets/src/ProviderWizard.tsx:1469
 msgid "Edit the raw rules JSON. Use this for argument-pattern rules that the simple list above cannot express."
 msgstr "直接编辑规则的原始 JSON。用于上方简单列表无法表达的、按参数模式匹配的规则。"
 
+#: assets/src/wpTarget.ts:202
 msgid "Enrolled"
 msgstr "已报名"
 
+#: assets/src/wpTarget.ts:362
 msgid "Enrolled a user in a course"
 msgstr "已将用户报名到课程"
 
+#: assets/src/App.tsx:1314
+#: assets/src/ConversationPicker.tsx:110
+#: assets/src/Diagnostic.tsx:50
+#: assets/src/ProviderWizard.tsx:717
+#: assets/src/ProviderWizard.tsx:1400
 msgid "Error:"
 msgstr "错误:"
 
+#: assets/src/Diagnostic.tsx:94
 msgid "Estimated cost"
 msgstr "预估成本"
 
+#: assets/src/Diagnostic.tsx:97
 msgid "Events recorded"
 msgstr "已记录事件"
 
+#: assets/src/App.tsx:1647
 msgid "Exploring the workspace…"
 msgstr "正在探索工作区…"
 
+#: assets/src/Diagnostic.tsx:123
 msgid "FAIL"
 msgstr "未通过"
 
+#: includes/ChatSessions.php:283
 msgid "Failed to create the chat session."
 msgstr "无法创建聊天会话。"
 
+#: includes/ChatSessions.php:379
 msgid "Failed to delete the chat session."
 msgstr "无法删除聊天会话。"
 
+#: assets/src/wpTarget.ts:241
 msgid "Failed: "
 msgstr "失败: "
 
+#: includes/ThirdParty/FormsAgentApi.php:184
 msgid "Fluent Forms submissions table not found."
 msgstr "未找到 Fluent Forms 提交数据表。"
 
+#: assets/src/ProviderWizard.tsx:1396
 msgid "For each thing the agent can do, choose whether it runs straight away, asks you first, or is not allowed at all. \"Ask\" is the safe default."
 msgstr "针对代理可以执行的每一项操作,选择是直接运行、先询问你,还是完全不允许。\"询问\" 是安全的默认值。"
 
+#: assets/src/Diagnostic.tsx:83
+#, javascript-format
 msgid "Generated at %s."
 msgstr "生成于 %s。"
 
+#: assets/src/wpTarget.ts:202
 msgid "Granted"
 msgstr "已授予"
 
+#: assets/src/ProviderWizard.tsx:1463
 msgid "Hide advanced editor"
 msgstr "隐藏高级编辑器"
 
+#: assets/src/App.tsx:1652
 msgid "Implementing the workflow logic…"
 msgstr "正在实现 workflow 逻辑…"
 
+#: assets/src/wpTarget.ts:275
+#, javascript-format
 msgid "Imported media%s"
 msgstr "已导入媒体%s"
 
+#: assets/src/Diagnostic.tsx:168
 msgid "Inactive (fallback in use)"
 msgstr "未激活(正在使用回退)"
 
+#: assets/src/ProviderWizard.tsx:1222
 msgid "Input $/Mtok"
 msgstr "输入 $/Mtok"
 
-msgid "LLM error: %1$s — %2$s"
-msgstr "LLM 错误:%1$s — %2$s"
-
+#: assets/src/ProviderWizard.tsx:1494
+#, javascript-format
 msgid "Last updated: %s"
 msgstr "上次更新:%s"
 
+#: assets/src/ProviderWizard.tsx:1042
 msgid "Last validation"
 msgstr "上次验证"
 
+#: includes/ThirdParty/LearnDashAgentApi.php:31
+#: includes/ThirdParty/LearnDashAgentApi.php:70
 msgid "LearnDash is not installed on this site."
 msgstr "本站点未安装 LearnDash。"
 
+#: assets/src/ProviderWizard.tsx:81
 msgid "List records"
 msgstr "列出记录"
 
+#: assets/src/wpTarget.ts:199
 msgid "Listed"
 msgstr "已列出"
 
+#: assets/src/wpTarget.ts:350
 msgid "Listed forms"
 msgstr "已列出表单"
 
+#: assets/src/wpTarget.ts:310
 msgid "Listed plugins"
 msgstr "已列出插件"
 
+#: assets/src/App.tsx:1660
 msgid "Listing resources…"
 msgstr "正在列出资源…"
 
+#: assets/src/ProviderWizard.tsx:1118
 msgid "Load"
 msgstr "加载"
 
+#: assets/src/App.tsx:1662
 msgid "Loading a resource…"
 msgstr "正在加载资源…"
 
+#: assets/src/Diagnostic.tsx:37
 msgid "Loading beta readiness report…"
 msgstr "正在加载 beta 就绪报告…"
 
+#: assets/src/ProviderWizard.tsx:860
 msgid "Loading models…"
 msgstr "正在加载模型…"
 
+#: assets/src/ProviderWizard.tsx:77
 msgid "Look at which entities, fields and actions you have configured. Read-only."
 msgstr "查看你已配置的实体、字段和动作。只读。"
 
+#: assets/src/ProviderWizard.tsx:52
 msgid "Look inside a single workflow without making changes."
 msgstr "查看单个 workflow 的内容,不做任何更改。"
 
+#: assets/src/App.tsx:1658
 msgid "Looking up the data model…"
 msgstr "正在查询数据模型…"
 
+#: assets/src/ProviderWizard.tsx:755
+#: assets/src/ProviderWizard.tsx:1008
+#, javascript-format
 msgid "Manage %s"
 msgstr "管理 %s"
 
+#: assets/src/ProviderWizard.tsx:756
 msgid "Manage credential"
 msgstr "管理凭据"
 
+#: assets/src/App.tsx:1378
 msgid "Management"
 msgstr "Management"
 
+#: assets/src/ProviderWizard.tsx:1341
 msgid "Manual model IDs"
 msgstr "手动模型 ID"
 
+#: includes/ProviderModelDiscovery.php:600
 msgid "Manual model entries are not allowed for this provider preset."
 msgstr "此提供商预设不允许手动输入模型。"
 
+#: assets/src/ProviderWizard.tsx:901
+#: assets/src/ProviderWizard.tsx:1187
 msgid "Max output (tokens)"
 msgstr "最大输出(tokens)"
 
+#: includes/ThirdParty/MemberPressAgentApi.php:33
+#: includes/ThirdParty/MemberPressAgentApi.php:74
 msgid "MemberPress is not installed on this site."
 msgstr "本站点未安装 MemberPress。"
 
+#: assets/src/App.tsx:1325
 msgid "Message to the agent"
 msgstr "发送给代理的消息"
 
+#: includes/DashboardWidget.php:84
 msgid "Messages (30d)"
 msgstr "消息数(30 天)"
 
+#: assets/src/ProviderWizard.tsx:1292
 msgid "Modalities:"
 msgstr "模态:"
 
+#: assets/src/ProviderWizard.tsx:855
+#: assets/src/ProviderWizard.tsx:863
 msgid "Model"
 msgstr "模型"
 
+#: assets/src/ProviderWizard.tsx:874
 msgid "Model (manual)"
 msgstr "模型 (手动)"
 
+#: assets/src/ProviderWizard.tsx:1110
 msgid "Models"
 msgstr "模型"
 
+#: assets/src/wpTarget.ts:203
 msgid "Moderated"
 msgstr "已审核"
 
+#: assets/src/wpTarget.ts:290
 msgid "Moderated a comment"
 msgstr "已审核评论"
 
+#: assets/src/ProviderWizard.tsx:1055
 msgid "New API key"
 msgstr "新的 API 密钥"
 
+#: assets/src/App.tsx:981
 msgid "New conversation"
 msgstr "新会话"
 
+#: assets/src/App.tsx:988
 msgid "New conversation."
 msgstr "新会话。"
 
+#: assets/src/ProviderWizard.tsx:793
 msgid "New credential"
 msgstr "新建凭据"
 
+#: assets/src/ConversationPicker.tsx:162
 msgid "Next page"
 msgstr "下一页"
 
+#: assets/src/App.tsx:1131
 msgid "No LLM configured."
 msgstr "尚未配置 LLM。"
 
+#: includes/ThirdParty/SeoAgentApi.php:58
+#: includes/ThirdParty/SeoAgentApi.php:83
 msgid "No SEO plugin is installed on this site."
 msgstr "本站点未安装 SEO 插件。"
 
+#: assets/src/ConversationPicker.tsx:114
 msgid "No conversations yet."
 msgstr "暂无会话。"
 
+#: assets/src/ProviderWizard.tsx:725
 msgid "No credentials in the store yet. Add one to continue."
 msgstr "存储中尚无凭据。添加一个以继续。"
 
+#: assets/src/Diagnostic.tsx:175
 msgid "No credentials stored yet. Configure one from Settings."
 msgstr "尚未存储任何凭据。请从设置中配置一个。"
 
+#: assets/src/ProviderWizard.tsx:1334
 msgid "No model list loaded yet. Click Load to fetch from the API or Refresh to bypass cache."
 msgstr "尚未加载模型列表。点击「加载」从 API 获取,或点击「刷新」绕过缓存。"
 
+#: assets/src/ProviderWizard.tsx:1329
 msgid "No models returned."
 msgstr "未返回任何模型。"
 
+#: assets/src/App.tsx:2237
 msgid "No response from the runtime."
 msgstr "运行时无响应。"
 
+#: includes/WpCore/WpCoreAgentApi.php:212
+#: includes/WpCore/WpCoreAgentApi.php:551
 msgid "No updatable fields were provided."
 msgstr "未提供可更新的字段。"
 
+#: assets/src/ProviderWizard.tsx:1526
 msgid "Not configured"
 msgstr "未配置"
 
+#: assets/src/ProviderWizard.tsx:1522
 msgid "Not verified"
 msgstr "未验证"
 
+#: includes/ThirdParty/FormsAgentApi.php:187
 msgid "Notes are not supported for Fluent Forms entries here."
 msgstr "此处不支持为 Fluent Forms 条目添加备注。"
 
+#: includes/WpCore/WpCoreAgentApi.php:885
 msgid "Only public custom fields can be set (protected keys are refused)."
 msgstr "只能设置公开的自定义字段(受保护的键会被拒绝)。"
 
+#: assets/src/ProviderWizard.tsx:86
 msgid "Open a record"
 msgstr "打开一条记录"
 
+#: assets/src/ProviderWizard.tsx:51
 msgid "Open a workflow to read it"
 msgstr "打开一个 workflow 进行阅读"
 
+#: includes/DashboardWidget.php:93
 msgid "Open agent"
 msgstr "打开代理"
 
+#: assets/src/WordPressPane.tsx:51
 msgid "Open this in WordPress admin"
 msgstr "在 WordPress 管理后台中打开"
 
+#: assets/src/wpTarget.ts:343
+#, javascript-format
 msgid "Optimized SEO%1$s%2$s"
 msgstr "已优化 SEO%1$s%2$s"
 
+#: assets/src/ProviderWizard.tsx:107
 msgid "Other capability — see this site's integrator for details."
 msgstr "其他能力 — 详情请咨询本站点的集成商。"
 
+#: assets/src/ProviderWizard.tsx:1234
 msgid "Output $/Mtok"
 msgstr "输出 $/Mtok"
 
+#: assets/src/Diagnostic.tsx:123
 msgid "PASS"
 msgstr "通过"
 
+#: includes/AdminPage.php:42
 msgid "PF Agent"
 msgstr "PF Agent"
 
+#: includes/DashboardWidget.php:99
 msgid "PF Management"
 msgstr "PF Management"
 
+#: includes/DashboardWidget.php:102
 msgid "PF Workflow"
 msgstr "PF Workflow"
 
+#: assets/src/ConversationPicker.tsx:155
+#, javascript-format
 msgid "Page %1$d of %2$d"
 msgstr "第 %1$d 页,共 %2$d 页"
 
+#: assets/src/Diagnostic.tsx:150
 msgid "Partial capabilities"
 msgstr "部分能力"
 
+#: assets/src/ProviderWizard.tsx:1060
 msgid "Paste API key to confirm changes"
 msgstr "粘贴 API 密钥以确认更改"
 
+#: assets/src/Diagnostic.tsx:102
 msgid "Per provider"
 msgstr "按提供商"
 
+#: assets/src/ProviderWizard.tsx:1389
 msgid "Permission rules"
 msgstr "权限规则"
 
+#: assets/src/ProviderWizard.tsx:780
 msgid "Permissions"
 msgstr "权限"
 
+#: assets/src/ProviderWizard.tsx:669
 msgid "Pick a model or enter the id manually."
 msgstr "选择一个模型或手动输入 id。"
 
+#: assets/src/ProviderWizard.tsx:612
 msgid "Pick a provider and paste the API key."
 msgstr "选择提供商并粘贴 API 密钥。"
 
+#: assets/src/App.tsx:2106
 msgid "Pick an LLM provider to get started. Your credentials live encrypted inside the WordPress store."
 msgstr "选择一个 LLM 提供商以开始。您的凭据以加密形式存储在 WordPress 中。"
 
+#: assets/src/ProviderWizard.tsx:913
 msgid "Pre-filled when the provider API exposes caps; required otherwise. Stored on the credential so the runtime never has to guess."
 msgstr "当提供商 API 公开上限时会自动填充;否则为必填。存储在凭据上,以便运行时无需猜测。"
 
+#: assets/src/ConversationPicker.tsx:150
 msgid "Previous page"
 msgstr "上一页"
 
+#: includes/WpCore/WpCoreAgentApi.php:777
 msgid "Provide a post_id or a url for the menu item."
 msgstr "请为菜单项提供 post_id 或 url。"
 
+#: includes/ThirdParty/SeoAgentApi.php:105
 msgid "Provide at least one SEO field to set (title, description, focus_keyword, canonical, noindex, og_title, og_description)."
 msgstr "请至少提供一个要设置的 SEO 字段(title、description、focus_keyword、canonical、noindex、og_title、og_description)。"
 
+#: assets/src/ProviderWizard.tsx:795
+#: assets/src/ProviderWizard.tsx:1022
 msgid "Provider"
 msgstr "提供商"
 
+#: includes/CredentialStore.php:745
+#: includes/ProviderModelDiscovery.php:1168
+#: includes/ProviderRuntime.php:431
 msgid "Provider base URL must be an HTTP URL."
 msgstr "提供商基础 URL 必须是 HTTP URL。"
 
+#: includes/ProviderModelDiscovery.php:900
 msgid "Provider discovery failed recently and is on cooldown."
 msgstr "提供商发现最近失败,正在冷却中。"
 
+#: includes/ProviderModelDiscovery.php:72
 msgid "Provider does not expose API model discovery. Manual model entries are required for this preset."
 msgstr "提供商未公开 API 模型发现。此预设需要手动输入模型。"
 
+#: includes/ProviderModelDiscovery.php:85
 msgid "Provider family declares no discovery endpoints."
 msgstr "此提供商系列未声明任何发现端点。"
 
+#: includes/CredentialStore.php:707
 msgid "Provider family does not expose a models endpoint for connection testing."
 msgstr "此提供商系列未暴露用于连接测试的模型端点。"
 
+#: includes/ProviderModelDiscovery.php:648
+#: includes/ProviderRuntime.php:321
 msgid "Provider family does not expose the required runtime endpoint."
 msgstr "此提供商系列未公开所需的运行时端点。"
 
+#: includes/CredentialStore.php:151
 msgid "Provider family does not support connection testing yet."
 msgstr "此提供商系列尚不支持连接测试。"
 
+#: includes/ProviderRuntime.php:45
 msgid "Provider family is not supported for generation yet."
 msgstr "此提供商系列尚不支持生成。"
 
+#: includes/CredentialStore.php:239
 msgid "Provider family is not supported for runtime calls."
 msgstr "此提供商系列不支持运行时调用。"
 
+#: includes/CredentialStore.php:141
+#: includes/CredentialStore.php:234
+#: includes/CredentialStore.php:349
+#: includes/CredentialStore.php:395
 msgid "Provider is not configured."
 msgstr "提供商未配置。"
 
+#: includes/ProviderModelDiscovery.php:155
+#: includes/ProviderRuntime.php:132
 msgid "Provider model discovery returned no models."
 msgstr "提供商模型发现未返回任何模型。"
 
+#: includes/ProviderRuntime.php:163
 msgid "Provider model discovery returned no text generation model candidate."
 msgstr "提供商模型发现未返回任何文本生成模型候选。"
 
+#: includes/ProviderPresets.php:95
 msgid "Provider modelHints must remain non-authoritative and empty; real models come from discovery, cache or explicit manual entry."
 msgstr "提供商 modelHints 必须保持非权威且为空;真实模型来自发现、缓存或显式手动输入。"
 
+#: includes/CredentialStore.php:283
 msgid "Provider must be configured before saving models."
 msgstr "在保存模型之前必须先配置提供商。"
 
+#: includes/ProviderPresets.php:79
 msgid "Provider preset entries must be keyed objects."
 msgstr "提供商预设条目必须是带键的对象。"
 
+#: includes/ProviderPresets.php:87
 msgid "Provider preset references an unknown family."
 msgstr "提供商预设引用了未知的 family。"
 
+#: includes/CredentialStore.php:50
+#: includes/CredentialStore.php:67
+#: includes/CredentialStore.php:117
+#: includes/CredentialStore.php:135
+#: includes/CredentialStore.php:228
+#: includes/CredentialStore.php:277
+#: includes/CredentialStore.php:343
+#: includes/ProviderHealth.php:37
+#: includes/ProviderModelDiscovery.php:47
+#: includes/ProviderModelDiscovery.php:595
+#: includes/RestApi.php:584
+#: includes/RestApi.php:868
 msgid "Provider preset was not found."
 msgstr "未找到提供商预设。"
 
+#: includes/ProviderPresets.php:18
 msgid "Provider presets file is missing."
 msgstr "缺少提供商预设文件。"
 
+#: includes/ProviderPresets.php:23
 msgid "Provider presets file is not valid JSON."
 msgstr "提供商预设文件不是有效的 JSON。"
 
+#: includes/ProviderPresets.php:74
 msgid "Provider presets must define families and presets."
 msgstr "提供商预设必须定义 families 和 presets。"
 
+#: includes/ProviderPresets.php:91
 msgid "Provider presets must not define defaultModels."
 msgstr "提供商预设不得定义 defaultModels。"
 
+#: includes/ProviderPresets.php:83
 msgid "Provider presets require label, family and baseUrl."
 msgstr "提供商预设需要 label、family 和 baseUrl。"
 
+#: includes/ProviderPresets.php:70
 msgid "Provider presets schemaVersion must be 1."
 msgstr "提供商预设的 schemaVersion 必须为 1。"
 
+#: includes/ProviderModelDiscovery.php:1164
+#: includes/ProviderRuntime.php:427
 msgid "Provider requires additional settings before runtime call."
 msgstr "在运行时调用之前,提供商需要额外设置。"
 
+#: includes/CredentialStore.php:741
 msgid "Provider requires additional settings before testing connection."
 msgstr "在测试连接之前,提供商需要额外设置。"
 
+#: assets/src/ProviderWizard.tsx:857
 msgid "Provider:"
 msgstr "提供商:"
 
+#: includes/DashboardWidget.php:83
 msgid "Providers configured"
 msgstr "已配置的提供商"
 
+#: assets/src/ConversationPicker.tsx:104
+#, javascript-format
 msgid "Purge > %dd"
 msgstr "清除 > %d 天"
 
+#: assets/src/ConversationPicker.tsx:227
 msgid "Purge old conversations"
 msgstr "清除旧会话"
 
+#: assets/src/ConversationPicker.tsx:104
+#: assets/src/ConversationPicker.tsx:248
 msgid "Purging…"
 msgstr "清除中…"
 
+#: assets/src/wpTarget.ts:209
 msgid "Ran"
 msgstr "已运行"
 
+#. translators: 1: rate-limit bucket key, 2: max requests allowed, 3: window length in seconds, 4: seconds until retry is allowed
+#: includes/RateLimiter.php:71
+#, php-format
 msgid "Rate limit reached for \"%1$s\" (%2$d per %3$ds). Retry in %4$ds."
 msgstr "已达到「%1$s」的速率限制(每 %3$ds 内 %2$d 次)。请在 %4$ds 后重试。"
 
+#: assets/src/ProviderWizard.tsx:442
 msgid "Re-enter the API key to save changes."
 msgstr "请重新输入 API 密钥以保存更改。"
 
+#: assets/src/wpTarget.ts:198
 msgid "Read"
 msgstr "已读取"
 
+#: assets/src/wpTarget.ts:360
 msgid "Read LearnDash courses"
 msgstr "已读取 LearnDash 课程"
 
+#: assets/src/wpTarget.ts:364
 msgid "Read MemberPress data"
 msgstr "已读取 MemberPress 数据"
 
+#: assets/src/wpTarget.ts:341
+#, javascript-format
 msgid "Read SEO fields%s"
 msgstr "已读取 SEO 字段%s"
 
+#: assets/src/wpTarget.ts:317
 msgid "Read WooCommerce data"
 msgstr "已读取 WooCommerce 数据"
 
+#: assets/src/wpTarget.ts:304
+#, javascript-format
 msgid "Read setting%s"
 msgstr "已读取设置%s"
 
+#: assets/src/ProviderWizard.tsx:87
 msgid "Read the full content of a single record. Read-only."
 msgstr "读取单条记录的完整内容。只读。"
 
+#: assets/src/App.tsx:1649
 msgid "Reading the reference library…"
 msgstr "正在读取参考库…"
 
+#: assets/src/ProviderWizard.tsx:1287
 msgid "Reasoning:"
 msgstr "推理:"
 
+#: assets/src/Diagnostic.tsx:78
+#: assets/src/ProviderWizard.tsx:1126
 msgid "Refresh"
 msgstr "刷新"
 
+#: assets/src/Diagnostic.tsx:76
 msgid "Refresh diagnostic"
 msgstr "刷新诊断"
 
+#. translators: 1: amount, 2: reason
+#: includes/ThirdParty/WooCommerceAgentApi.php:337
+#, php-format
 msgid "Refund REQUESTED via the agent%1$s%2$s — NOT yet issued. A person must review and process this refund in WooCommerce."
 msgstr "已通过代理请求退款%1$s%2$s — 尚未发放。必须由人工在 WooCommerce 中审核并处理此退款。"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:348
 msgid "Refund request recorded on the order. It was NOT issued — a person must approve and process it in WooCommerce."
 msgstr "退款请求已记录在订单上。尚未发放 — 必须由人工在 WooCommerce 中批准并处理。"
 
+#: assets/src/wpTarget.ts:200
 msgid "Refunded"
 msgstr "已退款"
 
+#: assets/src/ProviderWizard.tsx:72
 msgid "Remove a workflow from your library permanently."
 msgstr "从你的库中永久删除一个 workflow。"
 
+#: assets/src/App.tsx:1656
 msgid "Removing a file…"
 msgstr "正在移除文件…"
 
+#: assets/src/ProviderWizard.tsx:66
 msgid "Rename a workflow"
 msgstr "重命名 workflow"
 
+#: assets/src/App.tsx:1195
+#: assets/src/App.tsx:1196
 msgid "Rename conversation"
 msgstr "重命名会话"
 
+#: assets/src/App.tsx:1464
 msgid "Rename this workflow?"
 msgstr "重命名此 workflow?"
 
+#: assets/src/App.tsx:1654
 msgid "Reorganising files…"
 msgstr "正在重新整理文件…"
 
+#. translators: 1: maximum bytes allowed, 2: actual bytes received
+#: includes/ChatSessions.php:471
+#: includes/RestApi.php:76
+#, php-format
 msgid "Request body exceeds %1$d bytes (got %2$d)."
 msgstr "请求体超过 %1$d 字节(收到 %2$d)。"
 
+#: assets/src/wpTarget.ts:331
+#, javascript-format
 msgid "Requested a refund%s"
 msgstr "已请求退款%s"
 
+#: assets/src/App.tsx:822
 msgid "Resuming…"
 msgstr "正在恢复…"
 
+#: assets/src/wpTarget.ts:203
 msgid "Revoked"
 msgstr "已撤销"
 
+#: assets/src/ProviderWizard.tsx:1472
 msgid "Rules JSON"
 msgstr "规则 JSON"
 
+#: assets/src/ProviderWizard.tsx:1086
+#: assets/src/ProviderWizard.tsx:1499
 msgid "Save"
 msgstr "保存"
 
+#: assets/src/ProviderWizard.tsx:57
 msgid "Save a brand-new workflow or fully replace the contents of an existing one."
 msgstr "保存一个全新的 workflow,或完全替换现有 workflow 的内容。"
 
+#: assets/src/ProviderWizard.tsx:1487
 msgid "Save advanced JSON"
 msgstr "保存高级 JSON"
 
+#: assets/src/ProviderWizard.tsx:844
 msgid "Save and continue"
 msgstr "保存并继续"
 
+#: assets/src/App.tsx:1583
+#, javascript-format
 msgid "Save changes to %1$s \"%2$s\"?"
 msgstr "保存对 %1$s「%2$s」的更改?"
 
+#: assets/src/App.tsx:1587
+#, javascript-format
 msgid "Save changes to a %s?"
 msgstr "保存对 %s 的更改?"
 
+#: assets/src/App.tsx:1475
+#: assets/src/App.tsx:1482
+#, javascript-format
 msgid "Save changes to workflow \"%s\"?"
 msgstr "保存对 workflow「%s」的更改?"
 
+#: assets/src/ProviderWizard.tsx:1357
 msgid "Save manual list"
 msgstr "保存手动列表"
 
+#: assets/src/ProviderWizard.tsx:1321
 msgid "Save model config"
 msgstr "保存模型配置"
 
+#: assets/src/ProviderWizard.tsx:92
 msgid "Save new records or modify existing ones (customers, orders, configuration, etc.)."
 msgstr "保存新记录,或修改现有记录(客户、订单、配置等)。"
 
+#: assets/src/App.tsx:1182
+#: assets/src/App.tsx:1183
 msgid "Save title"
 msgstr "保存标题"
 
+#: assets/src/wpTarget.ts:335
+#, javascript-format
 msgid "Saved product%1$s%2$s"
 msgstr "已保存产品%1$s%2$s"
 
+#: assets/src/ProviderWizard.tsx:1324
 msgid "Saved."
 msgstr "已保存。"
 
+#: assets/src/ProviderWizard.tsx:844
+#: assets/src/ProviderWizard.tsx:922
 msgid "Saving…"
 msgstr "保存中…"
 
+#: assets/src/ProviderWizard.tsx:47
 msgid "See the workflows that exist on this site. Read-only."
 msgstr "查看本站点上存在的 workflow。只读。"
 
+#: assets/src/App.tsx:1327
 msgid "Send"
 msgstr "发送"
 
+#: includes/ManagementApiBridge.php:188
 msgid "Send { kind: \"<entity|record|action|application|module|group|role|page>\", payload: { <kind>: {...} } }."
 msgstr "发送 { kind: \"<entity|record|action|application|module|group|role|page>\", payload: { <kind>: {...} } }。"
 
-msgid "Session %d is empty."
-msgstr "会话 %d 为空。"
-
+#. translators: %s: UTC timestamp used as default chat session title
+#: includes/ChatSessions.php:272
+#, php-format
 msgid "Session %s"
 msgstr "会话 %s"
 
+#: includes/DashboardWidget.php:35
 msgid "Setyenv Agent"
 msgstr "Setyenv Agent"
 
+#: assets/src/App.tsx:1404
 msgid "Setyenv Management"
 msgstr "Setyenv Management"
 
+#: assets/src/App.tsx:1412
 msgid "Setyenv Workflow"
 msgstr "Setyenv Workflow"
 
+#: assets/src/App.tsx:1356
 msgid "Setyenv views"
 msgstr "Setyenv 视图"
 
+#: assets/src/App.tsx:1077
 msgid "Setyenv — setyenv.com"
 msgstr "Setyenv — setyenv.com"
 
+#: assets/src/App.tsx:1078
 msgid "Setyenv — visit setyenv.com"
 msgstr "Setyenv — 访问 setyenv.com"
 
+#: assets/src/Diagnostic.tsx:119
 msgid "Severe criteria"
 msgstr "严格条件"
 
+#: assets/src/ProviderWizard.tsx:1464
 msgid "Show advanced editor"
 msgstr "显示高级编辑器"
 
+#: assets/src/wpTarget.ts:308
 msgid "Site overview"
 msgstr "站点概览"
 
+#: assets/src/ProviderWizard.tsx:1305
 msgid "Snapshot:"
 msgstr "快照:"
 
-msgid "Source: %1$s · fetched %2$s · %3$d model(s)"
-msgstr "来源:%1$s · 获取于 %2$s · %3$d 个模型"
-
+#: assets/src/App.tsx:1108
 msgid "Start a new conversation with the active LLM"
 msgstr "使用当前 LLM 开始新会话"
 
+#: assets/src/App.tsx:668
 msgid "Starting…"
 msgstr "正在启动…"
 
+#: assets/src/ProviderWizard.tsx:1024
 msgid "Status"
 msgstr "状态"
 
+#: assets/src/App.tsx:2235
 msgid "Still working…"
 msgstr "仍在处理…"
 
+#: includes/CredentialStore.php:450
 msgid "Stored credential cipher is unsupported."
 msgstr "存储的凭据加密算法不受支持。"
 
+#: includes/CredentialStore.php:457
 msgid "Stored credential payload is invalid."
 msgstr "存储的凭据负载无效。"
 
+#: assets/src/ProviderWizard.tsx:1030
 msgid "Stored key"
 msgstr "已存储的密钥"
 
+#: assets/src/App.tsx:1675
 msgid "Summarising older context…"
 msgstr "正在总结较早的上下文…"
 
+#: assets/src/App.tsx:505
+#, javascript-format
 msgid "Templates failed: %s"
 msgstr "模板失败:%s"
 
+#: assets/src/ProviderWizard.tsx:746
+#: assets/src/ProviderWizard.tsx:1094
 msgid "Test connection"
 msgstr "测试连接"
 
+#: assets/src/ProviderWizard.tsx:745
+#, javascript-format
 msgid "Test connection for %s"
 msgstr "测试 %s 的连接"
 
+#: includes/WpCore/WpCoreAgentApi.php:918
 msgid "That URL is not allowed (it points at a private or unsafe address)."
 msgstr "不允许该 URL(它指向私有或不安全的地址)。"
 
+#: includes/WpCore/WpCoreAgentApi.php:605
 msgid "That comment does not exist."
 msgstr "该评论不存在。"
 
+#: includes/ThirdParty/SeoAgentApi.php:162
+#: includes/WpCore/WpCoreAgentApi.php:963
 msgid "That content could not be found."
 msgstr "找不到该内容。"
 
+#: includes/WpCore/WpCoreAgentApi.php:971
 msgid "That content type does not exist."
 msgstr "该内容类型不存在。"
 
+#: includes/ThirdParty/FormsAgentApi.php:134
 msgid "That form plugin does not expose entries here."
 msgstr "该表单插件未在此处公开条目。"
 
+#: includes/ThirdParty/FormsAgentApi.php:202
 msgid "That form plugin does not support managing entries here."
 msgstr "该表单插件不支持在此处管理条目。"
 
+#: includes/WpCore/WpCoreAgentApi.php:403
 msgid "That media item does not exist."
 msgstr "该媒体项不存在。"
 
+#: includes/WpCore/WpCoreAgentApi.php:765
 msgid "That menu does not exist."
 msgstr "该菜单不存在。"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:79
+#: includes/ThirdParty/WooCommerceAgentApi.php:117
+#: includes/ThirdParty/WooCommerceAgentApi.php:375
 msgid "That order does not exist."
 msgstr "该订单不存在。"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:62
+#: includes/ThirdParty/WooCommerceAgentApi.php:221
+#: includes/ThirdParty/WooCommerceAgentApi.php:267
+#: includes/ThirdParty/WooCommerceAgentApi.php:295
 msgid "That product does not exist."
 msgstr "该产品不存在。"
 
+#: includes/WpCore/WpCoreAgentApi.php:1021
 msgid "That role does not exist."
 msgstr "该角色不存在。"
 
+#: includes/WpCore/WpCoreAgentApi.php:670
 msgid "That setting cannot be changed through the agent."
 msgstr "无法通过代理更改该设置。"
 
+#: includes/WpCore/WpCoreAgentApi.php:654
 msgid "That setting is not readable through the agent."
 msgstr "无法通过代理读取该设置。"
 
+#: includes/WpCore/WpCoreAgentApi.php:255
 msgid "That taxonomy does not exist."
 msgstr "该分类法不存在。"
 
+#: includes/WpCore/WpCoreAgentApi.php:469
+#: includes/WpCore/WpCoreAgentApi.php:525
 msgid "That user does not exist."
 msgstr "该用户不存在。"
 
-msgid "The action ran but the final response failed."
-msgstr "操作已执行但最终响应失败。"
-
+#: assets/src/ProviderWizard.tsx:306
 msgid "The advanced JSON must be an object."
 msgstr "高级 JSON 必须是一个对象。"
 
+#: assets/src/App.tsx:1477
+#: assets/src/App.tsx:1483
+#: assets/src/App.tsx:1486
 msgid "The agent is about to apply a change. Confirm to proceed."
 msgstr "代理即将应用更改。确认以继续。"
 
+#: includes/WpCore/WpCoreAgentApi.php:636
 msgid "The comment status could not be changed."
 msgstr "无法更改评论状态。"
 
+#: includes/WpCore/WpCoreAgentApi.php:238
 msgid "The content could not be moved to trash."
 msgstr "无法将内容移入回收站。"
 
+#: includes/WpCore/WpCoreAgentApi.php:536
 msgid "The email address is not valid."
 msgstr "邮箱地址无效。"
 
+#: assets/src/ProviderWizard.tsx:841
 msgid "The key is encrypted (AES-256-GCM) in the WordPress store and never returned over REST."
 msgstr "密钥在 WordPress 存储中加密 (AES-256-GCM),且从不通过 REST 返回。"
 
+#: includes/WpCore/WpCoreAgentApi.php:625
 msgid "The reply could not be posted."
 msgstr "无法发布回复。"
 
+#: includes/AgentToolRegistry.php:88
 msgid "The requested tool is not in the declared agent tool registry."
 msgstr "请求的工具不在已声明的代理工具注册表中。"
 
+#: assets/src/App.tsx:2229
 msgid "The runtime rejected this call."
 msgstr "运行时拒绝了此调用。"
 
+#: assets/src/App.tsx:1304
+#: assets/src/App.tsx:1673
 msgid "Thinking…"
 msgstr "思考中…"
 
+#: assets/src/App.tsx:2227
 msgid "This action requires confirmation."
 msgstr "此操作需要确认。"
 
+#: assets/src/ProviderWizard.tsx:883
 msgid "This provider does not allow manual models; check your credential or retry."
 msgstr "此提供商不允许手动模型;请检查凭据或重试。"
 
+#: includes/ManagementApiBridge.php:47
 msgid "Tool is not executable by Management API bridge."
 msgstr "Management API 桥接器无法执行此工具。"
 
+#: includes/WorkflowApiBridge.php:44
 msgid "Tool is not executable by Workflow API bridge."
 msgstr "Workflow API 桥接器无法执行此工具。"
 
+#: includes/WorkflowVfsBridge.php:52
 msgid "Tool is not executable by the VFS bridge."
 msgstr "VFS 桥接器无法执行此工具。"
 
+#: assets/src/Diagnostic.tsx:91
 msgid "Total tokens"
 msgstr "总 token 数"
 
+#: assets/src/wpTarget.ts:198
 msgid "Trashed"
 msgstr "已移入回收站"
 
+#: assets/src/wpTarget.ts:251
+#, javascript-format
 msgid "Trashed %1$s%2$s%3$s"
 msgstr "已移入回收站 %1$s%2$s%3$s"
 
+#: assets/src/ProviderWizard.tsx:102
 msgid "Turn on a draft workflow so it starts running when its trigger fires."
 msgstr "启用一个草稿状态的 workflow,使其在触发器触发时开始运行。"
 
+#: assets/src/App.tsx:2175
 msgid "Unexpected error."
 msgstr "意外错误。"
 
+#: includes/WpCore/WpCoreAgentApi.php:786
 msgid "Unknown menu action (use create_menu or add_item)."
 msgstr "未知的菜单操作(请使用 create_menu 或 add_item)。"
 
+#: includes/WpCore/WpCoreAgentApi.php:632
 msgid "Unknown moderation action."
 msgstr "未知的审核操作。"
 
+#: assets/src/App.tsx:1554
+#, javascript-format
 msgid "Update record in %1$s%2$s?"
 msgstr "在 %1$s 中更新记录%2$s?"
 
+#: assets/src/wpTarget.ts:196
+#: assets/src/wpTarget.ts:197
 msgid "Updated"
 msgstr "已更新"
 
+#: assets/src/wpTarget.ts:256
+#, javascript-format
 msgid "Updated %1$s meta%2$s"
 msgstr "已更新 %1$s 元数据%2$s"
 
+#: assets/src/wpTarget.ts:249
+#, javascript-format
 msgid "Updated %1$s%2$s%3$s"
 msgstr "已更新 %1$s%2$s%3$s"
 
+#: assets/src/wpTarget.ts:354
 msgid "Updated a form entry"
 msgstr "已更新表单条目"
 
+#: assets/src/wpTarget.ts:366
 msgid "Updated membership access"
 msgstr "已更新会员访问权限"
 
+#: assets/src/wpTarget.ts:296
+#, javascript-format
 msgid "Updated menu%s"
 msgstr "已更新菜单%s"
 
+#: assets/src/wpTarget.ts:327
+#, javascript-format
 msgid "Updated order items%s"
 msgstr "已更新订单项%s"
 
+#: assets/src/wpTarget.ts:323
+#, javascript-format
 msgid "Updated order%s"
 msgstr "已更新订单%s"
 
+#: assets/src/wpTarget.ts:303
+#, javascript-format
 msgid "Updated setting%s"
 msgstr "已更新设置%s"
 
+#: assets/src/wpTarget.ts:333
+#, javascript-format
 msgid "Updated stock%s"
 msgstr "已更新库存%s"
 
+#: assets/src/wpTarget.ts:281
+#, javascript-format
 msgid "Updated user%1$s%2$s"
 msgstr "已更新用户%1$s%2$s"
 
+#: assets/src/ProviderWizard.tsx:1408
 msgid "Used when a future capability is added that you have not set up yet."
 msgstr "适用于尚未设置的、将来新增的能力。"
 
+#: assets/src/ProviderWizard.tsx:1524
 msgid "Validation failed"
 msgstr "验证失败"
 
+#: assets/src/ProviderWizard.tsx:1520
 msgid "Verified"
 msgstr "已验证"
 
+#: assets/src/wpTarget.ts:199
 msgid "Viewed"
 msgstr "已查看"
 
+#: assets/src/wpTarget.ts:254
+#, javascript-format
 msgid "Viewed %s"
 msgstr "已查看 %s"
 
+#: assets/src/wpTarget.ts:288
 msgid "Viewed comments"
 msgstr "已查看评论"
 
+#: assets/src/wpTarget.ts:352
 msgid "Viewed form entries"
 msgstr "已查看表单条目"
 
+#: assets/src/wpTarget.ts:273
+#, javascript-format
 msgid "Viewed media item%s"
 msgstr "已查看媒体项%s"
 
+#: assets/src/wpTarget.ts:271
 msgid "Viewed media library"
 msgstr "已查看媒体库"
 
+#: assets/src/wpTarget.ts:294
 msgid "Viewed navigation menus"
 msgstr "已查看导航菜单"
 
+#: assets/src/wpTarget.ts:263
 msgid "Viewed taxonomies"
 msgstr "已查看分类法"
 
+#: assets/src/wpTarget.ts:284
 msgid "Viewed users"
 msgstr "已查看用户"
 
+#: includes/AdminPage.php:41
+#: includes/AdminPage.php:157
 msgid "WP PFAgent"
 msgstr "WP PFAgent"
 
+#: includes/AdminPage.php:159
+#: includes/AdminPage.php:246
 msgid "WP PFAgent assets are missing. Run npm install and npm run build inside the plugin directory."
 msgstr "缺少 WP PFAgent 资源。请在插件目录中运行 npm install 和 npm run build。"
 
+#: includes/AdminPage.php:189
 msgid "WP PFAgent assets are not built."
 msgstr "WP PFAgent 资源未构建。"
 
+#: includes/WorkflowApiBridge.php:31
+#: includes/WorkflowVfsBridge.php:36
 msgid "WP PFWorkflow plugin is not active."
 msgstr "WP PFWorkflow 插件未激活。"
 
+#: includes/ThirdParty/FormsAgentApi.php:116
 msgid "WPForms stores form entries only in the Pro version. This site runs WPForms Lite, which does not save entries."
 msgstr "WPForms 仅在专业版中存储表单条目。本站点运行的是 WPForms Lite,不会保存条目。"
 
+#: assets/src/App.tsx:1323
 msgid "Waiting for the agent…"
 msgstr "等待代理…"
 
+#: assets/src/wpTarget.ts:417
 msgid "WooCommerce action"
 msgstr "WooCommerce 操作"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:28
+#: includes/ThirdParty/WooCommerceAgentApi.php:105
+#: includes/ThirdParty/WooCommerceAgentApi.php:358
 msgid "WooCommerce is not installed on this site."
 msgstr "本站点未安装 WooCommerce。"
 
+#: assets/src/WordPressPane.tsx:21
 msgid "WordPress"
 msgstr "WordPress"
 
+#: assets/src/wpTarget.ts:425
+#, javascript-format
 msgid "WordPress action: %s"
 msgstr "WordPress 操作:%s"
 
+#: assets/src/WordPressPane.tsx:44
 msgid "WordPress actions this turn"
 msgstr "本轮的 WordPress 操作"
 
+#: assets/src/WordPressPane.tsx:61
 msgid "WordPress admin"
 msgstr "WordPress 管理后台"
 
+#: includes/FrameworkRuntime.php:77
+#: includes/FrameworkRuntime.php:113
+#: includes/FrameworkRuntime.php:143
 msgid "WordPress database is not available."
 msgstr "WordPress 数据库不可用。"
 
+#: assets/src/App.tsx:1366
 msgid "Workflow"
 msgstr "Workflow"
 
+#: assets/src/App.tsx:208
 msgid "Workflow API has not been checked yet."
 msgstr "Workflow API 尚未检查。"
 
+#: assets/src/App.tsx:502
 msgid "Workflow API responded for workflows and templates."
 msgstr "Workflow API 已为 workflow 和模板返回响应。"
 
+#: assets/src/Diagnostic.tsx:164
 msgid "Workflow dependency"
 msgstr "Workflow 依赖"
 
+#: assets/src/App.tsx:476
 msgid "Workflow plugin is not active. API calls were skipped."
 msgstr "Workflow 插件未激活。已跳过 API 调用。"
 
+#: assets/src/App.tsx:504
+#, javascript-format
 msgid "Workflows failed: %s"
 msgstr "Workflow 失败:%s"
 
+#: assets/src/App.tsx:1666
+#: assets/src/App.tsx:1677
 msgid "Working on it…"
 msgstr "正在处理…"
 
+#: includes/WpCore/WpCoreAgentApi.php:907
 msgid "You cannot add media."
 msgstr "您无法添加媒体。"
 
+#: includes/WpCore/WpCoreAgentApi.php:361
 msgid "You cannot browse the media library."
 msgstr "您无法浏览媒体库。"
 
+#: includes/ThirdParty/MemberPressAgentApi.php:77
 msgid "You cannot change MemberPress access."
 msgstr "您无法更改 MemberPress 访问权限。"
 
+#: includes/WpCore/WpCoreAgentApi.php:666
 msgid "You cannot change site settings."
 msgstr "您无法更改站点设置。"
 
+#: includes/WpCore/WpCoreAgentApi.php:542
 msgid "You cannot change user roles."
 msgstr "您无法更改用户角色。"
 
+#: includes/WpCore/WpCoreAgentApi.php:141
 msgid "You cannot create this content type."
 msgstr "您无法创建此内容类型。"
 
+#: includes/WpCore/WpCoreAgentApi.php:485
 msgid "You cannot create users."
 msgstr "您无法创建用户。"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:108
 msgid "You cannot edit WooCommerce orders."
 msgstr "您无法编辑 WooCommerce 订单。"
 
+#: includes/ThirdParty/SeoAgentApi.php:90
+#: includes/WpCore/WpCoreAgentApi.php:190
+#: includes/WpCore/WpCoreAgentApi.php:325
+#: includes/WpCore/WpCoreAgentApi.php:881
 msgid "You cannot edit this content."
 msgstr "您无法编辑此内容。"
 
+#: includes/WpCore/WpCoreAgentApi.php:520
 msgid "You cannot edit users."
 msgstr "您无法编辑用户。"
 
+#: includes/WpCore/WpCoreAgentApi.php:1033
 msgid "You cannot grant a role with more capabilities than your own."
 msgstr "您无法授予比自己拥有更多能力的角色。"
 
+#: includes/WpCore/WpCoreAgentApi.php:1027
 msgid "You cannot grant the administrator role."
 msgstr "您无法授予管理员角色。"
 
+#: includes/ThirdParty/FormsAgentApi.php:28
 msgid "You cannot list forms."
 msgstr "您无法列出表单。"
 
+#: includes/WpCore/WpCoreAgentApi.php:425
 msgid "You cannot list users."
 msgstr "您无法列出用户。"
 
+#: includes/ThirdParty/LearnDashAgentApi.php:73
 msgid "You cannot manage LearnDash enrollments."
 msgstr "您无法管理 LearnDash 报名。"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:361
 msgid "You cannot manage WooCommerce."
 msgstr "您无法管理 WooCommerce。"
 
+#: includes/ThirdParty/FormsAgentApi.php:148
 msgid "You cannot manage form entries."
 msgstr "您无法管理表单条目。"
 
+#: includes/WpCore/WpCoreAgentApi.php:746
 msgid "You cannot manage navigation menus."
 msgstr "您无法管理导航菜单。"
 
+#: includes/WpCore/WpCoreAgentApi.php:294
 msgid "You cannot manage terms in this taxonomy."
 msgstr "您无法管理此分类法中的分类项。"
 
+#: includes/WpCore/WpCoreAgentApi.php:570
+#: includes/WpCore/WpCoreAgentApi.php:600
 msgid "You cannot moderate comments."
 msgstr "您无法审核评论。"
 
+#: includes/WpCore/WpCoreAgentApi.php:207
 msgid "You cannot publish this content."
 msgstr "您无法发布此内容。"
 
+#: includes/ThirdParty/LearnDashAgentApi.php:34
 msgid "You cannot read LearnDash data."
 msgstr "您无法读取 LearnDash 数据。"
 
+#: includes/ThirdParty/MemberPressAgentApi.php:36
 msgid "You cannot read MemberPress data."
 msgstr "您无法读取 MemberPress 数据。"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:31
 msgid "You cannot read WooCommerce data."
 msgstr "您无法读取 WooCommerce 数据。"
 
+#: includes/ThirdParty/FormsAgentApi.php:77
 msgid "You cannot read form entries."
 msgstr "您无法读取表单条目。"
 
+#: includes/WpCore/WpCoreAgentApi.php:722
 msgid "You cannot read navigation menus."
 msgstr "您无法读取导航菜单。"
 
+#: includes/WpCore/WpCoreAgentApi.php:650
 msgid "You cannot read site settings."
 msgstr "您无法读取站点设置。"
 
+#: includes/WpCore/WpCoreAgentApi.php:398
 msgid "You cannot read the media library."
 msgstr "您无法读取媒体库。"
 
+#: includes/WpCore/WpCoreAgentApi.php:826
 msgid "You cannot read the plugin list."
 msgstr "您无法读取插件列表。"
 
+#: includes/WpCore/WpCoreAgentApi.php:689
 msgid "You cannot read the site overview."
 msgstr "您无法读取站点概览。"
 
+#: includes/ThirdParty/SeoAgentApi.php:65
+#: includes/WpCore/WpCoreAgentApi.php:118
 msgid "You cannot read this content."
 msgstr "您无法读取此内容。"
 
+#: includes/WpCore/WpCoreAgentApi.php:460
 msgid "You cannot read users."
 msgstr "您无法读取用户。"
 
+#: includes/WpCore/WpCoreAgentApi.php:798
 msgid "You cannot read widgets."
 msgstr "您无法读取小工具。"
 
+#: includes/WpCore/WpCoreAgentApi.php:234
 msgid "You cannot trash this content."
 msgstr "您无法将此内容移入回收站。"
 
+#: includes/ChatSessions.php:497
 msgid "You do not have access to this chat session."
 msgstr "您无权访问此聊天会话。"
 
+#: includes/AdminPage.php:239
 msgid "You do not have permission to manage WP PFAgent."
 msgstr "您没有管理 WP PFAgent 的权限。"
 
+#: includes/DashboardWidget.php:60
 msgid "Your natural-language copilot"
 msgstr "您的自然语言助手"
 
+#: assets/src/App.tsx:1619
 msgid "action"
 msgstr "动作"
 
+#: assets/src/App.tsx:1561
 msgid "an entity"
 msgstr "一个实体"
 
+#: assets/src/App.tsx:1620
 msgid "application"
 msgstr "应用"
 
+#: assets/src/Diagnostic.tsx:61
 msgid "beta partial"
 msgstr "beta 部分"
 
+#: assets/src/Diagnostic.tsx:61
 msgid "beta ready"
 msgstr "beta 就绪"
 
+#: includes/RestApi.php:960
 msgid "conversationId is required."
 msgstr "需要 conversationId。"
 
+#: includes/RestApi.php:903
 msgid "conversationId, confirmationToken, providerId and model are required."
 msgstr "需要 conversationId、confirmationToken、providerId 和 model。"
 
+#: includes/RestApi.php:934
 msgid "conversationId, providerId and model are required."
 msgstr "需要 conversationId、providerId 和 model。"
 
+#: assets/src/App.tsx:1284
+#, javascript-format
 msgid "diff: %s"
 msgstr "差异:%s"
 
+#: assets/src/ProviderWizard.tsx:1182
 msgid "e.g. 128000 — fill in manually"
 msgstr "例如 128000 — 手动填写"
 
+#: assets/src/ProviderWizard.tsx:1194
 msgid "e.g. 8192 — fill in manually"
 msgstr "例如 8192 — 手动填写"
 
+#: assets/src/App.tsx:1617
 msgid "entity"
 msgstr "实体"
 
+#: assets/src/App.tsx:1622
 msgid "group"
 msgstr "组"
 
+#: includes/ManagementApiBridge.php:130
+#: includes/ManagementApiBridge.php:374
 msgid "kind and ref are required."
 msgstr "需要 kind 和 ref。"
 
+#: includes/ManagementApiBridge.php:59
 msgid "kind is required (entity, record, action, application, module, group, role, page)."
 msgstr "需要 kind(entity、record、action、application、module、group、role、page)。"
 
+#: includes/ChatSessions.php:333
 msgid "label cannot be empty."
 msgstr "label 不能为空。"
 
+#: assets/src/ProviderWizard.tsx:1216
 msgid "low | medium | high | max"
 msgstr "low | medium | high | max"
 
+#: includes/FrameworkRuntime.php:62
 msgid "message is required."
 msgstr "需要 message。"
 
+#: includes/FrameworkRuntime.php:72
 msgid "model is required for the framework runtime."
 msgstr "框架运行时需要 model。"
 
+#: assets/src/ProviderWizard.tsx:879
 msgid "model-id"
 msgstr "模型-id"
 
+#: assets/src/App.tsx:1621
 msgid "module"
 msgstr "模块"
 
-msgid "no message"
-msgstr "无消息"
-
+#: assets/src/ProviderWizard.tsx:1282
 msgid "none"
 msgstr "无"
 
+#: assets/src/ProviderWizard.tsx:1031
 msgid "not stored"
 msgstr "未存储"
 
+#: assets/src/ProviderWizard.tsx:1345
 msgid "one model id per line"
 msgstr "每行一个模型 id"
 
+#: includes/RestApi.php:88
 msgid "oversized request body"
 msgstr "请求体过大"
 
+#: assets/src/App.tsx:1624
 msgid "page"
 msgstr "页面"
 
+#: includes/WorkflowApiBridge.php:80
 msgid "payload is required: send { payload: { workflow: { id, name, status }, graph: { schemaVersion: 1, nodes: [], connections: [] } } }."
 msgstr "需要 payload:发送 { payload: { workflow: { id, name, status }, graph: { schemaVersion: 1, nodes: [], connections: [] } } }。"
 
+#: includes/FrameworkRuntime.php:57
 msgid "providerId is required."
 msgstr "需要 providerId。"
 
+#: assets/src/App.tsx:1618
 msgid "record"
 msgstr "记录"
 
+#: assets/src/ProviderWizard.tsx:896
 msgid "required — e.g. 128000"
 msgstr "必填 — 例如 128000"
 
+#: assets/src/ProviderWizard.tsx:908
 msgid "required — e.g. 8192"
 msgstr "必填 — 例如 8192"
 
+#: assets/src/App.tsx:1625
 msgid "resource"
 msgstr "资源"
 
+#: assets/src/App.tsx:1623
 msgid "role"
 msgstr "角色"
 
+#. translators: 1: rejected role value, 2: comma-separated allowed values
+#: includes/ChatSessions.php:421
+#, php-format
 msgid "role \"%1$s\" is not in the allowed enum (%2$s)."
 msgstr "角色「%1$s」不在允许的枚举中(%2$s)。"
 
+#: includes/RestApi.php:809
 msgid "rules must be a JSON object."
 msgstr "rules 必须是一个 JSON 对象。"
 
-msgid "unknown"
-msgstr "未知"
-
+#: includes/WorkflowApiBridge.php:56
 msgid "workflowId is required."
 msgstr "需要 workflowId。"
 
+#: includes/ManagementApiBridge.php:465
 msgid "wp-pfmanagement agent-ready service is not available."
 msgstr "wp-pfmanagement 的 agent-ready 服务不可用。"
 
+#: includes/WorkflowApiBridge.php:145
 msgid "wp-pfworkflow agent-ready service is not available."
 msgstr "wp-pfworkflow 的 agent-ready 服务不可用。"
 
+#: assets/src/ProviderWizard.tsx:802
 msgid "— Pick one —"
 msgstr "— 选择一个 —"
 
+#: assets/src/ProviderWizard.tsx:1206
 msgid "— none —"
 msgstr "— 无 —"
+
+#: assets/src/maintenanceNotice.ts:79
+#, javascript-format
+msgid "Scheduled maintenance begins in about %d minute."
+msgid_plural "Scheduled maintenance begins in about %d minutes."
+msgstr[0] "计划维护将在约 %d 分钟后开始。"
+
+#: assets/src/maintenanceNotice.ts:87
+msgid "Save your work — the system will be unavailable during maintenance."
+msgstr "请保存您的工作——维护期间系统将不可用。"
+
+#: includes/MaintenanceGate.php:99
+msgid "The system is under maintenance. Please try again later."
+msgstr "系统正在维护中，请稍后再试。"
+
+#. Plugin Name of the plugin
+#: wp-pfagent.php
+msgid "WP-PFAgent"
+msgstr "WP-PFAgent"
+
+#. Description of the plugin
+#: wp-pfagent.php
+msgid "Open-source AI agent console for the Setyenv suite. Drives WP-PFWorkflow and WP-PFManagement from natural language."
+msgstr "面向 Setyenv 套件的开源 AI 代理控制台。用自然语言驱动 WP-PFWorkflow 和 WP-PFManagement。"
+
+#. Author of the plugin
+#: wp-pfagent.php
+msgid "Setyenv Build"
+msgstr "Setyenv Build"
+
+#: includes/AdminPage.php:307
+msgid "WP Admin"
+msgstr "WordPress 后台"
+
+#: includes/ProviderFailure.php:116
+msgid "The AI provider rejected the credentials: its API key is not valid any more. Update it in the provider settings and try again."
+msgstr "AI 服务商拒绝了凭据：其 API 密钥已失效。请在服务商设置中更新后重试。"
+
+#: includes/ProviderFailure.php:118
+msgid "The AI provider refused the request for lack of credit or quota on the account. Top the account up and try again."
+msgstr "账户余额或配额不足，AI 服务商拒绝了该请求。请为账户充值后重试。"
+
+#: includes/ProviderFailure.php:120
+msgid "The AI provider is rate limiting this account. Wait a moment and try again."
+msgstr "AI 服务商正在限制该账户的请求频率。请稍候片刻后重试。"
+
+#: includes/ProviderFailure.php:122
+msgid "The AI provider does not recognise the selected model. Pick another model in the provider settings."
+msgstr "AI 服务商无法识别所选模型。请在服务商设置中另选一个模型。"
+
+#: includes/ProviderFailure.php:124
+msgid "The AI provider is unavailable right now. Nothing was left half-done; try again shortly."
+msgstr "AI 服务商当前不可用。没有任何操作处于半完成状态，请稍后重试。"
+
+#: includes/ProviderFailure.php:126
+msgid "This site could not reach the AI provider. Check the connection or any egress restriction, then try again."
+msgstr "本站无法连接到 AI 服务商。请检查网络连接或出站限制后重试。"
+
+#: includes/ProviderFailure.php:128
+msgid "The provider configuration on this site is incomplete. Review the provider settings."
+msgstr "本站的服务商配置不完整。请检查服务商设置。"
+
+#: includes/ProviderFailure.php:130
+msgid "That confirmation is no longer valid: it was already answered, or the conversation moved on without it. Ask again and confirm the new one."
+msgstr "该确认已失效：它已被回答，或对话未经它便继续了。请重新提出并确认新的请求。"
+
+#: includes/ProviderFailure.php:132
+msgid "This turn could not be completed. Nothing was left half-done; ask again."
+msgstr "本轮未能完成。没有任何操作处于半完成状态，请再问一次。"
+
+#. translators: %d: HTTP status the AI provider answered with.
+#: includes/ProviderFailure.php:137
+#, php-format
+msgid "The AI provider answered with an error (HTTP %d). This is the provider, not this site."
+msgstr "AI 服务商返回了错误（HTTP %d）。问题出在服务商，而非本站。"
+
+#: includes/ProviderFailure.php:140
+msgid "The AI provider did not complete the request. This is the provider, not this site."
+msgstr "AI 服务商未完成该请求。问题出在服务商，而非本站。"
+
+#: includes/RestApi.php:861
+msgid "providerId and model are required."
+msgstr "providerId 和 model 为必填项。"
+
+#: assets/src/ConversationPicker.tsx:123
+#, javascript-format
+msgid "%1$d turn · updated %2$s"
+msgid_plural "%1$d turns · updated %2$s"
+msgstr[0] "%1$d 轮 · 更新于 %2$s"
+
+#: assets/src/App.tsx:1278
+#, javascript-format
+msgid "%d execution"
+msgid_plural "%d executions"
+msgstr[0] "%d 次执行"
+
+#: assets/src/Diagnostic.tsx:128
+#, javascript-format
+msgid "%d issue"
+msgid_plural "%d issues"
+msgstr[0] "%d 个问题"
+
+#: assets/src/App.tsx:1529
+#, javascript-format
+msgid "Delete \"%s\"? This cannot be undone."
+msgstr "删除“%s”？此操作无法撤销。"
+
+#: assets/src/App.tsx:1507
+#, javascript-format
+msgid "Delete one record from \"%s\"? This cannot be undone."
+msgstr "从“%s”中删除一条记录？此操作无法撤销。"
+
+#: assets/src/App.tsx:1526
+#, javascript-format
+msgid "Delete the %1$s \"%2$s\"? This cannot be undone."
+msgstr "删除%1$s“%2$s”？此操作无法撤销。"
+
+#: assets/src/App.tsx:1516
+#, javascript-format
+msgid "Delete the table \"%s\" and every record in it? This cannot be undone."
+msgstr "删除表“%s”及其中的所有记录？此操作无法撤销。"
+
+#: assets/src/App.tsx:1508
+msgid "Delete this record? This cannot be undone."
+msgstr "删除这条记录？此操作无法撤销。"
+
+#: assets/src/App.tsx:1517
+msgid "Delete this table and every record in it? This cannot be undone."
+msgstr "删除该表及其中的所有记录？此操作无法撤销。"
+
+#: assets/src/ProductSwitcher.tsx:50
+#: assets/src/ProductSwitcher.tsx:51
+#: assets/src/ProductSwitcher.tsx:58
+msgid "Products"
+msgstr "产品"
+
+#: assets/src/ProviderWizard.tsx:1135
+#, javascript-format
+msgid "Source: %1$s · fetched %2$s · %3$d model"
+msgid_plural "Source: %1$s · fetched %2$s · %3$d models"
+msgstr[0] "来源: %1$s · 获取于 %2$s · %3$d 个模型"
+
+#: assets/src/App.tsx:2233
+msgid "The AI provider did not return a response."
+msgstr "AI 服务商没有返回任何响应。"
+
+#: assets/src/App.tsx:1531
+msgid "The agent is about to delete something. Confirm to proceed."
+msgstr "代理即将删除内容。请确认以继续。"
+
+#: assets/src/App.tsx:2198
+msgid "The answer did not arrive complete. Ask again."
+msgstr "回答没有完整送达。请再问一次。"
+
+#: assets/src/App.tsx:2205
+msgid "The assistant could not be reached. Check the connection and ask again."
+msgstr "无法连接到助手。请检查网络连接后再问一次。"
+
+#: assets/src/App.tsx:970
+msgid "This conversation has no messages yet."
+msgstr "此对话还没有任何消息。"
+
+#: assets/src/App.tsx:372
+#: assets/src/App.tsx:971
+#: assets/src/App.tsx:987
+msgid "Untitled conversation"
+msgstr "未命名对话"

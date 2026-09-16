@@ -315,12 +315,33 @@ final class OpenAiCompatibleGateway implements Gateway
                 continue;
             }
             $func = is_array($tc['function'] ?? null) ? $tc['function'] : [];
+            // Arguments that do not parse are NOT "no arguments". Reading a
+            // broken JSON string as an empty object turned a data-changing
+            // call into a confirmation dialog with nothing in it, waiting for
+            // a customer to approve a change with no content. Say it did not
+            // parse and let the loop hand that back to the model.
             $rawArgs = $func['arguments'] ?? '{}';
-            $args = is_array($rawArgs) ? $rawArgs : (array) (json_decode((string) $rawArgs, true) ?? []);
+            $args = [];
+            $argsError = '';
+            if (is_array($rawArgs)) {
+                $args = $rawArgs;
+            } else {
+                $raw = trim((string) $rawArgs);
+                $decoded = $raw === '' ? [] : json_decode($raw, true);
+                if (is_array($decoded)) {
+                    $args = $decoded;
+                } else {
+                    $argsError = sprintf(
+                        'arguments were not valid JSON (%d characters received)',
+                        strlen($raw)
+                    );
+                }
+            }
             $toolCalls[] = [
                 'id' => (string) ($tc['id'] ?? ''),
                 'name' => (string) ($func['name'] ?? ''),
                 'arguments' => $args,
+                'argumentsError' => $argsError,
             ];
         }
 

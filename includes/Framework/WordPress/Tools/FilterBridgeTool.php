@@ -57,6 +57,14 @@ final class FilterBridgeTool implements Tool
      *     adapt to bridge methods like agent_list(string $kind, array $filters)
      *     without changing the bridge code.
      * @param \Closure(mixed $result): mixed $stateExtractor optional
+     * @param \Closure(array<string, mixed> $arguments): array<string, mixed> $argumentShaper
+     *     optional. Last chance to complete or correct what the LLM sent
+     *     before the service sees it — e.g. carrying data forward that the
+     *     agent was never shown and must not drop.
+     * @param \Closure(mixed $result, array<string, mixed> $arguments): mixed $resultShaper
+     *     optional. Shapes what the LLM gets back — the place to leave out
+     *     payload the model has no use for, without the source service or
+     *     the tool contract changing at all.
      */
     public function __construct(
         string $name,
@@ -69,6 +77,8 @@ final class FilterBridgeTool implements Tool
         ?\Closure $stateExtractor = null,
         ?array $argMapping = null,
         bool $strict = false,
+        private readonly ?\Closure $argumentShaper = null,
+        private readonly ?\Closure $resultShaper = null,
     ) {
         $this->definition = new ToolDefinition($name, $description, $parameters, $sideEffect, $idempotent, $strict);
         $this->stateExtractor = $stateExtractor;
@@ -84,6 +94,9 @@ final class FilterBridgeTool implements Tool
     {
         if (!function_exists('apply_filters')) {
             return ToolResult::failure('wp_not_loaded', 'WordPress is not loaded; this tool can only run inside WordPress.', false);
+        }
+        if ($this->argumentShaper !== null) {
+            $arguments = ($this->argumentShaper)($arguments);
         }
         $service = apply_filters($this->filter, null);
         if (!is_object($service) || !method_exists($service, $this->method)) {
@@ -160,6 +173,10 @@ final class FilterBridgeTool implements Tool
                 (string) $result->get_error_message(),
                 false,
             );
+        }
+
+        if ($this->resultShaper !== null) {
+            $result = ($this->resultShaper)($result, $arguments);
         }
 
         $stateAfter = null;

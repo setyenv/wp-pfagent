@@ -4,7 +4,7 @@ Tags: ai, assistant, agent, llm, automation
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.1
-Stable tag: 1.0.8
+Stable tag: 1.2.8
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,6 +116,59 @@ No. Every action that modifies data opens a confirmation dialog; you approve eac
 4. The built-in WordPress tab is a live admin beside the chat — here, the new draft open in the editor.
 
 == Changelog ==
+
+= 1.2.8 =
+
+* Released in lockstep with WP-PFManagement and WP-PFWorkflow so the three plugins of the suite stay on the same version.
+
+= 1.2.7 =
+
+* A conversation and a trace now belong to a person of the platform, not to a WordPress account id. The owner of a conversation and the user of a trace entry point to the same person record used everywhere else in the suite, and existing rows are converted on update, before any table is reconciled.
+
+= 1.2.6 =
+
+* Released in lockstep with WP-PFManagement and WP-PFWorkflow so the three plugins of the suite stay on the same version. **Nothing you use changes**: the work in this release is internal housekeeping, and updating leaves everything here exactly as it was in 1.2.5.
+
+= 1.2.5 =
+
+* **A site that has been running the plugin for a while could not start a conversation at all.** The chat answered "Chat session not found after creation": the write reported success and reading back the row it had just created found nothing. The conversations table on those installs still carried the old numeric key, so the new identifier was mangled on the way in — and whether a given attempt worked depended on how the identifier happened to start. The move to the new key was written and correct; it simply never ran, because it hung off plugin *activation*, and a site that **updates** never activates. So the longest-running installs — the ones with the most conversations to lose — were exactly the ones left behind. The schema now catches up on update as well, once, and only records itself as done after it finishes.
+
+= 1.2.4 =
+
+* A confirmation now says what it is about to do. Asking for a task opened a modal reading "Create record in an entity?" — a write with no table named and no value shown; it reads "Create record in "Agile task" (Review the backups)?" now. And a deletion, the most dangerous thing on offer, fell through to a generic "The agent is about to apply a change": it names what it deletes, says when it takes every record in a table with it, and says that it cannot be undone.
+* A failed turn is explained in the product's words instead of the machine's. A dead connection read "Failed to fetch" and a truncated answer read "WP PFAgent API POST agent-runtime/turn-v2 returned an invalid empty response" — a verb and an endpoint in front of somebody who asked how many tasks they had. The two failures you can act on are named: the assistant could not be reached, or the answer did not arrive complete. Anything the server worded for a person still travels unchanged.
+* Thirteen languages, complete. 33 strings into each locale — the sentences you read at the worst moment, when the provider refuses the key, the account is out of credit, or the agent is about to delete something — with one plural form per slot each language declares.
+* The chat-session listing no longer sends the `X-WP-Total` and `X-WP-TotalPages` headers. The count was never computed there: `total`, `page`, `perPage` and `totalPages` are in the body of the answer and stay exactly as they were.
+
+= 1.2.3 =
+
+* A conversation is keyed the same way on every site. Conversations and everything under them — messages, traces and tool calls — leave the numeric key, in the table, in the API and in the browser. An auto-increment id only means something inside one database, so this is what makes a chat history portable between environments. The migration runs on update and carries the existing conversations with it.
+* The conversation list counted four times the turns you had. It counted every row appended — your message, the answer, and one per tool result — so a chat seven turns long offered itself as twenty-eight. Only a message you send opens a turn now; conversations that already exist keep the number they had and count correctly from here.
+* The confirmation modal called every update a creation. It asked "Create entity X?" while the agent was about to overwrite an existing one, because it decided by whether the id looked like a number. It asks about what is actually going to happen.
+* The workflow preview never opened. Four places demanded a numeric workflow id, which Workflow stopped minting; the pane sat on "Waiting for the agent" for good, and the workflow paired with a business rule was never brought into view.
+* "How many" is answered by the tool or not at all. Asked how many tasks there were, the agent listed them, read the twenty-five of the first page and answered twenty-five — there were thirty-five. A list is a page, and the agent no longer reports a page as a total.
+* The agent is handed a map of your data model and asked for one entity at a time, instead of the whole model on every turn. Turns are cheaper and there is room left for the conversation.
+* A chat survives an unanswered confirmation instead of getting stuck behind it, and a workflow variable can be created.
+* What the model is told about your data no longer contradicts the product: its catalogue and its prompt still described business rules and row-visibility rules as keyed by a number, which stopped being true two versions ago. An instruction that is wrong is not a cosmetic defect.
+
+= 1.2.2 =
+* When the AI provider refuses a request, the chat now says so in plain words. A rejected API key produced "The action ran but the final response failed" followed by the provider's raw error data — which read as if this plugin had broken, when the fix was one field in the provider settings. Rejected credentials, exhausted quota, rate limits, an unknown model, an unreachable provider and a provider outage are each named for what they are, with what to do about them.
+* Reading orders no longer fails on a shop that has issued refunds. Asking the agent about WooCommerce orders crashed on any store with a refund in it: refunds came back mixed into the order list and are not orders, so the whole request died. It now reads orders only, and no order type a store adds can bring that listing down again.
+* The active engine can no longer be wiped by an incomplete request. Saving the provider/model selection accepted anything, including an empty payload, and overwrote the operator's choice with a blank one — after which the chat came up with no engine and no explanation. An incomplete or unknown selection is now refused and the stored one is left alone.
+* Asking about a provider that does not exist says "not found", like every other provider action, instead of reporting a health check that "failed".
+* Chat session listings report their totals in the standard `X-WP-Total` headers as well as in the response, so any tool that pages through them can tell when it has seen them all.
+* German: the "Setyenv views" label still carried the product's former name. Corrected in place; the other twelve languages were already right.
+* Released in lockstep with WP-PFManagement and WP-PFWorkflow 1.2.2, so the three plugins of the suite stay on the same version.
+
+= 1.2.1 =
+* Lockstep release with WP-PFWorkflow 1.2.1 (fixes the 1.2.0 upgrade leaving the workflow library empty; workflows were safe in the database). No PFAgent code changes — version alignment only.
+
+= 1.2.0 =
+* Suite-wide version unification (operator-authorized minor).
+* Workflow authoring goes fully opaque: workflow ids are normalized (int or uuid-string) across the agent apply lane, narrator, import-preview, ChatSessions, compiler and API bridge — no silent numeric drops.
+* Decompile cache and the virtual file system no longer leave postmeta behind: the agent's source and path-slug state live in the workflow state store, opaque ids end to end (paths, bridge, builders, CLI tools).
+* Maintenance-mode consumer: the plugin shows the maintenance page and returns REST 503 while a window is in force, with the final-hour pre-warning toast; admins pass through and the WordPress login stays intact.
+* Update-channel client comments/docblocks translated to English; the release ZIP now ships the frontend source alongside the compiled bundle (source-complete, GPL) and the product documentation, with the internal-only tree excluded.
 
 = 1.0.8 =
 * Chat: the confirmation prompt and the assistant's answer now render in the message that requested them, never on the previous one.

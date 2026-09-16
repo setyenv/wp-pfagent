@@ -48,6 +48,7 @@ final class WorkflowVfsBridge
                 'delete_file' => $this->deleteFile($vfs, $arguments),
                 'activate_workflow' => $this->activateWorkflow($vfs, $arguments),
                 'create_variable' => $this->createVariable($arguments),
+                'search_files' => $this->searchFiles($vfs, $arguments),
                 default => new WP_Error('pfa_agent_tool_not_allowed', __('Tool is not executable by the VFS bridge.', 'wp-pfagent'), ['status' => 400]),
             };
             if ($payload instanceof WP_Error) {
@@ -91,6 +92,7 @@ final class WorkflowVfsBridge
             'delete_file' => 'delete_file is destructive and unrecoverable. Confirm with the operator before invoking on an active workflow.',
             'activate_workflow' => 'activate_workflow flips a draft to active. Live runs may fire immediately on the next matching trigger event.',
             'create_variable' => 'Variables exist at workflow scope. Reference the returned getter / setter identifiers in workflow body code; the operator can edit defaults in the variable editor afterwards.',
+            'search_files' => 'Each hit is a line with its path and line number. Search first, read second: pull the identifier or the pattern you need from here, and only open a whole file when the surrounding lines are genuinely required.',
             default => '',
         };
         return [
@@ -124,15 +126,142 @@ final class WorkflowVfsBridge
         if ($path === '') {
             throw new \RuntimeException('read_file requires "path".');
         }
+        // Opaque id (W2): accept both the char(36) uuid and a legacy
+        // numeric id — the old is_numeric gate silently dropped uuids.
         $workflow_id = null;
-        if (isset($arguments['workflow_id']) && is_numeric($arguments['workflow_id'])) {
-            $workflow_id = (int) $arguments['workflow_id'];
+        if (isset($arguments['workflow_id']) && is_scalar($arguments['workflow_id'])) {
+            $normalized = WorkflowDependency::normalize_workflow_id($arguments['workflow_id']);
+            $workflow_id = $normalized !== '' ? $normalized : null;
         }
         $entry = $vfs->read($path, $workflow_id);
+        $entry = self::windowSource($entry, $arguments);
+
         return [
             'schema' => 'projectflash.agent.vfs.read',
             'schemaVersion' => 1,
         ] + $entry;
+    }
+
+    /**
+     * Hand back the slice of a file that was asked for.
+     *
+     * The management surface is over half a megabyte on a normal install —
+     * an authoring model at the top followed by generated declarations for
+     * every entity. Reading it whole to learn one of those costs more
+     * context than the entire rest of the conversation. With `from_line` /
+     * `max_lines` the agent takes the header once and the block it needs
+     * after that, the same way anyone reads a large generated file. Omitting
+     * both keeps the historic behaviour: the whole file.
+     *
+     * @param array<string, mixed> $entry
+     * @param array<string, mixed> $arguments
+     * @return array<string, mixed>
+     */
+    private static function windowSource(array $entry, array $arguments): array
+    {
+        $hasFrom = isset($arguments['from_line']);
+        $hasMax = isset($arguments['max_lines']);
+        if (!$hasFrom && !$hasMax) {
+            return $entry;
+        }
+        $source = (string) ($entry['source'] ?? '');
+        if ($source === '') {
+            return $entry;
+        }
+
+        $lines = preg_split('/\r\n|\r|\n/', $source) ?: [];
+        $total = count($lines);
+        $from = $hasFrom ? max(1, (int) $arguments['from_line']) : 1;
+        $max = $hasMax ? max(1, (int) $arguments['max_lines']) : $total;
+        $slice = array_slice($lines, $from - 1, $max);
+
+        $entry['source'] = implode("\n", $slice);
+        $entry['window'] = [
+            'fromLine' => $from,
+            'toLine' => min($total, $from + count($slice) - 1),
+            'totalLines' => $total,
+            'hasMore' => ($from - 1 + count($slice)) < $total,
+        ];
+
+        return $entry;
+    }
+
+    /**
+     * Find the lines that match, instead of reading the files that contain
+     * them.
+     *
+     * The node library alone is hundreds of kilobytes of typings, and the
+     * only way to find one identifier in it used to be to read the whole
+     * thing into the conversation — once for the node library, once for the
+     * management surface, once per workflow being copied from. This is the
+     * grep every agent already knows how to use: a pattern, an optional
+     * prefix, and back come `path:line: text` hits it can act on directly.
+     *
+     * @param array<string, mixed> $arguments
+     * @return array<string, mixed>
+     */
+    private function searchFiles(VirtualFileSystem $vfs, array $arguments): array
+    {
+        $pattern = trim((string) ($arguments['pattern'] ?? ''));
+        if ($pattern === '') {
+            throw new \RuntimeException('search_files requires a non-empty "pattern".');
+        }
+        $prefix = (string) ($arguments['prefix'] ?? '/');
+        if ($prefix === '') {
+            $prefix = '/';
+        }
+        $maxResults = (int) ($arguments['max_results'] ?? 40);
+        $maxResults = max(1, min(200, $maxResults));
+
+        $hits = [];
+        $filesSearched = 0;
+        $truncated = false;
+        foreach ($vfs->list($prefix) as $entry) {
+            $path = (string) ($entry['path'] ?? '');
+            // The "write here to create a new workflow" hint is a signpost,
+            // not a file: there is nothing behind it to read.
+            if ($path === '' || ($entry['kind'] ?? '') === 'workflow_new_hint') {
+                continue;
+            }
+            try {
+                $file = $vfs->read($path);
+            } catch (\Throwable $e) {
+                continue;
+            }
+            $source = (string) ($file['source'] ?? '');
+            if ($source === '') {
+                continue;
+            }
+            $filesSearched++;
+            $lineNumber = 0;
+            foreach (preg_split('/\r\n|\r|\n/', $source) ?: [] as $line) {
+                $lineNumber++;
+                if (stripos($line, $pattern) === false) {
+                    continue;
+                }
+                if (count($hits) >= $maxResults) {
+                    $truncated = true;
+                    break 2;
+                }
+                $text = trim($line);
+                $hits[] = [
+                    'path' => $path,
+                    'line' => $lineNumber,
+                    'text' => mb_strlen($text) > 300 ? mb_substr($text, 0, 300) . '…' : $text,
+                ];
+            }
+        }
+
+        return [
+            'schema' => 'projectflash.agent.vfs.search',
+            'schemaVersion' => 1,
+            'pattern' => $pattern,
+            'prefix' => $prefix,
+            'filesSearched' => $filesSearched,
+            'count' => count($hits),
+            'truncated' => $truncated,
+            'hits' => $hits,
+        ];
     }
 
     /**
@@ -233,10 +362,18 @@ final class WorkflowVfsBridge
      */
     private function createVariable(array $arguments): array
     {
-        $workflow_id = isset($arguments['workflow_id']) ? (int) $arguments['workflow_id'] : 0;
-        if ($workflow_id <= 0) {
-            throw new \RuntimeException('create_variable requires a positive "workflow_id".');
+        // Opaque id (W2): workflows are keyed by uuid, so the historic
+        // (int) cast turned every real id into 0 and the tool could never
+        // succeed — the model was left guessing 1, 2, 50… against
+        // "requires a positive workflow_id". Same normalisation as
+        // read_file: uuid passes through, legacy numeric ids still work.
+        $normalized = isset($arguments['workflow_id']) && is_scalar($arguments['workflow_id'])
+            ? WorkflowDependency::normalize_workflow_id($arguments['workflow_id'])
+            : '';
+        if ($normalized === '') {
+            throw new \RuntimeException('create_variable requires the "workflow_id" returned by write_file / read_file (the workflow uuid).');
         }
+        $workflow_id = WorkflowDependency::workflow_id_payload($normalized);
         $rawName = (string) ($arguments['name'] ?? '');
         if (trim($rawName) === '') {
             throw new \RuntimeException('create_variable requires a non-empty "name".');
@@ -423,6 +560,15 @@ final class WorkflowVfsBridge
     public function activate_workflow(array $arguments)
     {
         return $this->execute('activate_workflow', $arguments, []);
+    }
+
+    /**
+     * @param array<string, mixed> $arguments
+     * @return array<string, mixed>|\WP_Error
+     */
+    public function search_files(array $arguments)
+    {
+        return $this->execute('search_files', $arguments, []);
     }
 
     /**

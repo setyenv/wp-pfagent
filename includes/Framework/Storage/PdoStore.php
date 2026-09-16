@@ -58,23 +58,45 @@ final class PdoStore implements Store
         }
     }
 
-    public function createConversation(string $label, array $metadata = []): int
+    public function createConversation(string $label, array $metadata = []): string
     {
         $now = gmdate('c');
+        // The key is minted, never handed out by the database: an
+        // auto-increment id means something different in every install, and a
+        // conversation has to mean the same thing wherever it travels.
+        $id = self::new_uuid();
         $stmt = $this->pdo->prepare("
             INSERT INTO {$this->t('pfaf_conversations')}
-                (label, status, created_at, last_turn_at, turn_count, metadata_json)
-            VALUES (:label, 'open', :now, '', 0, :meta)
+                (id, label, status, created_at, last_turn_at, turn_count, metadata_json)
+            VALUES (:id, :label, 'open', :now, '', 0, :meta)
         ");
         $stmt->execute([
+            ':id' => $id,
             ':label' => $label,
             ':now' => $now,
             ':meta' => (string) json_encode($metadata, JSON_UNESCAPED_UNICODE),
         ]);
-        return (int) $this->pdo->lastInsertId();
+
+        return $id;
     }
 
-    public function loadConversation(int $id): ?Conversation
+    /** A uuid for a new conversation (the PDO backend has no WordPress). */
+    public static function new_uuid(): string
+    {
+        $bytes = random_bytes(16);
+        $bytes[6] = chr((ord($bytes[6]) & 0x0f) | 0x40);
+        $bytes[8] = chr((ord($bytes[8]) & 0x3f) | 0x80);
+
+        return implode('-', [
+            bin2hex(substr($bytes, 0, 4)),
+            bin2hex(substr($bytes, 4, 2)),
+            bin2hex(substr($bytes, 6, 2)),
+            bin2hex(substr($bytes, 8, 2)),
+            bin2hex(substr($bytes, 10, 6)),
+        ]);
+    }
+
+    public function loadConversation(string $id): ?Conversation
     {
         $convStmt = $this->pdo->prepare("SELECT * FROM {$this->t('pfaf_conversations')} WHERE id = :id");
         $convStmt->execute([':id' => $id]);
@@ -109,7 +131,7 @@ final class PdoStore implements Store
         }
 
         return new Conversation(
-            id: (int) $row['id'],
+            id: (string) $row['id'],
             label: (string) $row['label'],
             status: (string) $row['status'],
             messages: $messages,
@@ -118,21 +140,23 @@ final class PdoStore implements Store
         );
     }
 
-    public function appendMessage(int $conversationId, Message $message): int
+    public function appendMessage(string $conversationId, Message $message): int
     {
         // Pick the next ordinal atomically. For SQLite this is fine because
         // PDO operations are serialised by the engine; for MySQL we lean on
         // a SELECT MAX inside the same statement using a sub-query.
         $nextOrdinal = (int) $this->pdo->query(
-            "SELECT COALESCE(MAX(ordinal), 0) + 1 AS n FROM {$this->t('pfaf_messages')} WHERE conversation_id = " . (int) $conversationId
+            "SELECT COALESCE(MAX(ordinal), 0) + 1 AS n FROM {$this->t('pfaf_messages')} WHERE conversation_id = " . $this->pdo->quote($conversationId)
         )->fetchColumn();
 
         $stmt = $this->pdo->prepare("
             INSERT INTO {$this->t('pfaf_messages')}
-                (conversation_id, ordinal, role, content_json, tool_calls_json, tool_call_id, reasoning, finish_reason, tokens_in, tokens_out, cost_micros, created_at)
-            VALUES (:cid, :ord, :role, :content, :tc, :tcid, :reasoning, :fr, :ti, :to, 0, :now)
+                (id, conversation_id, ordinal, role, content_json, tool_calls_json, tool_call_id, reasoning, finish_reason, tokens_in, tokens_out, cost_micros, created_at)
+            VALUES (:id, :cid, :ord, :role, :content, :tc, :tcid, :reasoning, :fr, :ti, :to, 0, :now)
         ");
+        $id = self::new_uuid();
         $stmt->execute([
+            ':id' => $id,
             ':cid' => $conversationId,
             ':ord' => $nextOrdinal,
             ':role' => $message->role,
@@ -146,19 +170,21 @@ final class PdoStore implements Store
             ':now' => gmdate('c'),
         ]);
 
-        $this->pdo->prepare("
-            UPDATE {$this->t('pfaf_conversations')}
-            SET turn_count = turn_count + 1, last_turn_at = :now
-            WHERE id = :id
-        ")->execute([':now' => gmdate('c'), ':id' => $conversationId]);
+        // Only a user message opens a turn; the assistant's reply and each tool
+        // result belong to the same one. The stamp moves on every append.
+        $this->pdo->prepare(
+            $message->role === 'user'
+                ? "UPDATE {$this->t('pfaf_conversations')} SET turn_count = turn_count + 1, last_turn_at = :now WHERE id = :id"
+                : "UPDATE {$this->t('pfaf_conversations')} SET last_turn_at = :now WHERE id = :id"
+        )->execute([':now' => gmdate('c'), ':id' => $conversationId]);
 
         return $nextOrdinal;
     }
 
-    public function updateConversationMetadata(int $conversationId, array $partial): void
+    public function updateConversationMetadata(string $conversationId, array $partial): void
     {
         $existing = $this->pdo->query(
-            "SELECT metadata_json FROM {$this->t('pfaf_conversations')} WHERE id = " . (int) $conversationId
+            "SELECT metadata_json FROM {$this->t('pfaf_conversations')} WHERE id = " . $this->pdo->quote($conversationId)
         )->fetchColumn();
         $current = is_string($existing) ? (array) (json_decode($existing, true) ?? []) : [];
         $merged = array_replace_recursive($current, $partial);
@@ -170,14 +196,14 @@ final class PdoStore implements Store
         ]);
     }
 
-    public function closeConversation(int $conversationId, string $status = 'closed'): void
+    public function closeConversation(string $conversationId, string $status = 'closed'): void
     {
         $this->pdo->prepare("UPDATE {$this->t('pfaf_conversations')} SET status = :s WHERE id = :id")
             ->execute([':s' => $status, ':id' => $conversationId]);
     }
 
     public function logToolCall(
-        int $conversationId,
+        string $conversationId,
         int $messageOrdinal,
         string $toolCallId,
         string $toolName,
@@ -192,13 +218,15 @@ final class PdoStore implements Store
         int $durationMs,
         string $startedAt,
         string $endedAt,
-    ): int {
+    ): string {
         $stmt = $this->pdo->prepare("
             INSERT INTO {$this->t('pfaf_tool_calls')}
-                (conversation_id, message_ordinal, tool_call_id, tool_name, arguments_json, side_effect, status, result_json, state_after_json, error_code, error_message, fingerprint, duration_ms, started_at, ended_at)
-            VALUES (:cid, :ord, :tcid, :name, :args, :se, :status, :res, :sa, :ecode, :emsg, :fp, :dur, :st, :en)
+                (id, conversation_id, message_ordinal, tool_call_id, tool_name, arguments_json, side_effect, status, result_json, state_after_json, error_code, error_message, fingerprint, duration_ms, started_at, ended_at)
+            VALUES (:id, :cid, :ord, :tcid, :name, :args, :se, :status, :res, :sa, :ecode, :emsg, :fp, :dur, :st, :en)
         ");
+        $id = self::new_uuid();
         $stmt->execute([
+            ':id' => $id,
             ':cid' => $conversationId,
             ':ord' => $messageOrdinal,
             ':tcid' => $toolCallId,
@@ -215,10 +243,10 @@ final class PdoStore implements Store
             ':st' => $startedAt,
             ':en' => $endedAt,
         ]);
-        return (int) $this->pdo->lastInsertId();
+        return $id;
     }
 
-    public function findIdempotentResult(int $conversationId, string $fingerprint): ?array
+    public function findIdempotentResult(string $conversationId, string $fingerprint): ?array
     {
         $stmt = $this->pdo->prepare("
             SELECT result_json, state_after_json
@@ -237,7 +265,7 @@ final class PdoStore implements Store
         ];
     }
 
-    public function countFingerprint(int $conversationId, string $fingerprint, int $sinceOrdinal = 0): int
+    public function countFingerprint(string $conversationId, string $fingerprint, int $sinceOrdinal = 0): int
     {
         $stmt = $this->pdo->prepare("
             SELECT COUNT(*) FROM {$this->t('pfaf_tool_calls')}
@@ -247,7 +275,7 @@ final class PdoStore implements Store
         return (int) $stmt->fetchColumn();
     }
 
-    public function countSuccessfulSideEffects(int $conversationId): int
+    public function countSuccessfulSideEffects(string $conversationId): int
     {
         // Mirror of WpDbStore::countSuccessfulSideEffects — see that
         // method for the rationale on querying by tool_name rather
@@ -266,14 +294,16 @@ final class PdoStore implements Store
         return (int) $stmt->fetchColumn();
     }
 
-    public function logTrace(int $conversationId, int $turn, int $round, string $kind, array $payload, string $systemFingerprint = ''): void
+    public function logTrace(string $conversationId, int $turn, int $round, string $kind, array $payload, string $systemFingerprint = ''): void
     {
         $stmt = $this->pdo->prepare("
             INSERT INTO {$this->t('pfaf_traces')}
-                (conversation_id, turn, round, kind, payload_json, system_fingerprint, created_at)
-            VALUES (:cid, :turn, :round, :kind, :p, :sf, :now)
+                (id, conversation_id, turn, round, kind, payload_json, system_fingerprint, created_at)
+            VALUES (:id, :cid, :turn, :round, :kind, :p, :sf, :now)
         ");
+        $id = self::new_uuid();
         $stmt->execute([
+            ':id' => $id,
             ':cid' => $conversationId,
             ':turn' => $turn,
             ':round' => $round,

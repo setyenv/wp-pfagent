@@ -1,1543 +1,2352 @@
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: WP PFAgent 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-pfagent\n"
-"POT-Creation-Date: 2026-05-17T16:38:13+00:00\n"
-"PO-Revision-Date: 2026-05-28 11:58+0200\n"
 "Last-Translator: Setyenv Build <build@setyenv.com>\n"
 "Language-Team: Hindi\n"
-"Language: hi_IN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-05-17T16:38:13+00:00\n"
+"PO-Revision-Date: 2026-05-28 11:58+0200\n"
+"Language: hi_IN\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Domain: wp-pfagent\n"
 "X-Generator: WP-CLI 2.12.0\n"
 
+#: assets/src/ConversationPicker.tsx:189
+#, javascript-format
 msgid "\"%s\" will be permanently deleted along with its messages. This action cannot be undone."
 msgstr "\"%s\" को इसके संदेशों के साथ स्थायी रूप से हटा दिया जाएगा। यह क्रिया पूर्ववत नहीं हो सकती।"
 
+#: assets/src/Diagnostic.tsx:194
 msgid "$0 (no pricing configured)"
 msgstr "$0 (कोई मूल्य कॉन्फ़िगर नहीं)"
 
-msgid "%1$d turn(s) · updated %2$s"
-msgstr "%1$d बारी · अद्यतन %2$s"
-
+#: assets/src/wpTarget.ts:422
+#, javascript-format
 msgid "%1$s %2$s%3$s"
 msgstr "%1$s %2$s%3$s"
 
+#: assets/src/App.tsx:1214
+#, javascript-format
 msgid "%1$s / %2$s tokens (%3$d%%)"
 msgstr "%1$s / %2$s टोकन (%3$d%%)"
 
+#: assets/src/wpTarget.ts:414
+#, javascript-format
 msgid "%1$s coupon%2$s"
 msgstr "%1$s कूपन%2$s"
 
+#: assets/src/wpTarget.ts:415
+#, javascript-format
 msgid "%1$s order%2$s"
 msgstr "%1$s ऑर्डर%2$s"
 
+#: assets/src/wpTarget.ts:413
+#, javascript-format
 msgid "%1$s product%2$s"
 msgstr "%1$s उत्पाद%2$s"
 
+#: assets/src/Diagnostic.tsx:108
+#, javascript-format
 msgid "%1$s tokens, %2$s"
 msgstr "%1$s टोकन, %2$s"
 
-msgid "%d execution(s)"
-msgstr "%d निष्पादन"
-
-msgid "%d issue(s)"
-msgstr "%d समस्या(एँ)"
-
+#: assets/src/ProviderWizard.tsx:867
 msgid "(manual)"
 msgstr "(मैनुअल)"
 
+#: assets/src/ProviderWizard.tsx:777
 msgid "+ Add new credential"
 msgstr "+ नया क्रेडेंशियल जोड़ें"
 
+#: assets/src/App.tsx:1110
 msgid "+ New"
 msgstr "+ नया"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:243
 msgid "A coupon code is required."
 msgstr "एक कूपन कोड आवश्यक है।"
 
+#: assets/src/ProviderWizard.tsx:1435
 msgid "A custom rule is in place. Use the advanced editor to change it."
 msgstr "एक कस्टम नियम लागू है। इसे बदलने के लिए एडवांस्ड एडिटर का उपयोग करें।"
 
+#: includes/ThirdParty/FormsAgentApi.php:83
 msgid "A form id is required."
 msgstr "एक form id आवश्यक है।"
 
+#: includes/ChatSessions.php:145
+#: includes/ChatSessions.php:205
+#: includes/ChatSessions.php:254
 msgid "A logged-in user is required."
 msgstr "लॉग-इन उपयोगकर्ता आवश्यक है।"
 
+#: includes/WpCore/WpCoreAgentApi.php:753
 msgid "A menu name is required."
 msgstr "एक मेन्यू नाम आवश्यक है।"
 
+#: includes/WpCore/WpCoreAgentApi.php:333
 msgid "A non-empty list of terms is required."
 msgstr "terms की एक गैर-खाली सूची आवश्यक है।"
 
+#: includes/ThirdParty/FormsAgentApi.php:162
 msgid "A note is required."
 msgstr "एक नोट आवश्यक है।"
 
+#: includes/WpCore/WpCoreAgentApi.php:612
 msgid "A reply needs content."
 msgstr "उत्तर के लिए सामग्री आवश्यक है।"
 
+#: includes/WpCore/WpCoreAgentApi.php:1017
 msgid "A role is required."
 msgstr "एक भूमिका आवश्यक है।"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:270
 msgid "A stock quantity is required."
 msgstr "एक स्टॉक मात्रा आवश्यक है।"
 
+#: includes/WpCore/WpCoreAgentApi.php:298
 msgid "A term name is required."
 msgstr "एक term नाम आवश्यक है।"
 
+#: includes/WpCore/WpCoreAgentApi.php:146
 msgid "A title or content is required."
 msgstr "एक शीर्षक या सामग्री आवश्यक है।"
 
+#: includes/ThirdParty/LearnDashAgentApi.php:42
 msgid "A user_id is required to read enrollments."
 msgstr "enrollments पढ़ने के लिए एक user_id आवश्यक है।"
 
+#: includes/WpCore/WpCoreAgentApi.php:912
 msgid "A valid http(s) URL is required."
 msgstr "एक वैध http(s) URL आवश्यक है।"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:141
 msgid "A valid order status is required."
 msgstr "एक वैध ऑर्डर स्थिति आवश्यक है।"
 
+#: includes/WpCore/WpCoreAgentApi.php:290
+#: includes/WpCore/WpCoreAgentApi.php:329
 msgid "A valid taxonomy is required."
 msgstr "एक वैध taxonomy आवश्यक है।"
 
+#: includes/ThirdParty/LearnDashAgentApi.php:78
 msgid "A valid user_id and course_id are required."
 msgstr "एक वैध user_id और course_id आवश्यक हैं।"
 
+#: includes/ThirdParty/MemberPressAgentApi.php:82
 msgid "A valid user_id and membership_id are required."
 msgstr "एक वैध user_id और membership_id आवश्यक हैं।"
 
+#: includes/ThirdParty/MemberPressAgentApi.php:43
 msgid "A valid user_id is required."
 msgstr "एक वैध user_id आवश्यक है।"
 
+#: includes/WpCore/WpCoreAgentApi.php:490
 msgid "A valid username and email are required."
 msgstr "एक वैध username और email आवश्यक हैं।"
 
+#: includes/WpCore/WpCoreAgentApi.php:673
+#: includes/WpCore/WpCoreAgentApi.php:888
 msgid "A value is required."
 msgstr "एक मान आवश्यक है।"
 
+#: assets/src/ProviderWizard.tsx:829
 msgid "API key"
 msgstr "API कुंजी"
 
+#: includes/CredentialStore.php:72
 msgid "API key is required and must be at least 8 characters."
 msgstr "API कुंजी आवश्यक है और कम से कम 8 वर्ण की होनी चाहिए।"
 
+#: assets/src/App.tsx:918
 msgid "Action cancelled by the user."
 msgstr "उपयोगकर्ता द्वारा क्रिया रद्द।"
 
+#: assets/src/ProviderWizard.tsx:101
 msgid "Activate a workflow"
 msgstr "एक Workflow सक्रिय करें"
 
+#: assets/src/App.tsx:1455
 msgid "Activate this workflow so it starts firing on its trigger?"
 msgstr "इस Workflow को सक्रिय करें ताकि यह अपने trigger पर चलना शुरू कर दे?"
 
+#: assets/src/App.tsx:1454
+#, javascript-format
 msgid "Activate workflow \"%s\" so it starts firing on its trigger?"
 msgstr "Workflow \"%s\" को सक्रिय करें ताकि यह अपने trigger पर चलना शुरू कर दे?"
 
+#: assets/src/Diagnostic.tsx:167
+#, javascript-format
 msgid "Active (%s)"
 msgstr "सक्रिय (%s)"
 
+#: assets/src/App.tsx:1090
 msgid "Active LLM"
 msgstr "सक्रिय LLM"
 
+#: assets/src/wpTarget.ts:201
 msgid "Added"
 msgstr "जोड़ा गया"
 
+#: assets/src/wpTarget.ts:319
+#, javascript-format
 msgid "Added an order note%s"
 msgstr "एक ऑर्डर नोट जोड़ा गया%s"
 
+#: assets/src/wpTarget.ts:204
 msgid "Adjusted"
 msgstr "समायोजित"
 
+#: assets/src/wpTarget.ts:416
 msgid "Adjusted stock"
 msgstr "स्टॉक समायोजित किया"
 
+#: includes/AgentContract.php:184
 msgid "Agent capability manifest is invalid."
 msgstr "एजेंट capability manifest अमान्य है।"
 
+#: includes/AgentContract.php:179
 msgid "Agent capability manifest is missing."
 msgstr "एजेंट capability manifest गायब है।"
 
+#: assets/src/App.tsx:769
+#: assets/src/App.tsx:905
+#, javascript-format
 msgid "Agent runtime failed: %s"
 msgstr "एजेंट रनटाइम विफल: %s"
 
+#: includes/AgentToolRegistry.php:103
 msgid "Agent tool contract file is invalid."
 msgstr "एजेंट टूल contract फ़ाइल अमान्य है।"
 
+#: includes/AgentToolRegistry.php:98
 msgid "Agent tool contract file is missing."
 msgstr "एजेंट टूल contract फ़ाइल गायब है।"
 
+#: includes/AgentToolRegistry.php:201
 msgid "Agent tool entries must be objects."
 msgstr "एजेंट टूल प्रविष्टियाँ ऑब्जेक्ट होनी चाहिए।"
 
+#: assets/src/ConversationPicker.tsx:232
+#, javascript-format
 msgid "All conversations whose last activity is older than %d days will be permanently deleted. This action cannot be undone."
 msgstr "जिन सभी बातचीतों की अंतिम गतिविधि %d दिनों से अधिक पुरानी है, उन्हें स्थायी रूप से हटा दिया जाएगा। यह क्रिया पूर्ववत नहीं हो सकती।"
 
+#: assets/src/ProviderWizard.tsx:1417
+#: assets/src/ProviderWizard.tsx:1445
 msgid "Allow"
 msgstr "अनुमति दें"
 
+#: includes/ThirdParty/FormsAgentApi.php:154
 msgid "An entry_id and a valid action (read/spam/trash/star/note) are required."
 msgstr "एक entry_id और एक वैध action (read/spam/trash/star/note) आवश्यक हैं।"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:212
 msgid "An item_id is required to remove a line."
 msgstr "एक line हटाने के लिए एक item_id आवश्यक है।"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:113
 msgid "An order id and a note are required."
 msgstr "एक ऑर्डर id और एक नोट आवश्यक हैं।"
 
+#: assets/src/wpTarget.ts:200
 msgid "Applied"
 msgstr "लागू किया"
 
+#: assets/src/wpTarget.ts:329
+#, javascript-format
 msgid "Applied a coupon to order%s"
 msgstr "ऑर्डर पर एक कूपन लागू किया%s"
 
+#: assets/src/App.tsx:1664
 msgid "Applying changes…"
 msgstr "परिवर्तन लागू किए जा रहे हैं…"
 
+#: assets/src/ProviderWizard.tsx:1418
+#: assets/src/ProviderWizard.tsx:1446
 msgid "Ask"
 msgstr "पूछें"
 
+#: includes/DashboardWidget.php:63
 msgid "Ask it in plain language to manage your posts, media, users, comments and settings — and your WooCommerce, SEO and forms when those plugins are active. It proposes; you approve every change."
 msgstr "अपनी posts, media, उपयोगकर्ता, टिप्पणियाँ और सेटिंग्स — और उन प्लगइन के सक्रिय होने पर अपने WooCommerce, SEO और forms — को प्रबंधित करने के लिए इसे सरल भाषा में कहें। यह प्रस्ताव देता है; हर परिवर्तन आप स्वीकृत करते हैं।"
 
+#: includes/DashboardWidget.php:62
 msgid "Ask it to create entities, draw workflows or explore your data. The agent knows the PFM model and the PFW catalog — it builds whatever you describe."
 msgstr "इसे entities बनाने, workflows बनाने या अपना डेटा एक्सप्लोर करने के लिए कहें। एजेंट PFM मॉडल और PFW कैटलॉग जानता है — आप जो भी वर्णन करते हैं वह वही बनाता है।"
 
+#: assets/src/App.tsx:1323
 msgid "Ask the agent…"
 msgstr "एजेंट से पूछें…"
 
+#: assets/src/wpTarget.ts:204
 msgid "Assigned"
 msgstr "असाइन किया"
 
+#: assets/src/wpTarget.ts:267
 msgid "Assigned terms"
 msgstr "terms असाइन किए"
 
+#: includes/ProviderModelDiscovery.php:625
 msgid "At least one manual model id is required."
 msgstr "कम से कम एक मैनुअल मॉडल id आवश्यक है।"
 
+#: assets/src/ProviderWizard.tsx:847
 msgid "Back"
 msgstr "वापस"
 
-msgid "Back to WordPress admin"
-msgstr "WordPress admin पर वापस"
-
+#: includes/AdminPage.php:158
 msgid "Back to admin"
 msgstr "एडमिन पर वापस"
 
+#: assets/src/App.tsx:1148
+#: assets/src/App.tsx:1149
 msgid "Back to conversations"
 msgstr "बातचीतों पर वापस"
 
+#: assets/src/ProviderWizard.tsx:1150
+#, javascript-format
 msgid "Balance: %1$s %2$s (topped up %3$s · granted %4$s)"
 msgstr "शेष: %1$s %2$s (टॉप-अप %3$s · प्रदत्त %4$s)"
 
+#: assets/src/ProviderWizard.tsx:1034
 msgid "Base URL"
 msgstr "बेस URL"
 
+#: assets/src/ProviderWizard.tsx:82
 msgid "Browse records (customers, orders, anything you store). Read-only."
 msgstr "रिकॉर्ड ब्राउज़ करें (ग्राहक, ऑर्डर, जो कुछ भी आप संग्रहीत करते हैं)। केवल-पठन।"
 
+#: assets/src/ProviderWizard.tsx:46
 msgid "Browse your workflow library"
 msgstr "अपनी workflow लाइब्रेरी ब्राउज़ करें"
 
+#: assets/src/ProviderWizard.tsx:1246
 msgid "Cache read $/Mtok"
 msgstr "Cache read $/Mtok"
 
+#: assets/src/ProviderWizard.tsx:1258
 msgid "Cache write $/Mtok"
 msgstr "Cache write $/Mtok"
 
+#: assets/src/App.tsx:1256
+#: assets/src/ConversationPicker.tsx:195
+#: assets/src/ConversationPicker.tsx:238
+#: assets/src/ProviderWizard.tsx:784
+#: assets/src/ProviderWizard.tsx:938
+#: assets/src/ProviderWizard.tsx:976
 msgid "Cancel"
 msgstr "रद्द करें"
 
+#: assets/src/wpTarget.ts:201
 msgid "Cancelled"
 msgstr "रद्द किया"
 
+#: assets/src/wpTarget.ts:325
+#, javascript-format
 msgid "Cancelled order%s"
 msgstr "ऑर्डर रद्द किया%s"
 
+#: assets/src/ProviderWizard.tsx:1278
 msgid "Capabilities:"
 msgstr "क्षमताएँ:"
 
+#: assets/src/Diagnostic.tsx:138
 msgid "Capability matrix"
 msgstr "क्षमता मैट्रिक्स"
 
+#: assets/src/App.tsx:1101
 msgid "Change"
 msgstr "बदलें"
 
+#: assets/src/App.tsx:1099
 msgid "Change LLM"
 msgstr "LLM बदलें"
 
+#: assets/src/ProviderWizard.tsx:62
 msgid "Change a specific section of an existing workflow without rewriting the rest."
 msgstr "बाकी को फिर से लिखे बिना किसी मौजूदा workflow का एक विशिष्ट भाग बदलें।"
 
+#: assets/src/ProviderWizard.tsx:934
 msgid "Change provider"
 msgstr "प्रोवाइडर बदलें"
 
+#: assets/src/ProviderWizard.tsx:67
 msgid "Change the name of a workflow as it appears in your library."
 msgstr "आपकी लाइब्रेरी में दिखने वाले workflow का नाम बदलें।"
 
+#: includes/ChatSessions.php:288
 msgid "Chat session not found after creation."
 msgstr "निर्माण के बाद चैट सत्र नहीं मिला।"
 
+#: includes/ChatSessions.php:306
+#: includes/ChatSessions.php:355
+#: includes/ChatSessions.php:432
+#: includes/ChatSessions.php:490
 msgid "Chat session not found."
 msgstr "चैट सत्र नहीं मिला।"
 
+#: assets/src/App.tsx:495
 msgid "Checking Workflow API endpoints…"
 msgstr "Workflow API endpoints की जाँच…"
 
+#: assets/src/ProviderWizard.tsx:1014
+#: assets/src/ProviderWizard.tsx:1372
+#: assets/src/ProviderWizard.tsx:1390
+#: assets/src/ProviderWizard.tsx:1502
 msgid "Close"
 msgstr "बंद करें"
 
+#: assets/src/App.tsx:1121
 msgid "Configure"
 msgstr "कॉन्फ़िगर करें"
 
+#: assets/src/App.tsx:1119
 msgid "Configure LLM"
 msgstr "LLM कॉन्फ़िगर करें"
 
+#: assets/src/Diagnostic.tsx:173
+#, javascript-format
 msgid "Configured providers (%d)"
 msgstr "कॉन्फ़िगर किए गए प्रोवाइडर (%d)"
 
+#: assets/src/App.tsx:1253
+#: assets/src/ProviderWizard.tsx:922
 msgid "Confirm"
 msgstr "पुष्टि करें"
 
+#. translators: %s: redacted underlying error message
+#: includes/CredentialStore.php:172
+#, php-format
 msgid "Connection failed: %s"
 msgstr "कनेक्शन विफल: %s"
 
+#. translators: %d: HTTP status code
+#: includes/CredentialStore.php:194
+#, php-format
 msgid "Connection test returned HTTP %d without a valid models payload."
 msgstr "कनेक्शन परीक्षण ने वैध models payload के बिना HTTP %d लौटाया।"
 
+#: includes/CredentialStore.php:186
 msgid "Connection validated through provider model discovery."
 msgstr "कनेक्शन प्रोवाइडर मॉडल discovery के माध्यम से सत्यापित।"
 
+#: includes/CredentialStore.php:355
 msgid "Connection validation updated."
 msgstr "कनेक्शन सत्यापन अद्यतन।"
 
+#: includes/ThirdParty/FormsAgentApi.php:131
 msgid "Contact Form 7 does not store submissions; there are no entries to list."
 msgstr "Contact Form 7 सबमिशन संग्रहीत नहीं करता; सूचीबद्ध करने के लिए कोई entries नहीं हैं।"
 
+#: assets/src/ProviderWizard.tsx:889
+#: assets/src/ProviderWizard.tsx:1175
 msgid "Context length (tokens)"
 msgstr "Context length (टोकन)"
 
+#: assets/src/ProviderWizard.tsx:675
 msgid "Context length and max output tokens are required (greater than zero) before confirming the model."
 msgstr "मॉडल की पुष्टि करने से पहले context length और अधिकतम आउटपुट टोकन आवश्यक हैं (शून्य से अधिक)।"
 
+#: assets/src/App.tsx:1211
 msgid "Context window usage"
 msgstr "Context window उपयोग"
 
+#: assets/src/ConversationPicker.tsx:107
 msgid "Continue a previous conversation or proceed to start a new one."
 msgstr "पिछली बातचीत जारी रखें या नई शुरू करें।"
 
+#: assets/src/App.tsx:655
 msgid "Continuing…"
 msgstr "जारी है…"
 
+#: assets/src/ConversationPicker.tsx:95
 msgid "Conversation"
 msgstr "बातचीत"
 
+#: assets/src/ConversationPicker.tsx:144
 msgid "Conversation pages"
 msgstr "बातचीत के पृष्ठ"
 
+#: assets/src/App.tsx:1174
 msgid "Conversation title"
 msgstr "बातचीत का शीर्षक"
 
+#: includes/DashboardWidget.php:82
 msgid "Conversations (30d)"
 msgstr "बातचीतें (30d)"
 
+#: assets/src/Diagnostic.tsx:88
+#, javascript-format
 msgid "Cost and tokens (last %dh)"
 msgstr "लागत और टोकन (पिछले %dh)"
 
+#: assets/src/App.tsx:1582
+#, javascript-format
 msgid "Create %1$s \"%2$s\"?"
 msgstr "%1$s \"%2$s\" बनाएँ?"
 
+#: assets/src/App.tsx:1586
+#, javascript-format
 msgid "Create a new %s?"
 msgstr "एक नया %s बनाएँ?"
 
+#: assets/src/ProviderWizard.tsx:91
 msgid "Create or change records"
 msgstr "रिकॉर्ड बनाएँ या बदलें"
 
+#: assets/src/ProviderWizard.tsx:56
 msgid "Create or replace a workflow"
 msgstr "एक workflow बनाएँ या प्रतिस्थापित करें"
 
+#: assets/src/App.tsx:1555
+#, javascript-format
 msgid "Create record in %1$s%2$s?"
 msgstr "%1$s%2$s में रिकॉर्ड बनाएँ?"
 
+#: assets/src/App.tsx:1474
+#, javascript-format
 msgid "Create workflow \"%s\"?"
 msgstr "Workflow \"%s\" बनाएँ?"
 
+#: assets/src/wpTarget.ts:196
 msgid "Created"
 msgstr "बनाया गया"
 
+#: assets/src/wpTarget.ts:247
+#, javascript-format
 msgid "Created %1$s%2$s%3$s"
 msgstr "बनाया गया %1$s%2$s%3$s"
 
+#: assets/src/wpTarget.ts:321
+#, javascript-format
 msgid "Created an order%s"
 msgstr "एक ऑर्डर बनाया%s"
 
+#: assets/src/wpTarget.ts:265
+#, javascript-format
 msgid "Created term%s"
 msgstr "term बनाया%s"
 
+#: assets/src/wpTarget.ts:279
+#, javascript-format
 msgid "Created user%1$s%2$s"
 msgstr "उपयोगकर्ता बनाया%1$s%2$s"
 
+#: assets/src/ProviderWizard.tsx:1053
 msgid "Credential"
 msgstr "क्रेडेंशियल"
 
+#: includes/CredentialStore.php:467
 msgid "Credential decryption failed."
 msgstr "क्रेडेंशियल डिक्रिप्शन विफल।"
 
+#: includes/CredentialStore.php:433
 msgid "Credential encryption failed."
 msgstr "क्रेडेंशियल एन्क्रिप्शन विफल।"
 
+#: includes/CredentialStore.php:76
 msgid "Credential encryption is not available on this WordPress runtime."
 msgstr "इस WordPress रनटाइम पर credential encryption उपलब्ध नहीं है।"
 
+#: includes/CredentialStore.php:99
 msgid "Credential stored but connection has not been validated."
 msgstr "क्रेडेंशियल सहेजा गया लेकिन कनेक्शन सत्यापित नहीं किया गया।"
 
+#: assets/src/ProviderWizard.tsx:723
 msgid "Credentials"
 msgstr "क्रेडेंशियल"
 
+#: assets/src/ProviderWizard.tsx:965
+#, javascript-format
 msgid "Credentials for \"%s\" will be removed from the encrypted store. This action cannot be undone."
 msgstr "\"%s\" के क्रेडेंशियल एन्क्रिप्टेड स्टोर से हटाए जाएँगे। यह क्रिया पूर्ववत नहीं हो सकती।"
 
+#: assets/src/App.tsx:486
 msgid "Current user cannot view workflows. API calls were skipped."
 msgstr "वर्तमान उपयोगकर्ता workflows नहीं देख सकता। API कॉल छोड़ दिए गए।"
 
+#: assets/src/ProviderWizard.tsx:1436
 msgid "Custom rule"
 msgstr "कस्टम नियम"
 
+#: includes/RestApi.php:973
 msgid "Database unavailable."
 msgstr "डेटाबेस अनुपलब्ध।"
 
+#: assets/src/ProviderWizard.tsx:96
 msgid "Declare a workflow variable"
 msgstr "एक workflow वेरिएबल घोषित करें"
 
+#: assets/src/ProviderWizard.tsx:1406
 msgid "Default for any other action"
 msgstr "किसी भी अन्य action के लिए डिफ़ॉल्ट"
 
+#: assets/src/ProviderWizard.tsx:1199
 msgid "Default reasoning effort"
 msgstr "डिफ़ॉल्ट reasoning effort"
 
+#: assets/src/ProviderWizard.tsx:1297
 msgid "Defaults:"
 msgstr "डिफ़ॉल्ट:"
 
+#: assets/src/ProviderWizard.tsx:97
 msgid "Define a new variable that workflows can read or write."
 msgstr "एक नया वेरिएबल परिभाषित करें जिसे workflows पढ़ या लिख सकें।"
 
+#: assets/src/ConversationPicker.tsx:205
+#: assets/src/ProviderWizard.tsx:986
 msgid "Delete"
 msgstr "हटाएँ"
 
+#: assets/src/ProviderWizard.tsx:71
 msgid "Delete a workflow"
 msgstr "एक workflow हटाएँ"
 
+#: assets/src/ConversationPicker.tsx:101
+#, javascript-format
 msgid "Delete all conversations older than %d days"
 msgstr "%d दिनों से अधिक पुरानी सभी बातचीतें हटाएँ"
 
+#: assets/src/ConversationPicker.tsx:135
+#: assets/src/ConversationPicker.tsx:184
 msgid "Delete conversation"
 msgstr "बातचीत हटाएँ"
 
+#: assets/src/ConversationPicker.tsx:134
+#, javascript-format
 msgid "Delete conversation %s"
 msgstr "बातचीत %s हटाएँ"
 
+#: assets/src/ConversationPicker.tsx:248
 msgid "Delete conversations"
 msgstr "बातचीतें हटाएँ"
 
+#: assets/src/ProviderWizard.tsx:766
+#: assets/src/ProviderWizard.tsx:960
 msgid "Delete credential"
 msgstr "क्रेडेंशियल हटाएँ"
 
+#: assets/src/ProviderWizard.tsx:765
+#, javascript-format
 msgid "Delete credential %s"
 msgstr "क्रेडेंशियल %s हटाएँ"
 
+#: assets/src/App.tsx:1461
 msgid "Delete this workflow? This cannot be undone."
 msgstr "इस workflow को हटाएँ? यह पूर्ववत नहीं हो सकता।"
 
+#: assets/src/App.tsx:1460
+#, javascript-format
 msgid "Delete workflow \"%s\"? This cannot be undone."
 msgstr "Workflow \"%s\" हटाएँ? यह पूर्ववत नहीं हो सकता।"
 
+#: assets/src/wpTarget.ts:197
 msgid "Deleted"
 msgstr "हटाया गया"
 
+#: assets/src/ConversationPicker.tsx:205
+#: assets/src/ProviderWizard.tsx:986
 msgid "Deleting…"
 msgstr "हटाया जा रहा है…"
 
+#: assets/src/ProviderWizard.tsx:1419
+#: assets/src/ProviderWizard.tsx:1447
 msgid "Deny"
 msgstr "अस्वीकार करें"
 
+#: assets/src/App.tsx:1396
+#: assets/src/Diagnostic.tsx:35
+#: assets/src/Diagnostic.tsx:46
+#: assets/src/Diagnostic.tsx:66
 msgid "Diagnostic"
 msgstr "डायग्नॉस्टिक"
 
+#: assets/src/ProviderWizard.tsx:76
 msgid "Discover your data model"
 msgstr "अपना डेटा मॉडल खोजें"
 
+#: assets/src/ProviderWizard.tsx:1036
 msgid "Discovery"
 msgstr "Discovery"
 
+#: assets/src/App.tsx:2225
 msgid "Done."
 msgstr "हो गया।"
 
+#: assets/src/ProviderWizard.tsx:61
 msgid "Edit part of a workflow"
 msgstr "किसी workflow का एक भाग संपादित करें"
 
+#: assets/src/ProviderWizard.tsx:1469
 msgid "Edit the raw rules JSON. Use this for argument-pattern rules that the simple list above cannot express."
 msgstr "raw rules JSON संपादित करें। इसका उपयोग उन argument-pattern नियमों के लिए करें जिन्हें ऊपर की सरल सूची व्यक्त नहीं कर सकती।"
 
+#: assets/src/wpTarget.ts:202
 msgid "Enrolled"
 msgstr "नामांकित"
 
+#: assets/src/wpTarget.ts:362
 msgid "Enrolled a user in a course"
 msgstr "एक उपयोगकर्ता को एक course में नामांकित किया"
 
+#: assets/src/App.tsx:1314
+#: assets/src/ConversationPicker.tsx:110
+#: assets/src/Diagnostic.tsx:50
+#: assets/src/ProviderWizard.tsx:717
+#: assets/src/ProviderWizard.tsx:1400
 msgid "Error:"
 msgstr "त्रुटि:"
 
+#: assets/src/Diagnostic.tsx:94
 msgid "Estimated cost"
 msgstr "अनुमानित लागत"
 
+#: assets/src/Diagnostic.tsx:97
 msgid "Events recorded"
 msgstr "रिकॉर्ड किए गए इवेंट"
 
+#: assets/src/App.tsx:1647
 msgid "Exploring the workspace…"
 msgstr "workspace एक्सप्लोर किया जा रहा है…"
 
+#: assets/src/Diagnostic.tsx:123
 msgid "FAIL"
 msgstr "विफल"
 
+#: includes/ChatSessions.php:283
 msgid "Failed to create the chat session."
 msgstr "चैट सत्र बनाने में विफल।"
 
+#: includes/ChatSessions.php:379
 msgid "Failed to delete the chat session."
 msgstr "चैट सत्र हटाने में विफल।"
 
+#: assets/src/wpTarget.ts:241
 msgid "Failed: "
 msgstr "विफल: "
 
+#: includes/ThirdParty/FormsAgentApi.php:184
 msgid "Fluent Forms submissions table not found."
 msgstr "Fluent Forms सबमिशन तालिका नहीं मिली।"
 
+#: assets/src/ProviderWizard.tsx:1396
 msgid "For each thing the agent can do, choose whether it runs straight away, asks you first, or is not allowed at all. \"Ask\" is the safe default."
 msgstr "एजेंट जो कुछ भी कर सकता है, उसके लिए चुनें कि वह तुरंत चले, पहले आपसे पूछे, या बिल्कुल अनुमत नहीं है। \"पूछें\" सुरक्षित डिफ़ॉल्ट है।"
 
+#: assets/src/Diagnostic.tsx:83
+#, javascript-format
 msgid "Generated at %s."
 msgstr "%s पर उत्पन्न।"
 
+#: assets/src/wpTarget.ts:202
 msgid "Granted"
 msgstr "प्रदत्त"
 
+#: assets/src/ProviderWizard.tsx:1463
 msgid "Hide advanced editor"
 msgstr "एडवांस्ड एडिटर छिपाएँ"
 
+#: assets/src/App.tsx:1652
 msgid "Implementing the workflow logic…"
 msgstr "workflow लॉजिक लागू किया जा रहा है…"
 
+#: assets/src/wpTarget.ts:275
+#, javascript-format
 msgid "Imported media%s"
 msgstr "media आयात किया%s"
 
+#: assets/src/Diagnostic.tsx:168
 msgid "Inactive (fallback in use)"
 msgstr "निष्क्रिय (फ़ॉलबैक उपयोग में)"
 
+#: assets/src/ProviderWizard.tsx:1222
 msgid "Input $/Mtok"
 msgstr "Input $/Mtok"
 
-msgid "LLM error: %1$s — %2$s"
-msgstr "LLM त्रुटि: %1$s — %2$s"
-
+#: assets/src/ProviderWizard.tsx:1494
+#, javascript-format
 msgid "Last updated: %s"
 msgstr "अंतिम अद्यतन: %s"
 
+#: assets/src/ProviderWizard.tsx:1042
 msgid "Last validation"
 msgstr "अंतिम सत्यापन"
 
+#: includes/ThirdParty/LearnDashAgentApi.php:31
+#: includes/ThirdParty/LearnDashAgentApi.php:70
 msgid "LearnDash is not installed on this site."
 msgstr "इस साइट पर LearnDash इंस्टॉल नहीं है।"
 
+#: assets/src/ProviderWizard.tsx:81
 msgid "List records"
 msgstr "रिकॉर्ड सूचीबद्ध करें"
 
+#: assets/src/wpTarget.ts:199
 msgid "Listed"
 msgstr "सूचीबद्ध किया"
 
+#: assets/src/wpTarget.ts:350
 msgid "Listed forms"
 msgstr "forms सूचीबद्ध किए"
 
+#: assets/src/wpTarget.ts:310
 msgid "Listed plugins"
 msgstr "प्लगइन सूचीबद्ध किए"
 
+#: assets/src/App.tsx:1660
 msgid "Listing resources…"
 msgstr "resources सूचीबद्ध किए जा रहे हैं…"
 
+#: assets/src/ProviderWizard.tsx:1118
 msgid "Load"
 msgstr "लोड"
 
+#: assets/src/App.tsx:1662
 msgid "Loading a resource…"
 msgstr "एक resource लोड हो रहा है…"
 
+#: assets/src/Diagnostic.tsx:37
 msgid "Loading beta readiness report…"
 msgstr "बीटा तत्परता रिपोर्ट लोड हो रही है…"
 
+#: assets/src/ProviderWizard.tsx:860
 msgid "Loading models…"
 msgstr "मॉडल लोड हो रहे हैं…"
 
+#: assets/src/ProviderWizard.tsx:77
 msgid "Look at which entities, fields and actions you have configured. Read-only."
 msgstr "देखें कि आपने कौन-सी entities, fields और actions कॉन्फ़िगर किए हैं। केवल-पठन।"
 
+#: assets/src/ProviderWizard.tsx:52
 msgid "Look inside a single workflow without making changes."
 msgstr "बिना परिवर्तन किए किसी एकल workflow के भीतर देखें।"
 
+#: assets/src/App.tsx:1658
 msgid "Looking up the data model…"
 msgstr "डेटा मॉडल देखा जा रहा है…"
 
+#: assets/src/ProviderWizard.tsx:755
+#: assets/src/ProviderWizard.tsx:1008
+#, javascript-format
 msgid "Manage %s"
 msgstr "%s प्रबंधित करें"
 
+#: assets/src/ProviderWizard.tsx:756
 msgid "Manage credential"
 msgstr "क्रेडेंशियल प्रबंधित करें"
 
+#: assets/src/App.tsx:1378
 msgid "Management"
 msgstr "प्रबंधन"
 
+#: assets/src/ProviderWizard.tsx:1341
 msgid "Manual model IDs"
 msgstr "मैनुअल मॉडल ID"
 
+#: includes/ProviderModelDiscovery.php:600
 msgid "Manual model entries are not allowed for this provider preset."
 msgstr "इस प्रोवाइडर प्रीसेट के लिए मैनुअल मॉडल प्रविष्टियाँ अनुमत नहीं हैं।"
 
+#: assets/src/ProviderWizard.tsx:901
+#: assets/src/ProviderWizard.tsx:1187
 msgid "Max output (tokens)"
 msgstr "अधिकतम आउटपुट (टोकन)"
 
+#: includes/ThirdParty/MemberPressAgentApi.php:33
+#: includes/ThirdParty/MemberPressAgentApi.php:74
 msgid "MemberPress is not installed on this site."
 msgstr "इस साइट पर MemberPress इंस्टॉल नहीं है।"
 
+#: assets/src/App.tsx:1325
 msgid "Message to the agent"
 msgstr "एजेंट को संदेश"
 
+#: includes/DashboardWidget.php:84
 msgid "Messages (30d)"
 msgstr "संदेश (30d)"
 
+#: assets/src/ProviderWizard.tsx:1292
 msgid "Modalities:"
 msgstr "मोडैलिटीज़:"
 
+#: assets/src/ProviderWizard.tsx:855
+#: assets/src/ProviderWizard.tsx:863
 msgid "Model"
 msgstr "मॉडल"
 
+#: assets/src/ProviderWizard.tsx:874
 msgid "Model (manual)"
 msgstr "मॉडल (मैनुअल)"
 
+#: assets/src/ProviderWizard.tsx:1110
 msgid "Models"
 msgstr "मॉडल"
 
+#: assets/src/wpTarget.ts:203
 msgid "Moderated"
 msgstr "मॉडरेट किया"
 
+#: assets/src/wpTarget.ts:290
 msgid "Moderated a comment"
 msgstr "एक टिप्पणी मॉडरेट की"
 
+#: assets/src/ProviderWizard.tsx:1055
 msgid "New API key"
 msgstr "नई API कुंजी"
 
+#: assets/src/App.tsx:981
 msgid "New conversation"
 msgstr "नई बातचीत"
 
+#: assets/src/App.tsx:988
 msgid "New conversation."
 msgstr "नई बातचीत।"
 
+#: assets/src/ProviderWizard.tsx:793
 msgid "New credential"
 msgstr "नया क्रेडेंशियल"
 
+#: assets/src/ConversationPicker.tsx:162
 msgid "Next page"
 msgstr "अगला पृष्ठ"
 
+#: assets/src/App.tsx:1131
 msgid "No LLM configured."
 msgstr "कोई LLM कॉन्फ़िगर नहीं।"
 
+#: includes/ThirdParty/SeoAgentApi.php:58
+#: includes/ThirdParty/SeoAgentApi.php:83
 msgid "No SEO plugin is installed on this site."
 msgstr "इस साइट पर कोई SEO प्लगइन इंस्टॉल नहीं है।"
 
+#: assets/src/ConversationPicker.tsx:114
 msgid "No conversations yet."
 msgstr "अभी तक कोई बातचीत नहीं।"
 
+#: assets/src/ProviderWizard.tsx:725
 msgid "No credentials in the store yet. Add one to continue."
 msgstr "स्टोर में अभी कोई क्रेडेंशियल नहीं। जारी रखने के लिए एक जोड़ें।"
 
+#: assets/src/Diagnostic.tsx:175
 msgid "No credentials stored yet. Configure one from Settings."
 msgstr "अभी कोई क्रेडेंशियल सहेजा नहीं। सेटिंग्स से एक कॉन्फ़िगर करें।"
 
+#: assets/src/ProviderWizard.tsx:1334
 msgid "No model list loaded yet. Click Load to fetch from the API or Refresh to bypass cache."
 msgstr "अभी कोई मॉडल सूची लोड नहीं हुई। API से लाने के लिए Load पर क्लिक करें या cache छोड़ने के लिए Refresh पर।"
 
+#: assets/src/ProviderWizard.tsx:1329
 msgid "No models returned."
 msgstr "कोई मॉडल नहीं लौटा।"
 
+#: assets/src/App.tsx:2237
 msgid "No response from the runtime."
 msgstr "रनटाइम से कोई प्रतिक्रिया नहीं।"
 
+#: includes/WpCore/WpCoreAgentApi.php:212
+#: includes/WpCore/WpCoreAgentApi.php:551
 msgid "No updatable fields were provided."
 msgstr "कोई अद्यतन-योग्य fields प्रदान नहीं किए गए।"
 
+#: assets/src/ProviderWizard.tsx:1526
 msgid "Not configured"
 msgstr "कॉन्फ़िगर नहीं"
 
+#: assets/src/ProviderWizard.tsx:1522
 msgid "Not verified"
 msgstr "सत्यापित नहीं"
 
+#: includes/ThirdParty/FormsAgentApi.php:187
 msgid "Notes are not supported for Fluent Forms entries here."
 msgstr "यहाँ Fluent Forms entries के लिए नोट्स समर्थित नहीं हैं।"
 
+#: includes/WpCore/WpCoreAgentApi.php:885
 msgid "Only public custom fields can be set (protected keys are refused)."
 msgstr "केवल सार्वजनिक custom fields सेट किए जा सकते हैं (protected keys अस्वीकृत हैं)।"
 
+#: assets/src/ProviderWizard.tsx:86
 msgid "Open a record"
 msgstr "एक रिकॉर्ड खोलें"
 
+#: assets/src/ProviderWizard.tsx:51
 msgid "Open a workflow to read it"
 msgstr "पढ़ने के लिए एक workflow खोलें"
 
+#: includes/DashboardWidget.php:93
 msgid "Open agent"
 msgstr "एजेंट खोलें"
 
+#: assets/src/WordPressPane.tsx:51
 msgid "Open this in WordPress admin"
 msgstr "इसे WordPress admin में खोलें"
 
+#: assets/src/wpTarget.ts:343
+#, javascript-format
 msgid "Optimized SEO%1$s%2$s"
 msgstr "SEO अनुकूलित किया%1$s%2$s"
 
+#: assets/src/ProviderWizard.tsx:107
 msgid "Other capability — see this site's integrator for details."
 msgstr "अन्य क्षमता — विवरण के लिए इस साइट के इंटीग्रेटर से संपर्क करें।"
 
+#: assets/src/ProviderWizard.tsx:1234
 msgid "Output $/Mtok"
 msgstr "Output $/Mtok"
 
+#: assets/src/Diagnostic.tsx:123
 msgid "PASS"
 msgstr "पास"
 
+#: includes/AdminPage.php:42
 msgid "PF Agent"
 msgstr "PF Agent"
 
+#: includes/DashboardWidget.php:99
 msgid "PF Management"
 msgstr "PF Management"
 
+#: includes/DashboardWidget.php:102
 msgid "PF Workflow"
 msgstr "PF Workflow"
 
+#: assets/src/ConversationPicker.tsx:155
+#, javascript-format
 msgid "Page %1$d of %2$d"
 msgstr "पृष्ठ %1$d / %2$d"
 
+#: assets/src/Diagnostic.tsx:150
 msgid "Partial capabilities"
 msgstr "आंशिक क्षमताएँ"
 
+#: assets/src/ProviderWizard.tsx:1060
 msgid "Paste API key to confirm changes"
 msgstr "परिवर्तनों की पुष्टि के लिए API कुंजी पेस्ट करें"
 
+#: assets/src/Diagnostic.tsx:102
 msgid "Per provider"
 msgstr "प्रोवाइडर के अनुसार"
 
+#: assets/src/ProviderWizard.tsx:1389
 msgid "Permission rules"
 msgstr "अनुमति नियम"
 
+#: assets/src/ProviderWizard.tsx:780
 msgid "Permissions"
 msgstr "अनुमतियाँ"
 
+#: assets/src/ProviderWizard.tsx:669
 msgid "Pick a model or enter the id manually."
 msgstr "एक मॉडल चुनें या id मैनुअल रूप से दर्ज करें।"
 
+#: assets/src/ProviderWizard.tsx:612
 msgid "Pick a provider and paste the API key."
 msgstr "एक प्रोवाइडर चुनें और API कुंजी पेस्ट करें।"
 
+#: assets/src/App.tsx:2106
 msgid "Pick an LLM provider to get started. Your credentials live encrypted inside the WordPress store."
 msgstr "शुरू करने के लिए LLM प्रोवाइडर चुनें। आपके क्रेडेंशियल WordPress स्टोर में एन्क्रिप्टेड रहते हैं।"
 
+#: assets/src/ProviderWizard.tsx:913
 msgid "Pre-filled when the provider API exposes caps; required otherwise. Stored on the credential so the runtime never has to guess."
 msgstr "जब प्रोवाइडर API caps एक्सपोज़ करता है तो पहले से भरा जाता है; अन्यथा आवश्यक। क्रेडेंशियल पर संग्रहीत ताकि रनटाइम को कभी अनुमान न लगाना पड़े।"
 
+#: assets/src/ConversationPicker.tsx:150
 msgid "Previous page"
 msgstr "पिछला पृष्ठ"
 
+#: includes/WpCore/WpCoreAgentApi.php:777
 msgid "Provide a post_id or a url for the menu item."
 msgstr "menu item के लिए एक post_id या एक url प्रदान करें।"
 
+#: includes/ThirdParty/SeoAgentApi.php:105
 msgid "Provide at least one SEO field to set (title, description, focus_keyword, canonical, noindex, og_title, og_description)."
 msgstr "सेट करने के लिए कम से कम एक SEO field प्रदान करें (title, description, focus_keyword, canonical, noindex, og_title, og_description)।"
 
+#: assets/src/ProviderWizard.tsx:795
+#: assets/src/ProviderWizard.tsx:1022
 msgid "Provider"
 msgstr "प्रोवाइडर"
 
+#: includes/CredentialStore.php:745
+#: includes/ProviderModelDiscovery.php:1168
+#: includes/ProviderRuntime.php:431
 msgid "Provider base URL must be an HTTP URL."
 msgstr "प्रोवाइडर बेस URL एक HTTP URL होना चाहिए।"
 
+#: includes/ProviderModelDiscovery.php:900
 msgid "Provider discovery failed recently and is on cooldown."
 msgstr "प्रोवाइडर discovery हाल ही में विफल हुई और cooldown पर है।"
 
+#: includes/ProviderModelDiscovery.php:72
 msgid "Provider does not expose API model discovery. Manual model entries are required for this preset."
 msgstr "प्रोवाइडर API मॉडल discovery एक्सपोज़ नहीं करता। इस प्रीसेट के लिए मैनुअल मॉडल प्रविष्टियाँ आवश्यक हैं।"
 
+#: includes/ProviderModelDiscovery.php:85
 msgid "Provider family declares no discovery endpoints."
 msgstr "प्रोवाइडर फ़ैमिली कोई discovery endpoints घोषित नहीं करती।"
 
+#: includes/CredentialStore.php:707
 msgid "Provider family does not expose a models endpoint for connection testing."
 msgstr "प्रोवाइडर फ़ैमिली कनेक्शन परीक्षण के लिए models endpoint एक्सपोज़ नहीं करती।"
 
+#: includes/ProviderModelDiscovery.php:648
+#: includes/ProviderRuntime.php:321
 msgid "Provider family does not expose the required runtime endpoint."
 msgstr "प्रोवाइडर फ़ैमिली आवश्यक रनटाइम endpoint एक्सपोज़ नहीं करती।"
 
+#: includes/CredentialStore.php:151
 msgid "Provider family does not support connection testing yet."
 msgstr "प्रोवाइडर फ़ैमिली अभी तक कनेक्शन परीक्षण समर्थित नहीं करती।"
 
+#: includes/ProviderRuntime.php:45
 msgid "Provider family is not supported for generation yet."
 msgstr "जनरेशन के लिए प्रोवाइडर फ़ैमिली अभी तक समर्थित नहीं है।"
 
+#: includes/CredentialStore.php:239
 msgid "Provider family is not supported for runtime calls."
 msgstr "रनटाइम कॉल के लिए प्रोवाइडर फ़ैमिली समर्थित नहीं है।"
 
+#: includes/CredentialStore.php:141
+#: includes/CredentialStore.php:234
+#: includes/CredentialStore.php:349
+#: includes/CredentialStore.php:395
 msgid "Provider is not configured."
 msgstr "प्रोवाइडर कॉन्फ़िगर नहीं है।"
 
+#: includes/ProviderModelDiscovery.php:155
+#: includes/ProviderRuntime.php:132
 msgid "Provider model discovery returned no models."
 msgstr "प्रोवाइडर मॉडल discovery ने कोई मॉडल नहीं लौटाया।"
 
+#: includes/ProviderRuntime.php:163
 msgid "Provider model discovery returned no text generation model candidate."
 msgstr "प्रोवाइडर मॉडल discovery ने कोई text generation मॉडल उम्मीदवार नहीं लौटाया।"
 
+#: includes/ProviderPresets.php:95
 msgid "Provider modelHints must remain non-authoritative and empty; real models come from discovery, cache or explicit manual entry."
 msgstr "प्रोवाइडर modelHints गैर-अधिकारिक और खाली रहने चाहिए; वास्तविक मॉडल discovery, cache या स्पष्ट मैनुअल प्रविष्टि से आते हैं।"
 
+#: includes/CredentialStore.php:283
 msgid "Provider must be configured before saving models."
 msgstr "मॉडल सहेजने से पहले प्रोवाइडर कॉन्फ़िगर होना चाहिए।"
 
+#: includes/ProviderPresets.php:79
 msgid "Provider preset entries must be keyed objects."
 msgstr "प्रोवाइडर प्रीसेट प्रविष्टियाँ keyed ऑब्जेक्ट होनी चाहिए।"
 
+#: includes/ProviderPresets.php:87
 msgid "Provider preset references an unknown family."
 msgstr "प्रोवाइडर प्रीसेट किसी अज्ञात family का संदर्भ देता है।"
 
+#: includes/CredentialStore.php:50
+#: includes/CredentialStore.php:67
+#: includes/CredentialStore.php:117
+#: includes/CredentialStore.php:135
+#: includes/CredentialStore.php:228
+#: includes/CredentialStore.php:277
+#: includes/CredentialStore.php:343
+#: includes/ProviderHealth.php:37
+#: includes/ProviderModelDiscovery.php:47
+#: includes/ProviderModelDiscovery.php:595
+#: includes/RestApi.php:584
+#: includes/RestApi.php:868
 msgid "Provider preset was not found."
 msgstr "प्रोवाइडर प्रीसेट नहीं मिला।"
 
+#: includes/ProviderPresets.php:18
 msgid "Provider presets file is missing."
 msgstr "प्रोवाइडर प्रीसेट फ़ाइल गायब है।"
 
+#: includes/ProviderPresets.php:23
 msgid "Provider presets file is not valid JSON."
 msgstr "प्रोवाइडर प्रीसेट फ़ाइल वैध JSON नहीं है।"
 
+#: includes/ProviderPresets.php:74
 msgid "Provider presets must define families and presets."
 msgstr "प्रोवाइडर प्रीसेट को families और presets परिभाषित करना चाहिए।"
 
+#: includes/ProviderPresets.php:91
 msgid "Provider presets must not define defaultModels."
 msgstr "प्रोवाइडर प्रीसेट defaultModels परिभाषित नहीं करने चाहिए।"
 
+#: includes/ProviderPresets.php:83
 msgid "Provider presets require label, family and baseUrl."
 msgstr "प्रोवाइडर प्रीसेट को label, family और baseUrl चाहिए।"
 
+#: includes/ProviderPresets.php:70
 msgid "Provider presets schemaVersion must be 1."
 msgstr "प्रोवाइडर प्रीसेट का schemaVersion 1 होना चाहिए।"
 
+#: includes/ProviderModelDiscovery.php:1164
+#: includes/ProviderRuntime.php:427
 msgid "Provider requires additional settings before runtime call."
 msgstr "रनटाइम कॉल से पहले प्रोवाइडर को अतिरिक्त सेटिंग्स चाहिए।"
 
+#: includes/CredentialStore.php:741
 msgid "Provider requires additional settings before testing connection."
 msgstr "कनेक्शन परीक्षण से पहले प्रोवाइडर को अतिरिक्त सेटिंग्स चाहिए।"
 
+#: assets/src/ProviderWizard.tsx:857
 msgid "Provider:"
 msgstr "प्रोवाइडर:"
 
+#: includes/DashboardWidget.php:83
 msgid "Providers configured"
 msgstr "कॉन्फ़िगर किए गए प्रोवाइडर"
 
+#: assets/src/ConversationPicker.tsx:104
+#, javascript-format
 msgid "Purge > %dd"
 msgstr "साफ़ करें > %dd"
 
+#: assets/src/ConversationPicker.tsx:227
 msgid "Purge old conversations"
 msgstr "पुरानी बातचीतें साफ़ करें"
 
+#: assets/src/ConversationPicker.tsx:104
+#: assets/src/ConversationPicker.tsx:248
 msgid "Purging…"
 msgstr "साफ़ किया जा रहा है…"
 
+#: assets/src/wpTarget.ts:209
 msgid "Ran"
 msgstr "चलाया"
 
+#. translators: 1: rate-limit bucket key, 2: max requests allowed, 3: window length in seconds, 4: seconds until retry is allowed
+#: includes/RateLimiter.php:71
+#, php-format
 msgid "Rate limit reached for \"%1$s\" (%2$d per %3$ds). Retry in %4$ds."
 msgstr "\"%1$s\" के लिए rate limit पहुँच गई (%3$ds में %2$d)। %4$ds में पुनः प्रयास करें।"
 
+#: assets/src/ProviderWizard.tsx:442
 msgid "Re-enter the API key to save changes."
 msgstr "परिवर्तन सहेजने के लिए API कुंजी पुनः दर्ज करें।"
 
+#: assets/src/wpTarget.ts:198
 msgid "Read"
 msgstr "पढ़ें"
 
+#: assets/src/wpTarget.ts:360
 msgid "Read LearnDash courses"
 msgstr "LearnDash courses पढ़ें"
 
+#: assets/src/wpTarget.ts:364
 msgid "Read MemberPress data"
 msgstr "MemberPress डेटा पढ़ें"
 
+#: assets/src/wpTarget.ts:341
+#, javascript-format
 msgid "Read SEO fields%s"
 msgstr "SEO fields पढ़ें%s"
 
+#: assets/src/wpTarget.ts:317
 msgid "Read WooCommerce data"
 msgstr "WooCommerce डेटा पढ़ें"
 
+#: assets/src/wpTarget.ts:304
+#, javascript-format
 msgid "Read setting%s"
 msgstr "सेटिंग पढ़ें%s"
 
+#: assets/src/ProviderWizard.tsx:87
 msgid "Read the full content of a single record. Read-only."
 msgstr "किसी एकल रिकॉर्ड की पूरी सामग्री पढ़ें। केवल-पठन।"
 
+#: assets/src/App.tsx:1649
 msgid "Reading the reference library…"
 msgstr "रेफ़रेंस लाइब्रेरी पढ़ी जा रही है…"
 
+#: assets/src/ProviderWizard.tsx:1287
 msgid "Reasoning:"
 msgstr "Reasoning:"
 
+#: assets/src/Diagnostic.tsx:78
+#: assets/src/ProviderWizard.tsx:1126
 msgid "Refresh"
 msgstr "रिफ्रेश"
 
+#: assets/src/Diagnostic.tsx:76
 msgid "Refresh diagnostic"
 msgstr "डायग्नॉस्टिक रिफ्रेश करें"
 
+#. translators: 1: amount, 2: reason
+#: includes/ThirdParty/WooCommerceAgentApi.php:337
+#, php-format
 msgid "Refund REQUESTED via the agent%1$s%2$s — NOT yet issued. A person must review and process this refund in WooCommerce."
 msgstr "एजेंट के माध्यम से रिफंड अनुरोधित%1$s%2$s — अभी जारी नहीं किया गया। किसी व्यक्ति को WooCommerce में इस रिफंड की समीक्षा और प्रोसेस करनी होगी।"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:348
 msgid "Refund request recorded on the order. It was NOT issued — a person must approve and process it in WooCommerce."
 msgstr "ऑर्डर पर रिफंड अनुरोध दर्ज किया गया। यह जारी नहीं किया गया — किसी व्यक्ति को WooCommerce में इसे स्वीकृत और प्रोसेस करना होगा।"
 
+#: assets/src/wpTarget.ts:200
 msgid "Refunded"
 msgstr "रिफंड किया"
 
+#: assets/src/ProviderWizard.tsx:72
 msgid "Remove a workflow from your library permanently."
 msgstr "अपनी लाइब्रेरी से एक workflow स्थायी रूप से हटाएँ।"
 
+#: assets/src/App.tsx:1656
 msgid "Removing a file…"
 msgstr "एक फ़ाइल हटाई जा रही है…"
 
+#: assets/src/ProviderWizard.tsx:66
 msgid "Rename a workflow"
 msgstr "एक workflow का नाम बदलें"
 
+#: assets/src/App.tsx:1195
+#: assets/src/App.tsx:1196
 msgid "Rename conversation"
 msgstr "बातचीत का नाम बदलें"
 
+#: assets/src/App.tsx:1464
 msgid "Rename this workflow?"
 msgstr "इस workflow का नाम बदलें?"
 
+#: assets/src/App.tsx:1654
 msgid "Reorganising files…"
 msgstr "फ़ाइलें पुनर्व्यवस्थित की जा रही हैं…"
 
+#. translators: 1: maximum bytes allowed, 2: actual bytes received
+#: includes/ChatSessions.php:471
+#: includes/RestApi.php:76
+#, php-format
 msgid "Request body exceeds %1$d bytes (got %2$d)."
 msgstr "अनुरोध बॉडी %1$d बाइट्स से अधिक है (मिले %2$d)।"
 
+#: assets/src/wpTarget.ts:331
+#, javascript-format
 msgid "Requested a refund%s"
 msgstr "एक रिफंड अनुरोधित किया%s"
 
+#: assets/src/App.tsx:822
 msgid "Resuming…"
 msgstr "पुनः शुरू हो रहा है…"
 
+#: assets/src/wpTarget.ts:203
 msgid "Revoked"
 msgstr "निरस्त किया"
 
+#: assets/src/ProviderWizard.tsx:1472
 msgid "Rules JSON"
 msgstr "Rules JSON"
 
+#: assets/src/ProviderWizard.tsx:1086
+#: assets/src/ProviderWizard.tsx:1499
 msgid "Save"
 msgstr "सहेजें"
 
+#: assets/src/ProviderWizard.tsx:57
 msgid "Save a brand-new workflow or fully replace the contents of an existing one."
 msgstr "एक बिल्कुल नया workflow सहेजें या किसी मौजूदा की सामग्री पूरी तरह प्रतिस्थापित करें।"
 
+#: assets/src/ProviderWizard.tsx:1487
 msgid "Save advanced JSON"
 msgstr "एडवांस्ड JSON सहेजें"
 
+#: assets/src/ProviderWizard.tsx:844
 msgid "Save and continue"
 msgstr "सहेजें और जारी रखें"
 
+#: assets/src/App.tsx:1583
+#, javascript-format
 msgid "Save changes to %1$s \"%2$s\"?"
 msgstr "%1$s \"%2$s\" में परिवर्तन सहेजें?"
 
+#: assets/src/App.tsx:1587
+#, javascript-format
 msgid "Save changes to a %s?"
 msgstr "किसी %s में परिवर्तन सहेजें?"
 
+#: assets/src/App.tsx:1475
+#: assets/src/App.tsx:1482
+#, javascript-format
 msgid "Save changes to workflow \"%s\"?"
 msgstr "Workflow \"%s\" में परिवर्तन सहेजें?"
 
+#: assets/src/ProviderWizard.tsx:1357
 msgid "Save manual list"
 msgstr "मैनुअल सूची सहेजें"
 
+#: assets/src/ProviderWizard.tsx:1321
 msgid "Save model config"
 msgstr "मॉडल config सहेजें"
 
+#: assets/src/ProviderWizard.tsx:92
 msgid "Save new records or modify existing ones (customers, orders, configuration, etc.)."
 msgstr "नए रिकॉर्ड सहेजें या मौजूदा को संशोधित करें (ग्राहक, ऑर्डर, कॉन्फ़िगरेशन, आदि)।"
 
+#: assets/src/App.tsx:1182
+#: assets/src/App.tsx:1183
 msgid "Save title"
 msgstr "शीर्षक सहेजें"
 
+#: assets/src/wpTarget.ts:335
+#, javascript-format
 msgid "Saved product%1$s%2$s"
 msgstr "उत्पाद सहेजा%1$s%2$s"
 
+#: assets/src/ProviderWizard.tsx:1324
 msgid "Saved."
 msgstr "सहेजा गया।"
 
+#: assets/src/ProviderWizard.tsx:844
+#: assets/src/ProviderWizard.tsx:922
 msgid "Saving…"
 msgstr "सहेजा जा रहा है…"
 
+#: assets/src/ProviderWizard.tsx:47
 msgid "See the workflows that exist on this site. Read-only."
 msgstr "इस साइट पर मौजूद workflows देखें। केवल-पठन।"
 
+#: assets/src/App.tsx:1327
 msgid "Send"
 msgstr "भेजें"
 
+#: includes/ManagementApiBridge.php:188
 msgid "Send { kind: \"<entity|record|action|application|module|group|role|page>\", payload: { <kind>: {...} } }."
 msgstr "{ kind: \"<entity|record|action|application|module|group|role|page>\", payload: { <kind>: {...} } } भेजें।"
 
-msgid "Session %d is empty."
-msgstr "सत्र %d खाली है।"
-
+#. translators: %s: UTC timestamp used as default chat session title
+#: includes/ChatSessions.php:272
+#, php-format
 msgid "Session %s"
 msgstr "सत्र %s"
 
+#: includes/DashboardWidget.php:35
 msgid "Setyenv Agent"
 msgstr "Setyenv Agent"
 
+#: assets/src/App.tsx:1404
 msgid "Setyenv Management"
 msgstr "Setyenv Management"
 
+#: assets/src/App.tsx:1412
 msgid "Setyenv Workflow"
 msgstr "Setyenv Workflow"
 
+#: assets/src/App.tsx:1356
 msgid "Setyenv views"
 msgstr "Setyenv व्यूज़"
 
+#: assets/src/App.tsx:1077
 msgid "Setyenv — setyenv.com"
 msgstr "Setyenv — setyenv.com"
 
+#: assets/src/App.tsx:1078
 msgid "Setyenv — visit setyenv.com"
 msgstr "Setyenv — setyenv.com पर जाएँ"
 
+#: assets/src/Diagnostic.tsx:119
 msgid "Severe criteria"
 msgstr "गंभीर मानदंड"
 
+#: assets/src/ProviderWizard.tsx:1464
 msgid "Show advanced editor"
 msgstr "एडवांस्ड एडिटर दिखाएँ"
 
+#: assets/src/wpTarget.ts:308
 msgid "Site overview"
 msgstr "साइट अवलोकन"
 
+#: assets/src/ProviderWizard.tsx:1305
 msgid "Snapshot:"
 msgstr "स्नैपशॉट:"
 
-msgid "Source: %1$s · fetched %2$s · %3$d model(s)"
-msgstr "स्रोत: %1$s · प्राप्त %2$s · %3$d मॉडल"
-
+#: assets/src/App.tsx:1108
 msgid "Start a new conversation with the active LLM"
 msgstr "सक्रिय LLM के साथ नई बातचीत शुरू करें"
 
+#: assets/src/App.tsx:668
 msgid "Starting…"
 msgstr "शुरू हो रहा है…"
 
+#: assets/src/ProviderWizard.tsx:1024
 msgid "Status"
 msgstr "स्थिति"
 
+#: assets/src/App.tsx:2235
 msgid "Still working…"
 msgstr "अभी भी काम जारी…"
 
+#: includes/CredentialStore.php:450
 msgid "Stored credential cipher is unsupported."
 msgstr "सहेजा गया credential cipher समर्थित नहीं है।"
 
+#: includes/CredentialStore.php:457
 msgid "Stored credential payload is invalid."
 msgstr "सहेजा गया credential payload अमान्य है।"
 
+#: assets/src/ProviderWizard.tsx:1030
 msgid "Stored key"
 msgstr "सहेजी गई कुंजी"
 
+#: assets/src/App.tsx:1675
 msgid "Summarising older context…"
 msgstr "पुराना context सारांशित किया जा रहा है…"
 
+#: assets/src/App.tsx:505
+#, javascript-format
 msgid "Templates failed: %s"
 msgstr "टेम्प्लेट विफल: %s"
 
+#: assets/src/ProviderWizard.tsx:746
+#: assets/src/ProviderWizard.tsx:1094
 msgid "Test connection"
 msgstr "कनेक्शन परीक्षण"
 
+#: assets/src/ProviderWizard.tsx:745
+#, javascript-format
 msgid "Test connection for %s"
 msgstr "%s के लिए कनेक्शन परीक्षण"
 
+#: includes/WpCore/WpCoreAgentApi.php:918
 msgid "That URL is not allowed (it points at a private or unsafe address)."
 msgstr "वह URL अनुमत नहीं है (यह किसी निजी या असुरक्षित पते की ओर इशारा करता है)।"
 
+#: includes/WpCore/WpCoreAgentApi.php:605
 msgid "That comment does not exist."
 msgstr "वह टिप्पणी मौजूद नहीं है।"
 
+#: includes/ThirdParty/SeoAgentApi.php:162
+#: includes/WpCore/WpCoreAgentApi.php:963
 msgid "That content could not be found."
 msgstr "वह सामग्री नहीं मिल सकी।"
 
+#: includes/WpCore/WpCoreAgentApi.php:971
 msgid "That content type does not exist."
 msgstr "वह content type मौजूद नहीं है।"
 
+#: includes/ThirdParty/FormsAgentApi.php:134
 msgid "That form plugin does not expose entries here."
 msgstr "वह form प्लगइन यहाँ entries एक्सपोज़ नहीं करता।"
 
+#: includes/ThirdParty/FormsAgentApi.php:202
 msgid "That form plugin does not support managing entries here."
 msgstr "वह form प्लगइन यहाँ entries प्रबंधित करना समर्थित नहीं करता।"
 
+#: includes/WpCore/WpCoreAgentApi.php:403
 msgid "That media item does not exist."
 msgstr "वह media आइटम मौजूद नहीं है।"
 
+#: includes/WpCore/WpCoreAgentApi.php:765
 msgid "That menu does not exist."
 msgstr "वह मेन्यू मौजूद नहीं है।"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:79
+#: includes/ThirdParty/WooCommerceAgentApi.php:117
+#: includes/ThirdParty/WooCommerceAgentApi.php:375
 msgid "That order does not exist."
 msgstr "वह ऑर्डर मौजूद नहीं है।"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:62
+#: includes/ThirdParty/WooCommerceAgentApi.php:221
+#: includes/ThirdParty/WooCommerceAgentApi.php:267
+#: includes/ThirdParty/WooCommerceAgentApi.php:295
 msgid "That product does not exist."
 msgstr "वह उत्पाद मौजूद नहीं है।"
 
+#: includes/WpCore/WpCoreAgentApi.php:1021
 msgid "That role does not exist."
 msgstr "वह भूमिका मौजूद नहीं है।"
 
+#: includes/WpCore/WpCoreAgentApi.php:670
 msgid "That setting cannot be changed through the agent."
 msgstr "वह सेटिंग एजेंट के माध्यम से नहीं बदली जा सकती।"
 
+#: includes/WpCore/WpCoreAgentApi.php:654
 msgid "That setting is not readable through the agent."
 msgstr "वह सेटिंग एजेंट के माध्यम से पठनीय नहीं है।"
 
+#: includes/WpCore/WpCoreAgentApi.php:255
 msgid "That taxonomy does not exist."
 msgstr "वह taxonomy मौजूद नहीं है।"
 
+#: includes/WpCore/WpCoreAgentApi.php:469
+#: includes/WpCore/WpCoreAgentApi.php:525
 msgid "That user does not exist."
 msgstr "वह उपयोगकर्ता मौजूद नहीं है।"
 
-msgid "The action ran but the final response failed."
-msgstr "क्रिया चली लेकिन अंतिम प्रतिक्रिया विफल हुई।"
-
+#: assets/src/ProviderWizard.tsx:306
 msgid "The advanced JSON must be an object."
 msgstr "एडवांस्ड JSON एक ऑब्जेक्ट होना चाहिए।"
 
+#: assets/src/App.tsx:1477
+#: assets/src/App.tsx:1483
+#: assets/src/App.tsx:1486
 msgid "The agent is about to apply a change. Confirm to proceed."
 msgstr "एजेंट एक परिवर्तन लागू करने वाला है। आगे बढ़ने के लिए पुष्टि करें।"
 
+#: includes/WpCore/WpCoreAgentApi.php:636
 msgid "The comment status could not be changed."
 msgstr "टिप्पणी की स्थिति नहीं बदली जा सकी।"
 
+#: includes/WpCore/WpCoreAgentApi.php:238
 msgid "The content could not be moved to trash."
 msgstr "सामग्री को trash में नहीं ले जाया जा सका।"
 
+#: includes/WpCore/WpCoreAgentApi.php:536
 msgid "The email address is not valid."
 msgstr "ईमेल पता वैध नहीं है।"
 
+#: assets/src/ProviderWizard.tsx:841
 msgid "The key is encrypted (AES-256-GCM) in the WordPress store and never returned over REST."
 msgstr "कुंजी WordPress स्टोर में (AES-256-GCM) एन्क्रिप्टेड है और कभी भी REST के माध्यम से नहीं लौटाई जाती।"
 
+#: includes/WpCore/WpCoreAgentApi.php:625
 msgid "The reply could not be posted."
 msgstr "उत्तर पोस्ट नहीं किया जा सका।"
 
+#: includes/AgentToolRegistry.php:88
 msgid "The requested tool is not in the declared agent tool registry."
 msgstr "अनुरोधित टूल घोषित agent tool रजिस्ट्री में नहीं है।"
 
+#: assets/src/App.tsx:2229
 msgid "The runtime rejected this call."
 msgstr "रनटाइम ने इस कॉल को अस्वीकार किया।"
 
+#: assets/src/App.tsx:1304
+#: assets/src/App.tsx:1673
 msgid "Thinking…"
 msgstr "सोच रहे हैं…"
 
+#: assets/src/App.tsx:2227
 msgid "This action requires confirmation."
 msgstr "इस क्रिया के लिए पुष्टि आवश्यक है।"
 
+#: assets/src/ProviderWizard.tsx:883
 msgid "This provider does not allow manual models; check your credential or retry."
 msgstr "यह प्रोवाइडर मैनुअल मॉडल की अनुमति नहीं देता; अपना क्रेडेंशियल जाँचें या पुनः प्रयास करें।"
 
+#: includes/ManagementApiBridge.php:47
 msgid "Tool is not executable by Management API bridge."
 msgstr "Management API bridge द्वारा टूल निष्पादन योग्य नहीं है।"
 
+#: includes/WorkflowApiBridge.php:44
 msgid "Tool is not executable by Workflow API bridge."
 msgstr "Workflow API bridge द्वारा टूल निष्पादन योग्य नहीं है।"
 
+#: includes/WorkflowVfsBridge.php:52
 msgid "Tool is not executable by the VFS bridge."
 msgstr "VFS bridge द्वारा टूल निष्पादन योग्य नहीं है।"
 
+#: assets/src/Diagnostic.tsx:91
 msgid "Total tokens"
 msgstr "कुल टोकन"
 
+#: assets/src/wpTarget.ts:198
 msgid "Trashed"
 msgstr "ट्रैश किया"
 
+#: assets/src/wpTarget.ts:251
+#, javascript-format
 msgid "Trashed %1$s%2$s%3$s"
 msgstr "ट्रैश किया %1$s%2$s%3$s"
 
+#: assets/src/ProviderWizard.tsx:102
 msgid "Turn on a draft workflow so it starts running when its trigger fires."
 msgstr "किसी draft workflow को चालू करें ताकि उसका trigger चलने पर वह चलना शुरू कर दे।"
 
+#: assets/src/App.tsx:2175
 msgid "Unexpected error."
 msgstr "अनपेक्षित त्रुटि।"
 
+#: includes/WpCore/WpCoreAgentApi.php:786
 msgid "Unknown menu action (use create_menu or add_item)."
 msgstr "अज्ञात menu action (create_menu या add_item का उपयोग करें)।"
 
+#: includes/WpCore/WpCoreAgentApi.php:632
 msgid "Unknown moderation action."
 msgstr "अज्ञात moderation action।"
 
+#: assets/src/App.tsx:1554
+#, javascript-format
 msgid "Update record in %1$s%2$s?"
 msgstr "%1$s%2$s में रिकॉर्ड अद्यतन करें?"
 
+#: assets/src/wpTarget.ts:196
+#: assets/src/wpTarget.ts:197
 msgid "Updated"
 msgstr "अद्यतन किया"
 
+#: assets/src/wpTarget.ts:256
+#, javascript-format
 msgid "Updated %1$s meta%2$s"
 msgstr "%1$s meta अद्यतन किया%2$s"
 
+#: assets/src/wpTarget.ts:249
+#, javascript-format
 msgid "Updated %1$s%2$s%3$s"
 msgstr "अद्यतन किया %1$s%2$s%3$s"
 
+#: assets/src/wpTarget.ts:354
 msgid "Updated a form entry"
 msgstr "एक form entry अद्यतन की"
 
+#: assets/src/wpTarget.ts:366
 msgid "Updated membership access"
 msgstr "membership पहुँच अद्यतन की"
 
+#: assets/src/wpTarget.ts:296
+#, javascript-format
 msgid "Updated menu%s"
 msgstr "मेन्यू अद्यतन किया%s"
 
+#: assets/src/wpTarget.ts:327
+#, javascript-format
 msgid "Updated order items%s"
 msgstr "ऑर्डर items अद्यतन किए%s"
 
+#: assets/src/wpTarget.ts:323
+#, javascript-format
 msgid "Updated order%s"
 msgstr "ऑर्डर अद्यतन किया%s"
 
+#: assets/src/wpTarget.ts:303
+#, javascript-format
 msgid "Updated setting%s"
 msgstr "सेटिंग अद्यतन की%s"
 
+#: assets/src/wpTarget.ts:333
+#, javascript-format
 msgid "Updated stock%s"
 msgstr "स्टॉक अद्यतन किया%s"
 
+#: assets/src/wpTarget.ts:281
+#, javascript-format
 msgid "Updated user%1$s%2$s"
 msgstr "उपयोगकर्ता अद्यतन किया%1$s%2$s"
 
+#: assets/src/ProviderWizard.tsx:1408
 msgid "Used when a future capability is added that you have not set up yet."
 msgstr "तब उपयोग किया जाता है जब कोई भविष्य की क्षमता जोड़ी जाती है जिसे आपने अभी तक सेट अप नहीं किया है।"
 
+#: assets/src/ProviderWizard.tsx:1524
 msgid "Validation failed"
 msgstr "सत्यापन विफल"
 
+#: assets/src/ProviderWizard.tsx:1520
 msgid "Verified"
 msgstr "सत्यापित"
 
+#: assets/src/wpTarget.ts:199
 msgid "Viewed"
 msgstr "देखा"
 
+#: assets/src/wpTarget.ts:254
+#, javascript-format
 msgid "Viewed %s"
 msgstr "%s देखा"
 
+#: assets/src/wpTarget.ts:288
 msgid "Viewed comments"
 msgstr "टिप्पणियाँ देखीं"
 
+#: assets/src/wpTarget.ts:352
 msgid "Viewed form entries"
 msgstr "form entries देखीं"
 
+#: assets/src/wpTarget.ts:273
+#, javascript-format
 msgid "Viewed media item%s"
 msgstr "media आइटम देखा%s"
 
+#: assets/src/wpTarget.ts:271
 msgid "Viewed media library"
 msgstr "media लाइब्रेरी देखी"
 
+#: assets/src/wpTarget.ts:294
 msgid "Viewed navigation menus"
 msgstr "नेविगेशन मेन्यू देखे"
 
+#: assets/src/wpTarget.ts:263
 msgid "Viewed taxonomies"
 msgstr "taxonomies देखीं"
 
+#: assets/src/wpTarget.ts:284
 msgid "Viewed users"
 msgstr "उपयोगकर्ता देखे"
 
+#: includes/AdminPage.php:41
+#: includes/AdminPage.php:157
 msgid "WP PFAgent"
 msgstr "WP PFAgent"
 
+#: includes/AdminPage.php:159
+#: includes/AdminPage.php:246
 msgid "WP PFAgent assets are missing. Run npm install and npm run build inside the plugin directory."
 msgstr "WP PFAgent एसेट्स गायब हैं। प्लगइन डायरेक्टरी में npm install और npm run build चलाएँ।"
 
+#: includes/AdminPage.php:189
 msgid "WP PFAgent assets are not built."
 msgstr "WP PFAgent एसेट्स बिल्ड नहीं हुए हैं।"
 
+#: includes/WorkflowApiBridge.php:31
+#: includes/WorkflowVfsBridge.php:36
 msgid "WP PFWorkflow plugin is not active."
 msgstr "WP PFWorkflow प्लगइन सक्रिय नहीं है।"
 
+#: includes/ThirdParty/FormsAgentApi.php:116
 msgid "WPForms stores form entries only in the Pro version. This site runs WPForms Lite, which does not save entries."
 msgstr "WPForms केवल Pro संस्करण में form entries संग्रहीत करता है। यह साइट WPForms Lite चलाती है, जो entries सहेजता नहीं है।"
 
+#: assets/src/App.tsx:1323
 msgid "Waiting for the agent…"
 msgstr "एजेंट की प्रतीक्षा…"
 
+#: assets/src/wpTarget.ts:417
 msgid "WooCommerce action"
 msgstr "WooCommerce action"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:28
+#: includes/ThirdParty/WooCommerceAgentApi.php:105
+#: includes/ThirdParty/WooCommerceAgentApi.php:358
 msgid "WooCommerce is not installed on this site."
 msgstr "इस साइट पर WooCommerce इंस्टॉल नहीं है।"
 
+#: assets/src/WordPressPane.tsx:21
 msgid "WordPress"
 msgstr "WordPress"
 
+#: assets/src/wpTarget.ts:425
+#, javascript-format
 msgid "WordPress action: %s"
 msgstr "WordPress action: %s"
 
+#: assets/src/WordPressPane.tsx:44
 msgid "WordPress actions this turn"
 msgstr "इस बारी में WordPress actions"
 
+#: assets/src/WordPressPane.tsx:61
 msgid "WordPress admin"
 msgstr "WordPress admin"
 
+#: includes/FrameworkRuntime.php:77
+#: includes/FrameworkRuntime.php:113
+#: includes/FrameworkRuntime.php:143
 msgid "WordPress database is not available."
 msgstr "WordPress डेटाबेस उपलब्ध नहीं है।"
 
+#: assets/src/App.tsx:1366
 msgid "Workflow"
 msgstr "Workflow"
 
+#: assets/src/App.tsx:208
 msgid "Workflow API has not been checked yet."
 msgstr "Workflow API की जाँच अभी नहीं हुई।"
 
+#: assets/src/App.tsx:502
 msgid "Workflow API responded for workflows and templates."
 msgstr "Workflow API ने workflows और templates के लिए प्रतिक्रिया दी।"
 
+#: assets/src/Diagnostic.tsx:164
 msgid "Workflow dependency"
 msgstr "Workflow निर्भरता"
 
+#: assets/src/App.tsx:476
 msgid "Workflow plugin is not active. API calls were skipped."
 msgstr "Workflow प्लगइन सक्रिय नहीं है। API कॉल छोड़ दिए गए।"
 
+#: assets/src/App.tsx:504
+#, javascript-format
 msgid "Workflows failed: %s"
 msgstr "Workflows विफल: %s"
 
+#: assets/src/App.tsx:1666
+#: assets/src/App.tsx:1677
 msgid "Working on it…"
 msgstr "इस पर काम जारी…"
 
+#: includes/WpCore/WpCoreAgentApi.php:907
 msgid "You cannot add media."
 msgstr "आप media नहीं जोड़ सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:361
 msgid "You cannot browse the media library."
 msgstr "आप media लाइब्रेरी ब्राउज़ नहीं कर सकते।"
 
+#: includes/ThirdParty/MemberPressAgentApi.php:77
 msgid "You cannot change MemberPress access."
 msgstr "आप MemberPress पहुँच नहीं बदल सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:666
 msgid "You cannot change site settings."
 msgstr "आप साइट सेटिंग्स नहीं बदल सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:542
 msgid "You cannot change user roles."
 msgstr "आप उपयोगकर्ता भूमिकाएँ नहीं बदल सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:141
 msgid "You cannot create this content type."
 msgstr "आप यह content type नहीं बना सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:485
 msgid "You cannot create users."
 msgstr "आप उपयोगकर्ता नहीं बना सकते।"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:108
 msgid "You cannot edit WooCommerce orders."
 msgstr "आप WooCommerce ऑर्डर संपादित नहीं कर सकते।"
 
+#: includes/ThirdParty/SeoAgentApi.php:90
+#: includes/WpCore/WpCoreAgentApi.php:190
+#: includes/WpCore/WpCoreAgentApi.php:325
+#: includes/WpCore/WpCoreAgentApi.php:881
 msgid "You cannot edit this content."
 msgstr "आप यह सामग्री संपादित नहीं कर सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:520
 msgid "You cannot edit users."
 msgstr "आप उपयोगकर्ता संपादित नहीं कर सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:1033
 msgid "You cannot grant a role with more capabilities than your own."
 msgstr "आप अपनी क्षमताओं से अधिक क्षमताओं वाली भूमिका प्रदान नहीं कर सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:1027
 msgid "You cannot grant the administrator role."
 msgstr "आप administrator भूमिका प्रदान नहीं कर सकते।"
 
+#: includes/ThirdParty/FormsAgentApi.php:28
 msgid "You cannot list forms."
 msgstr "आप forms सूचीबद्ध नहीं कर सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:425
 msgid "You cannot list users."
 msgstr "आप उपयोगकर्ता सूचीबद्ध नहीं कर सकते।"
 
+#: includes/ThirdParty/LearnDashAgentApi.php:73
 msgid "You cannot manage LearnDash enrollments."
 msgstr "आप LearnDash enrollments प्रबंधित नहीं कर सकते।"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:361
 msgid "You cannot manage WooCommerce."
 msgstr "आप WooCommerce प्रबंधित नहीं कर सकते।"
 
+#: includes/ThirdParty/FormsAgentApi.php:148
 msgid "You cannot manage form entries."
 msgstr "आप form entries प्रबंधित नहीं कर सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:746
 msgid "You cannot manage navigation menus."
 msgstr "आप नेविगेशन मेन्यू प्रबंधित नहीं कर सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:294
 msgid "You cannot manage terms in this taxonomy."
 msgstr "आप इस taxonomy में terms प्रबंधित नहीं कर सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:570
+#: includes/WpCore/WpCoreAgentApi.php:600
 msgid "You cannot moderate comments."
 msgstr "आप टिप्पणियाँ मॉडरेट नहीं कर सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:207
 msgid "You cannot publish this content."
 msgstr "आप यह सामग्री प्रकाशित नहीं कर सकते।"
 
+#: includes/ThirdParty/LearnDashAgentApi.php:34
 msgid "You cannot read LearnDash data."
 msgstr "आप LearnDash डेटा नहीं पढ़ सकते।"
 
+#: includes/ThirdParty/MemberPressAgentApi.php:36
 msgid "You cannot read MemberPress data."
 msgstr "आप MemberPress डेटा नहीं पढ़ सकते।"
 
+#: includes/ThirdParty/WooCommerceAgentApi.php:31
 msgid "You cannot read WooCommerce data."
 msgstr "आप WooCommerce डेटा नहीं पढ़ सकते।"
 
+#: includes/ThirdParty/FormsAgentApi.php:77
 msgid "You cannot read form entries."
 msgstr "आप form entries नहीं पढ़ सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:722
 msgid "You cannot read navigation menus."
 msgstr "आप नेविगेशन मेन्यू नहीं पढ़ सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:650
 msgid "You cannot read site settings."
 msgstr "आप साइट सेटिंग्स नहीं पढ़ सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:398
 msgid "You cannot read the media library."
 msgstr "आप media लाइब्रेरी नहीं पढ़ सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:826
 msgid "You cannot read the plugin list."
 msgstr "आप प्लगइन सूची नहीं पढ़ सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:689
 msgid "You cannot read the site overview."
 msgstr "आप साइट अवलोकन नहीं पढ़ सकते।"
 
+#: includes/ThirdParty/SeoAgentApi.php:65
+#: includes/WpCore/WpCoreAgentApi.php:118
 msgid "You cannot read this content."
 msgstr "आप यह सामग्री नहीं पढ़ सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:460
 msgid "You cannot read users."
 msgstr "आप उपयोगकर्ता नहीं पढ़ सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:798
 msgid "You cannot read widgets."
 msgstr "आप widgets नहीं पढ़ सकते।"
 
+#: includes/WpCore/WpCoreAgentApi.php:234
 msgid "You cannot trash this content."
 msgstr "आप यह सामग्री trash नहीं कर सकते।"
 
+#: includes/ChatSessions.php:497
 msgid "You do not have access to this chat session."
 msgstr "आपको इस चैट सत्र तक पहुँच नहीं है।"
 
+#: includes/AdminPage.php:239
 msgid "You do not have permission to manage WP PFAgent."
 msgstr "आपके पास WP PFAgent प्रबंधित करने की अनुमति नहीं है।"
 
+#: includes/DashboardWidget.php:60
 msgid "Your natural-language copilot"
 msgstr "आपका प्राकृतिक-भाषा सहायक"
 
+#: assets/src/App.tsx:1619
 msgid "action"
 msgstr "action"
 
+#: assets/src/App.tsx:1561
 msgid "an entity"
 msgstr "एक entity"
 
+#: assets/src/App.tsx:1620
 msgid "application"
 msgstr "application"
 
+#: assets/src/Diagnostic.tsx:61
 msgid "beta partial"
 msgstr "बीटा आंशिक"
 
+#: assets/src/Diagnostic.tsx:61
 msgid "beta ready"
 msgstr "बीटा-तैयार"
 
+#: includes/RestApi.php:960
 msgid "conversationId is required."
 msgstr "conversationId आवश्यक है।"
 
+#: includes/RestApi.php:903
 msgid "conversationId, confirmationToken, providerId and model are required."
 msgstr "conversationId, confirmationToken, providerId और model आवश्यक हैं।"
 
+#: includes/RestApi.php:934
 msgid "conversationId, providerId and model are required."
 msgstr "conversationId, providerId और model आवश्यक हैं।"
 
+#: assets/src/App.tsx:1284
+#, javascript-format
 msgid "diff: %s"
 msgstr "diff: %s"
 
+#: assets/src/ProviderWizard.tsx:1182
 msgid "e.g. 128000 — fill in manually"
 msgstr "उदा. 128000 — मैनुअल रूप से भरें"
 
+#: assets/src/ProviderWizard.tsx:1194
 msgid "e.g. 8192 — fill in manually"
 msgstr "उदा. 8192 — मैनुअल रूप से भरें"
 
+#: assets/src/App.tsx:1617
 msgid "entity"
 msgstr "entity"
 
+#: assets/src/App.tsx:1622
 msgid "group"
 msgstr "group"
 
+#: includes/ManagementApiBridge.php:130
+#: includes/ManagementApiBridge.php:374
 msgid "kind and ref are required."
 msgstr "kind और ref आवश्यक हैं।"
 
+#: includes/ManagementApiBridge.php:59
 msgid "kind is required (entity, record, action, application, module, group, role, page)."
 msgstr "kind आवश्यक है (entity, record, action, application, module, group, role, page)।"
 
+#: includes/ChatSessions.php:333
 msgid "label cannot be empty."
 msgstr "label खाली नहीं हो सकता।"
 
+#: assets/src/ProviderWizard.tsx:1216
 msgid "low | medium | high | max"
 msgstr "low | medium | high | max"
 
+#: includes/FrameworkRuntime.php:62
 msgid "message is required."
 msgstr "message आवश्यक है।"
 
+#: includes/FrameworkRuntime.php:72
 msgid "model is required for the framework runtime."
 msgstr "framework रनटाइम के लिए model आवश्यक है।"
 
+#: assets/src/ProviderWizard.tsx:879
 msgid "model-id"
 msgstr "model-id"
 
+#: assets/src/App.tsx:1621
 msgid "module"
 msgstr "module"
 
-msgid "no message"
-msgstr "कोई संदेश नहीं"
-
+#: assets/src/ProviderWizard.tsx:1282
 msgid "none"
 msgstr "कोई नहीं"
 
+#: assets/src/ProviderWizard.tsx:1031
 msgid "not stored"
 msgstr "सहेजा नहीं"
 
+#: assets/src/ProviderWizard.tsx:1345
 msgid "one model id per line"
 msgstr "प्रति पंक्ति एक मॉडल id"
 
+#: includes/RestApi.php:88
 msgid "oversized request body"
 msgstr "अत्यधिक बड़ा अनुरोध बॉडी"
 
+#: assets/src/App.tsx:1624
 msgid "page"
 msgstr "page"
 
+#: includes/WorkflowApiBridge.php:80
 msgid "payload is required: send { payload: { workflow: { id, name, status }, graph: { schemaVersion: 1, nodes: [], connections: [] } } }."
 msgstr "payload आवश्यक है: { payload: { workflow: { id, name, status }, graph: { schemaVersion: 1, nodes: [], connections: [] } } } भेजें।"
 
+#: includes/FrameworkRuntime.php:57
 msgid "providerId is required."
 msgstr "providerId आवश्यक है।"
 
+#: assets/src/App.tsx:1618
 msgid "record"
 msgstr "record"
 
+#: assets/src/ProviderWizard.tsx:896
 msgid "required — e.g. 128000"
 msgstr "आवश्यक — उदा. 128000"
 
+#: assets/src/ProviderWizard.tsx:908
 msgid "required — e.g. 8192"
 msgstr "आवश्यक — उदा. 8192"
 
+#: assets/src/App.tsx:1625
 msgid "resource"
 msgstr "resource"
 
+#: assets/src/App.tsx:1623
 msgid "role"
 msgstr "role"
 
+#. translators: 1: rejected role value, 2: comma-separated allowed values
+#: includes/ChatSessions.php:421
+#, php-format
 msgid "role \"%1$s\" is not in the allowed enum (%2$s)."
 msgstr "भूमिका \"%1$s\" अनुमत enum में नहीं है (%2$s)।"
 
+#: includes/RestApi.php:809
 msgid "rules must be a JSON object."
 msgstr "rules एक JSON ऑब्जेक्ट होना चाहिए।"
 
-msgid "unknown"
-msgstr "अज्ञात"
-
+#: includes/WorkflowApiBridge.php:56
 msgid "workflowId is required."
 msgstr "workflowId आवश्यक है।"
 
+#: includes/ManagementApiBridge.php:465
 msgid "wp-pfmanagement agent-ready service is not available."
 msgstr "wp-pfmanagement agent-ready सेवा उपलब्ध नहीं है।"
 
+#: includes/WorkflowApiBridge.php:145
 msgid "wp-pfworkflow agent-ready service is not available."
 msgstr "wp-pfworkflow agent-ready सेवा उपलब्ध नहीं है।"
 
+#: assets/src/ProviderWizard.tsx:802
 msgid "— Pick one —"
 msgstr "— चुनें —"
 
+#: assets/src/ProviderWizard.tsx:1206
 msgid "— none —"
 msgstr "— कोई नहीं —"
+
+#: assets/src/maintenanceNotice.ts:79
+#, javascript-format
+msgid "Scheduled maintenance begins in about %d minute."
+msgid_plural "Scheduled maintenance begins in about %d minutes."
+msgstr[0] "निर्धारित रखरखाव लगभग %d मिनट में शुरू होगा।"
+msgstr[1] "निर्धारित रखरखाव लगभग %d मिनट में शुरू होगा।"
+
+#: assets/src/maintenanceNotice.ts:87
+msgid "Save your work — the system will be unavailable during maintenance."
+msgstr "अपना काम सहेज लें — रखरखाव के दौरान सिस्टम उपलब्ध नहीं रहेगा।"
+
+#: includes/MaintenanceGate.php:99
+msgid "The system is under maintenance. Please try again later."
+msgstr "सिस्टम रखरखाव में है। कृपया बाद में फिर से प्रयास करें।"
+
+#. Plugin Name of the plugin
+#: wp-pfagent.php
+msgid "WP-PFAgent"
+msgstr "WP-PFAgent"
+
+#. Description of the plugin
+#: wp-pfagent.php
+msgid "Open-source AI agent console for the Setyenv suite. Drives WP-PFWorkflow and WP-PFManagement from natural language."
+msgstr "Setyenv सूट के लिए ओपन-सोर्स AI एजेंट कंसोल। WP-PFWorkflow और WP-PFManagement को प्राकृतिक भाषा से चलाता है।"
+
+#. Author of the plugin
+#: wp-pfagent.php
+msgid "Setyenv Build"
+msgstr "Setyenv Build"
+
+#: includes/AdminPage.php:307
+msgid "WP Admin"
+msgstr "WordPress एडमिन"
+
+#: includes/ProviderFailure.php:116
+msgid "The AI provider rejected the credentials: its API key is not valid any more. Update it in the provider settings and try again."
+msgstr "AI प्रदाता ने क्रेडेंशियल अस्वीकार कर दिए: उसकी API कुंजी अब मान्य नहीं है। उसे प्रदाता सेटिंग्स में अपडेट करें और फिर से प्रयास करें।"
+
+#: includes/ProviderFailure.php:118
+msgid "The AI provider refused the request for lack of credit or quota on the account. Top the account up and try again."
+msgstr "खाते में क्रेडिट या कोटा न होने के कारण AI प्रदाता ने अनुरोध अस्वीकार कर दिया। खाते में राशि जोड़ें और फिर से प्रयास करें।"
+
+#: includes/ProviderFailure.php:120
+msgid "The AI provider is rate limiting this account. Wait a moment and try again."
+msgstr "AI प्रदाता इस खाते की दर सीमित कर रहा है। थोड़ी देर प्रतीक्षा करें और फिर से प्रयास करें।"
+
+#: includes/ProviderFailure.php:122
+msgid "The AI provider does not recognise the selected model. Pick another model in the provider settings."
+msgstr "AI प्रदाता चयनित मॉडल को नहीं पहचानता। प्रदाता सेटिंग्स में कोई दूसरा मॉडल चुनें।"
+
+#: includes/ProviderFailure.php:124
+msgid "The AI provider is unavailable right now. Nothing was left half-done; try again shortly."
+msgstr "AI प्रदाता इस समय उपलब्ध नहीं है। कुछ भी अधूरा नहीं छोड़ा गया; थोड़ी देर बाद फिर से प्रयास करें।"
+
+#: includes/ProviderFailure.php:126
+msgid "This site could not reach the AI provider. Check the connection or any egress restriction, then try again."
+msgstr "यह साइट AI प्रदाता तक नहीं पहुँच सकी। कनेक्शन या किसी आउटबाउंड प्रतिबंध की जाँच करें, फिर से प्रयास करें।"
+
+#: includes/ProviderFailure.php:128
+msgid "The provider configuration on this site is incomplete. Review the provider settings."
+msgstr "इस साइट पर प्रदाता कॉन्फ़िगरेशन अधूरा है। प्रदाता सेटिंग्स की समीक्षा करें।"
+
+#: includes/ProviderFailure.php:130
+msgid "That confirmation is no longer valid: it was already answered, or the conversation moved on without it. Ask again and confirm the new one."
+msgstr "वह पुष्टि अब मान्य नहीं है: या तो उसका उत्तर पहले ही दिया जा चुका है, या बातचीत उसके बिना आगे बढ़ गई। दोबारा पूछें और नई पुष्टि करें।"
+
+#: includes/ProviderFailure.php:132
+msgid "This turn could not be completed. Nothing was left half-done; ask again."
+msgstr "यह चरण पूरा नहीं हो सका। कुछ भी अधूरा नहीं छोड़ा गया; दोबारा पूछें।"
+
+#. translators: %d: HTTP status the AI provider answered with.
+#: includes/ProviderFailure.php:137
+#, php-format
+msgid "The AI provider answered with an error (HTTP %d). This is the provider, not this site."
+msgstr "AI प्रदाता ने त्रुटि के साथ उत्तर दिया (HTTP %d)। यह प्रदाता की ओर से है, इस साइट की ओर से नहीं।"
+
+#: includes/ProviderFailure.php:140
+msgid "The AI provider did not complete the request. This is the provider, not this site."
+msgstr "AI प्रदाता ने अनुरोध पूरा नहीं किया। यह प्रदाता की ओर से है, इस साइट की ओर से नहीं।"
+
+#: includes/RestApi.php:861
+msgid "providerId and model are required."
+msgstr "providerId और model आवश्यक हैं।"
+
+#: assets/src/ConversationPicker.tsx:123
+#, javascript-format
+msgid "%1$d turn · updated %2$s"
+msgid_plural "%1$d turns · updated %2$s"
+msgstr[0] "%1$d चरण · %2$s को अपडेट"
+msgstr[1] "%1$d चरण · %2$s को अपडेट"
+
+#: assets/src/App.tsx:1278
+#, javascript-format
+msgid "%d execution"
+msgid_plural "%d executions"
+msgstr[0] "%d निष्पादन"
+msgstr[1] "%d निष्पादन"
+
+#: assets/src/Diagnostic.tsx:128
+#, javascript-format
+msgid "%d issue"
+msgid_plural "%d issues"
+msgstr[0] "%d समस्या"
+msgstr[1] "%d समस्याएँ"
+
+#: assets/src/App.tsx:1529
+#, javascript-format
+msgid "Delete \"%s\"? This cannot be undone."
+msgstr "“%s” को हटाएँ? इसे पूर्ववत नहीं किया जा सकता।"
+
+#: assets/src/App.tsx:1507
+#, javascript-format
+msgid "Delete one record from \"%s\"? This cannot be undone."
+msgstr "“%s” से एक रिकॉर्ड हटाएँ? इसे पूर्ववत नहीं किया जा सकता।"
+
+#: assets/src/App.tsx:1526
+#, javascript-format
+msgid "Delete the %1$s \"%2$s\"? This cannot be undone."
+msgstr "%1$s “%2$s” को हटाएँ? इसे पूर्ववत नहीं किया जा सकता।"
+
+#: assets/src/App.tsx:1516
+#, javascript-format
+msgid "Delete the table \"%s\" and every record in it? This cannot be undone."
+msgstr "तालिका “%s” और उसके सभी रिकॉर्ड हटाएँ? इसे पूर्ववत नहीं किया जा सकता।"
+
+#: assets/src/App.tsx:1508
+msgid "Delete this record? This cannot be undone."
+msgstr "इस रिकॉर्ड को हटाएँ? इसे पूर्ववत नहीं किया जा सकता।"
+
+#: assets/src/App.tsx:1517
+msgid "Delete this table and every record in it? This cannot be undone."
+msgstr "इस तालिका और उसके सभी रिकॉर्ड को हटाएँ? इसे पूर्ववत नहीं किया जा सकता।"
+
+#: assets/src/ProductSwitcher.tsx:50
+#: assets/src/ProductSwitcher.tsx:51
+#: assets/src/ProductSwitcher.tsx:58
+msgid "Products"
+msgstr "उत्पाद"
+
+#: assets/src/ProviderWizard.tsx:1135
+#, javascript-format
+msgid "Source: %1$s · fetched %2$s · %3$d model"
+msgid_plural "Source: %1$s · fetched %2$s · %3$d models"
+msgstr[0] "स्रोत: %1$s · %2$s को प्राप्त · %3$d मॉडल"
+msgstr[1] "स्रोत: %1$s · %2$s को प्राप्त · %3$d मॉडल"
+
+#: assets/src/App.tsx:2233
+msgid "The AI provider did not return a response."
+msgstr "AI प्रदाता ने कोई उत्तर नहीं लौटाया।"
+
+#: assets/src/App.tsx:1531
+msgid "The agent is about to delete something. Confirm to proceed."
+msgstr "एजेंट कुछ हटाने वाला है। जारी रखने के लिए पुष्टि करें।"
+
+#: assets/src/App.tsx:2198
+msgid "The answer did not arrive complete. Ask again."
+msgstr "उत्तर पूरा नहीं पहुँचा। दोबारा पूछें।"
+
+#: assets/src/App.tsx:2205
+msgid "The assistant could not be reached. Check the connection and ask again."
+msgstr "सहायक तक नहीं पहुँचा जा सका। कनेक्शन जाँचें और दोबारा पूछें।"
+
+#: assets/src/App.tsx:970
+msgid "This conversation has no messages yet."
+msgstr "इस बातचीत में अभी कोई संदेश नहीं है।"
+
+#: assets/src/App.tsx:372
+#: assets/src/App.tsx:971
+#: assets/src/App.tsx:987
+msgid "Untitled conversation"
+msgstr "बिना शीर्षक बातचीत"

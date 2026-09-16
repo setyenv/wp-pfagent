@@ -122,7 +122,7 @@ export class WorkflowApiClient {
     return this.request<Workflow[]>('workflows', { ...options, method: 'GET' });
   }
 
-  getWorkflow(id: number, options: WorkflowApiRequestOptions = {}): Promise<Workflow> {
+  getWorkflow(id: Workflow['id'], options: WorkflowApiRequestOptions = {}): Promise<Workflow> {
     return this.request<Workflow>(`workflows/${id}`, { ...options, method: 'GET' });
   }
 
@@ -147,7 +147,7 @@ export class WorkflowApiClient {
   }
 
   validateWorkflow(
-    id: number,
+    id: Workflow['id'],
     graph: WorkflowGraph,
     status: Workflow['status'] = 'draft',
     options: WorkflowApiRequestOptions = {}
@@ -159,7 +159,7 @@ export class WorkflowApiClient {
     });
   }
 
-  testRunWorkflow(id: number, input: Record<string, unknown> = {}, options: WorkflowApiRequestOptions = {}) {
+  testRunWorkflow(id: Workflow['id'], input: Record<string, unknown> = {}, options: WorkflowApiRequestOptions = {}) {
     return this.request<WorkflowRunResult>(`workflows/${id}/test-run`, {
       ...options,
       method: 'POST',
@@ -167,7 +167,7 @@ export class WorkflowApiClient {
     });
   }
 
-  runWorkflow(id: number, input: Record<string, unknown> = {}, options: WorkflowApiRequestOptions = {}) {
+  runWorkflow(id: Workflow['id'], input: Record<string, unknown> = {}, options: WorkflowApiRequestOptions = {}) {
     return this.request<WorkflowRunResult>(`workflows/${id}/run`, {
       ...options,
       method: 'POST',
@@ -175,7 +175,7 @@ export class WorkflowApiClient {
     });
   }
 
-  workflowLogs(id: number, query: WorkflowLogQuery = {}, options: WorkflowApiRequestOptions = {}): Promise<ExecutionLog[]> {
+  workflowLogs(id: Workflow['id'], query: WorkflowLogQuery = {}, options: WorkflowApiRequestOptions = {}): Promise<ExecutionLog[]> {
     const params = new URLSearchParams();
     if (query.limit !== undefined) {
       params.set('limit', String(query.limit));
@@ -439,7 +439,7 @@ export class AgentApiClient {
     return this.request<AgentMetricsResponse>(`agent-runtime/metrics${suffix}`, { ...options, method: 'GET' });
   }
 
-  agentTurn(input: { providerId: string; model?: string; message?: string; conversationId?: number; label?: string }, options: WorkflowApiRequestOptions = {}): Promise<AgentRuntimeTurnResult> {
+  agentTurn(input: { providerId: string; model?: string; message?: string; conversationId?: string; label?: string }, options: WorkflowApiRequestOptions = {}): Promise<AgentRuntimeTurnResult> {
     return this.request<AgentRuntimeTurnResult>('agent-runtime/turn-v2', {
       ...options,
       method: 'POST',
@@ -447,7 +447,7 @@ export class AgentApiClient {
     });
   }
 
-  agentResume(input: { providerId: string; model: string; conversationId: number; confirmationToken: string; approved: boolean }, options: WorkflowApiRequestOptions = {}): Promise<AgentRuntimeTurnResult> {
+  agentResume(input: { providerId: string; model: string; conversationId: string; confirmationToken: string; approved: boolean }, options: WorkflowApiRequestOptions = {}): Promise<AgentRuntimeTurnResult> {
     return this.request<AgentRuntimeTurnResult>('agent-runtime/resume-v2', {
       ...options,
       method: 'POST',
@@ -457,7 +457,7 @@ export class AgentApiClient {
 
   // H5: continue a turn that paused on its time budget (result.continuation).
   // No confirmation token — just the conversation + the same provider/model.
-  agentContinue(input: { providerId: string; model: string; conversationId: number }, options: WorkflowApiRequestOptions = {}): Promise<AgentRuntimeTurnResult> {
+  agentContinue(input: { providerId: string; model: string; conversationId: string }, options: WorkflowApiRequestOptions = {}): Promise<AgentRuntimeTurnResult> {
     return this.request<AgentRuntimeTurnResult>('agent-runtime/continue-v2', {
       ...options,
       method: 'POST',
@@ -466,13 +466,13 @@ export class AgentApiClient {
   }
 
   agentProgress(
-    input: { conversationId: number; sinceToolCallId?: number; sinceTraceId?: number; sinceMessageOrdinal?: number },
+    input: { conversationId: string; sinceToolCallSeq?: number; sinceTraceSeq?: number; sinceMessageOrdinal?: number },
     options: WorkflowApiRequestOptions = {}
   ): Promise<AgentRuntimeProgress> {
     const q = new URLSearchParams();
-    q.set('conversationId', String(input.conversationId));
-    if (typeof input.sinceToolCallId === 'number') q.set('sinceToolCallId', String(input.sinceToolCallId));
-    if (typeof input.sinceTraceId === 'number') q.set('sinceTraceId', String(input.sinceTraceId));
+    q.set('conversationId', input.conversationId);
+    if (typeof input.sinceToolCallSeq === 'number') q.set('sinceToolCallSeq', String(input.sinceToolCallSeq));
+    if (typeof input.sinceTraceSeq === 'number') q.set('sinceTraceSeq', String(input.sinceTraceSeq));
     if (typeof input.sinceMessageOrdinal === 'number') q.set('sinceMessageOrdinal', String(input.sinceMessageOrdinal));
     return this.request<AgentRuntimeProgress>(`agent-runtime/progress?${q.toString()}`, {
       ...options,
@@ -495,18 +495,18 @@ export class AgentApiClient {
     });
   }
 
-  getActiveLlm(options: WorkflowApiRequestOptions = {}): Promise<{ providerId: string; model: string; sessionId: number | null; updatedAt: string }> {
-    return this.request<{ providerId: string; model: string; sessionId: number | null; updatedAt: string }>('active-llm', {
+  getActiveLlm(options: WorkflowApiRequestOptions = {}): Promise<{ providerId: string; model: string; sessionId: string | null; updatedAt: string }> {
+    return this.request<{ providerId: string; model: string; sessionId: string | null; updatedAt: string }>('active-llm', {
       ...options,
       method: 'GET'
     });
   }
 
   setActiveLlm(
-    input: { providerId: string; model: string; sessionId: number | null },
+    input: { providerId: string; model: string; sessionId: string | null },
     options: WorkflowApiRequestOptions = {}
-  ): Promise<{ providerId: string; model: string; sessionId: number | null; updatedAt: string }> {
-    return this.request<{ providerId: string; model: string; sessionId: number | null; updatedAt: string }>('active-llm', {
+  ): Promise<{ providerId: string; model: string; sessionId: string | null; updatedAt: string }> {
+    return this.request<{ providerId: string; model: string; sessionId: string | null; updatedAt: string }>('active-llm', {
       ...options,
       method: 'PUT',
       body: {
@@ -532,7 +532,7 @@ export class AgentApiClient {
     return this.request<ChatSessionsPage>(`chat-sessions${suffix}`, { ...options, method: 'GET' });
   }
 
-  createChatSession(input: { label?: string; workflowId?: number }, options: WorkflowApiRequestOptions = {}): Promise<ChatSession> {
+  createChatSession(input: { label?: string; workflowId?: Workflow['id'] }, options: WorkflowApiRequestOptions = {}): Promise<ChatSession> {
     return this.request<ChatSession>('chat-sessions', { ...options, method: 'POST', body: input });
   }
 
@@ -547,19 +547,19 @@ export class AgentApiClient {
     });
   }
 
-  getChatSession(id: number, options: WorkflowApiRequestOptions = {}): Promise<ChatSession> {
+  getChatSession(id: string, options: WorkflowApiRequestOptions = {}): Promise<ChatSession> {
     return this.request<ChatSession>(`chat-sessions/${id}`, { ...options, method: 'GET' });
   }
 
-  patchChatSession(id: number, input: { label?: string; workflowId?: number | null }, options: WorkflowApiRequestOptions = {}): Promise<ChatSession> {
+  patchChatSession(id: string, input: { label?: string; workflowId?: Workflow['id'] | null }, options: WorkflowApiRequestOptions = {}): Promise<ChatSession> {
     return this.request<ChatSession>(`chat-sessions/${id}`, { ...options, method: 'PATCH', body: input });
   }
 
-  deleteChatSession(id: number, options: WorkflowApiRequestOptions = {}): Promise<{ deleted: boolean; id: number }> {
-    return this.request<{ deleted: boolean; id: number }>(`chat-sessions/${id}`, { ...options, method: 'DELETE' });
+  deleteChatSession(id: string, options: WorkflowApiRequestOptions = {}): Promise<{ deleted: boolean; id: string }> {
+    return this.request<{ deleted: boolean; id: string }>(`chat-sessions/${id}`, { ...options, method: 'DELETE' });
   }
 
-  appendChatMessages(id: number, messages: ChatSessionMessage[], options: WorkflowApiRequestOptions = {}): Promise<ChatSession> {
+  appendChatMessages(id: string, messages: ChatSessionMessage[], options: WorkflowApiRequestOptions = {}): Promise<ChatSession> {
     return this.request<ChatSession>(`chat-sessions/${id}/messages`, { ...options, method: 'POST', body: { messages } });
   }
 
@@ -627,7 +627,7 @@ export function listWorkflows(options?: WorkflowApiRequestOptions): Promise<Work
   return workflowApi().listWorkflows(options);
 }
 
-export function getWorkflow(id: number, options?: WorkflowApiRequestOptions): Promise<Workflow> {
+export function getWorkflow(id: Workflow['id'], options?: WorkflowApiRequestOptions): Promise<Workflow> {
   return workflowApi().getWorkflow(id, options);
 }
 
@@ -644,7 +644,7 @@ export function createWorkflowFromTemplate(
 }
 
 export function validateWorkflow(
-  id: number,
+  id: Workflow['id'],
   graph: WorkflowGraph,
   status: Workflow['status'] = 'draft',
   options?: WorkflowApiRequestOptions
@@ -653,7 +653,7 @@ export function validateWorkflow(
 }
 
 export function testRunWorkflow(
-  id: number,
+  id: Workflow['id'],
   input: Record<string, unknown> = {},
   options?: WorkflowApiRequestOptions
 ): Promise<WorkflowRunResult> {
@@ -661,14 +661,14 @@ export function testRunWorkflow(
 }
 
 export function runWorkflow(
-  id: number,
+  id: Workflow['id'],
   input: Record<string, unknown> = {},
   options?: WorkflowApiRequestOptions
 ): Promise<WorkflowRunResult> {
   return workflowApi().runWorkflow(id, input, options);
 }
 
-export function workflowLogs(id: number, query: WorkflowLogQuery = {}, options?: WorkflowApiRequestOptions): Promise<ExecutionLog[]> {
+export function workflowLogs(id: Workflow['id'], query: WorkflowLogQuery = {}, options?: WorkflowApiRequestOptions): Promise<ExecutionLog[]> {
   return workflowApi().workflowLogs(id, query, options);
 }
 
@@ -754,28 +754,28 @@ export function checkProviderHealth(providerId: string, options?: WorkflowApiReq
 
 
 export function agentTurn(
-  input: { providerId: string; model?: string; message?: string; conversationId?: number; label?: string },
+  input: { providerId: string; model?: string; message?: string; conversationId?: string; label?: string },
   options?: WorkflowApiRequestOptions
 ): Promise<AgentRuntimeTurnResult> {
   return agentApi().agentTurn(input, options);
 }
 
 export function agentResume(
-  input: { providerId: string; model: string; conversationId: number; confirmationToken: string; approved: boolean },
+  input: { providerId: string; model: string; conversationId: string; confirmationToken: string; approved: boolean },
   options?: WorkflowApiRequestOptions
 ): Promise<AgentRuntimeTurnResult> {
   return agentApi().agentResume(input, options);
 }
 
 export function agentContinue(
-  input: { providerId: string; model: string; conversationId: number },
+  input: { providerId: string; model: string; conversationId: string },
   options?: WorkflowApiRequestOptions
 ): Promise<AgentRuntimeTurnResult> {
   return agentApi().agentContinue(input, options);
 }
 
 export function agentProgress(
-  input: { conversationId: number; sinceToolCallId?: number; sinceTraceId?: number; sinceMessageOrdinal?: number },
+  input: { conversationId: string; sinceToolCallSeq?: number; sinceTraceSeq?: number; sinceMessageOrdinal?: number },
   options?: WorkflowApiRequestOptions
 ): Promise<AgentRuntimeProgress> {
   return agentApi().agentProgress(input, options);
@@ -796,14 +796,14 @@ export function savePermissionRules(
 
 export function getActiveLlm(
   options?: WorkflowApiRequestOptions
-): Promise<{ providerId: string; model: string; sessionId: number | null; updatedAt: string }> {
+): Promise<{ providerId: string; model: string; sessionId: string | null; updatedAt: string }> {
   return agentApi().getActiveLlm(options);
 }
 
 export function setActiveLlm(
-  input: { providerId: string; model: string; sessionId: number | null },
+  input: { providerId: string; model: string; sessionId: string | null },
   options?: WorkflowApiRequestOptions
-): Promise<{ providerId: string; model: string; sessionId: number | null; updatedAt: string }> {
+): Promise<{ providerId: string; model: string; sessionId: string | null; updatedAt: string }> {
   return agentApi().setActiveLlm(input, options);
 }
 
@@ -829,27 +829,27 @@ export function purgeChatSessions(
   return agentApi().purgeChatSessions(input, options);
 }
 
-export function createChatSession(input: { label?: string; workflowId?: number }, options?: WorkflowApiRequestOptions): Promise<ChatSession> {
+export function createChatSession(input: { label?: string; workflowId?: Workflow['id'] }, options?: WorkflowApiRequestOptions): Promise<ChatSession> {
   return agentApi().createChatSession(input, options);
 }
 
-export function getChatSession(id: number, options?: WorkflowApiRequestOptions): Promise<ChatSession> {
+export function getChatSession(id: string, options?: WorkflowApiRequestOptions): Promise<ChatSession> {
   return agentApi().getChatSession(id, options);
 }
 
 export function patchChatSession(
-  id: number,
-  input: { label?: string; workflowId?: number | null },
+  id: string,
+  input: { label?: string; workflowId?: Workflow['id'] | null },
   options?: WorkflowApiRequestOptions
 ): Promise<ChatSession> {
   return agentApi().patchChatSession(id, input, options);
 }
 
-export function deleteChatSession(id: number, options?: WorkflowApiRequestOptions): Promise<{ deleted: boolean; id: number }> {
+export function deleteChatSession(id: string, options?: WorkflowApiRequestOptions): Promise<{ deleted: boolean; id: string }> {
   return agentApi().deleteChatSession(id, options);
 }
 
-export function appendChatMessages(id: number, messages: ChatSessionMessage[], options?: WorkflowApiRequestOptions): Promise<ChatSession> {
+export function appendChatMessages(id: string, messages: ChatSessionMessage[], options?: WorkflowApiRequestOptions): Promise<ChatSession> {
   return agentApi().appendChatMessages(id, messages, options);
 }
 

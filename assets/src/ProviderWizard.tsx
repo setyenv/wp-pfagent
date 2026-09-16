@@ -1,4 +1,4 @@
-import { __, sprintf } from '@wordpress/i18n';
+import { __, _n, sprintf } from '@wordpress/i18n';
 import { Cog, Loader2, RefreshCw, ShieldCheck, Trash2, X } from 'lucide-react';
 import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -1132,7 +1132,12 @@ export function ProviderWizard({
                     <p className="pfa-wizard__hint">
                       { sprintf(
                         /* translators: 1: source, 2: ISO date, 3: count */
-                        __('Source: %1$s · fetched %2$s · %3$d model(s)', 'wp-pfagent'),
+                        _n(
+                          'Source: %1$s · fetched %2$s · %3$d model',
+                          'Source: %1$s · fetched %2$s · %3$d models',
+                          manageModels.models.length,
+                          'wp-pfagent'
+                        ),
                         manageModels.source,
                         manageModels.fetchedAt,
                         manageModels.models.length

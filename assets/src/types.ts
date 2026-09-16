@@ -34,7 +34,8 @@ export interface WorkflowGraph {
 }
 
 export interface Workflow {
-  id: number;
+  /** Opaque: PFW mints uuids. A legacy install may still send a number. */
+  id: string | number;
   name: string;
   status: WorkflowStatus;
   graph: WorkflowGraph;
@@ -63,8 +64,8 @@ export interface WorkflowTemplateCatalog {
 }
 
 export interface ExecutionLog {
-  id: number;
-  workflowId: number;
+  id: string | number;
+  workflowId: string | number;
   status: string;
   message: string;
   context: Record<string, unknown>;
@@ -79,7 +80,7 @@ export interface WorkflowValidationResult {
 export interface WorkflowRunResult {
   status: string;
   message?: string;
-  workflowId?: number;
+  workflowId?: string | number;
   executionId?: string;
   [key: string]: unknown;
 }
@@ -134,7 +135,7 @@ export interface AppConfig {
   activeLlm: {
     providerId: string;
     model: string;
-    sessionId: number | null;
+    sessionId: string | null;
     updatedAt: string;
   };
   capabilities: {
@@ -297,7 +298,7 @@ export interface AgentFixSuggestionsResult {
 export type AgentRuntimeChangeType = 'created' | 'updated' | 'imported';
 
 export interface AgentWorkflowSnapshot {
-  id: number;
+  id: string | number;
   name: string;
   status: string;
   graph: WorkflowGraph | null;
@@ -328,7 +329,8 @@ export interface AgentRuntimeExecution {
 }
 
 export interface AgentRuntimeProgressTool {
-  id: number;
+  /** The call's place in this conversation — what the poll advances on. */
+  seq: number;
   tool: string;
   status: string;
   at: string;
@@ -340,7 +342,8 @@ export interface AgentRuntimeProgressTool {
     kind?: string;
     ref?: string;
     path?: string;
-    workflowId?: number;
+    /** Whatever PFW mints — a uuid today, a number on a legacy install. */
+    workflowId?: string | number;
     /** Parallel channel for the transversal WordPress layer: the native
      *  wp-admin screen a wp_*, wc_*, seo_*, forms_* tool maps to, so the
      *  "WordPress" tab can jump its iframe live. Additive - never replaces
@@ -359,7 +362,7 @@ export interface AgentRuntimeProgressTool {
 }
 
 export interface AgentRuntimeProgressTrace {
-  id: number;
+  seq: number;
   kind: string;
   at: string;
 }
@@ -375,7 +378,7 @@ export interface AgentRuntimeProgressNarration {
 }
 
 export interface AgentRuntimeProgress {
-  conversationId: number;
+  conversationId: string;
   tools: AgentRuntimeProgressTool[];
   traces: AgentRuntimeProgressTrace[];
   /** New non-empty assistant rows the Loop persisted since the
@@ -383,8 +386,8 @@ export interface AgentRuntimeProgress {
    *  mid-loop narrations live instead of bursting them at end-of-
    *  turn (the "borbotones" bug). */
   assistantTexts: AgentRuntimeProgressNarration[];
-  lastToolCallId: number;
-  lastTraceId: number;
+  lastToolCallSeq: number;
+  lastTraceSeq: number;
   /** Maximum ordinal seen on the message table (including empty
    *  rows). Pass back as sinceMessageOrdinal on the next poll. */
   lastMessageOrdinal: number;
@@ -411,7 +414,12 @@ export interface AgentRuntimeTurnResult {
   timeline: Array<{ event: string; at: string; data: Record<string, unknown> }>;
   /** Populated when the runtime ran tools but the final LLM `complete`
    *  call failed (status === 'completed_with_response_error'). */
-  llmError?: { code?: string; message?: string };
+  /** Classified by the server: `code` is the provider-health vocabulary
+   *  (auth / quota / rate_limit / invalid_model / provider_unavailable /
+   *  network / configuration / provider_error), `message` a sentence the user
+   *  can act on, `providerStatus` the HTTP status the provider answered with
+   *  (0 when it never answered). The raw provider text stays in errorMessage. */
+  llmError?: { code?: string; message?: string; providerStatus?: number };
   /** v2 path: per-turn token + cache + cost usage from the Framework Loop. */
   usage?: {
     promptTokens?: number;
@@ -422,7 +430,7 @@ export interface AgentRuntimeTurnResult {
     cacheWriteTokens?: number;
     reasoningTokens?: number;
   };
-  conversationId?: number;
+  conversationId?: string;
   finalText?: string;
   rounds?: number;
   costMicros?: number;
@@ -449,10 +457,11 @@ export interface ChatSessionMessage {
 }
 
 export interface ChatSessionSummary {
-  id: number;
+  /** uuid: the same value in every install, so a conversation can travel. */
+  id: string;
   label: string;
   authorId: number;
-  workflowId: number;
+  workflowId: string | number;
   turnCount: number;
   lastTurnAt: string;
   createdAt: string;

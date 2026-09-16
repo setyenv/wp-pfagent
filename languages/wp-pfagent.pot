@@ -1,172 +1,138 @@
-# Copyright (C) 2026 Setyenv
-# This file is distributed under the same license as the WP PFAgent plugin.
+# Copyright (C) 2026 Setyenv Build
+# This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP PFAgent 0.1.0\n"
+"Project-Id-Version: WP-PFAgent 1.2.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-pfagent\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-17T16:38:13+00:00\n"
+"POT-Creation-Date: 2026-07-26T15:26:37+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-pfagent\n"
 
 #. Plugin Name of the plugin
 #: wp-pfagent.php
-#: includes/AdminPage.php:25
-#: includes/AdminPage.php:109
-msgid "WP PFAgent"
+msgid "WP-PFAgent"
 msgstr ""
 
 #. Description of the plugin
 #: wp-pfagent.php
-msgid "Agent console for Setyenv products."
+msgid "Open-source AI agent console for the Setyenv suite. Drives WP-PFWorkflow and WP-PFManagement from natural language."
 msgstr ""
 
 #. Author of the plugin
 #: wp-pfagent.php
-msgid "Setyenv"
+msgid "Setyenv Build"
 msgstr ""
 
-#: includes/AdminPage.php:26
+#: includes/AdminPage.php:41
+#: includes/AdminPage.php:157
+msgid "WP PFAgent"
+msgstr ""
+
+#: includes/AdminPage.php:42
 msgid "PF Agent"
 msgstr ""
 
-#: includes/AdminPage.php:110
+#: includes/AdminPage.php:158
 msgid "Back to admin"
 msgstr ""
 
-#: includes/AdminPage.php:111
-#: includes/AdminPage.php:176
+#: includes/AdminPage.php:159
+#: includes/AdminPage.php:246
 msgid "WP PFAgent assets are missing. Run npm install and npm run build inside the plugin directory."
 msgstr ""
 
-#: includes/AdminPage.php:141
+#: includes/AdminPage.php:189
 msgid "WP PFAgent assets are not built."
 msgstr ""
 
-#: includes/AdminPage.php:169
+#: includes/AdminPage.php:239
 msgid "You do not have permission to manage WP PFAgent."
 msgstr ""
 
-#: includes/AgentContract.php:168
+#: includes/AdminPage.php:307
+msgid "WP Admin"
+msgstr ""
+
+#: includes/AgentContract.php:179
 msgid "Agent capability manifest is missing."
 msgstr ""
 
-#: includes/AgentContract.php:173
+#: includes/AgentContract.php:184
 msgid "Agent capability manifest is invalid."
 msgstr ""
 
-#: includes/AgentRuntime.php:40
-msgid "providerId is required."
-msgstr ""
-
-#: includes/AgentRuntime.php:59
-msgid "message is required."
-msgstr ""
-
-#: includes/AgentRuntime.php:145
-msgid "No tool was selected by the model."
-msgstr ""
-
-#: includes/AgentRuntime.php:146
-msgid "Tools ran but the model returned an empty reply. The data is in the executions panel."
-msgstr ""
-
-#: includes/AgentRuntime.php:161
-msgid "The model returned a malformed tool call."
-msgstr ""
-
-#: includes/AgentRuntime.php:184
-msgid "The model requested a tool that is not declared or allowed."
-msgstr ""
-
-#: includes/AgentRuntime.php:260
-msgid "This action has side effects and requires confirmation before execution."
-msgstr ""
-
-#: includes/AgentRuntime.php:364
-msgid "I gathered some data but the model did not produce a final reply."
-msgstr ""
-
-#: includes/AgentRuntime.php:379
-msgid "confirmationId is required when confirmed=true."
-msgstr ""
-
-#: includes/AgentRuntime.php:384
-msgid "Pending confirmation was not found or has expired."
-msgstr ""
-
-#: includes/AgentRuntime.php:703
-msgid "Workflow tool execution completed, but final LLM response failed."
-msgstr ""
-
-#: includes/AgentToolRegistry.php:42
+#: includes/AgentToolRegistry.php:88
 msgid "The requested tool is not in the declared agent tool registry."
 msgstr ""
 
-#: includes/AgentToolRegistry.php:52
+#: includes/AgentToolRegistry.php:98
 msgid "Agent tool contract file is missing."
 msgstr ""
 
-#: includes/AgentToolRegistry.php:57
+#: includes/AgentToolRegistry.php:103
 msgid "Agent tool contract file is invalid."
 msgstr ""
 
-#: includes/AgentToolRegistry.php:148
+#: includes/AgentToolRegistry.php:201
 msgid "Agent tool entries must be objects."
 msgstr ""
 
-#: includes/ChatSessions.php:136
+#: includes/ChatSessions.php:145
+#: includes/ChatSessions.php:205
+#: includes/ChatSessions.php:254
 msgid "A logged-in user is required."
 msgstr ""
 
 #. translators: %s: UTC timestamp used as default chat session title
-#: includes/ChatSessions.php:145
+#: includes/ChatSessions.php:272
 #, php-format
 msgid "Session %s"
 msgstr ""
 
-#: includes/ChatSessions.php:176
-#: includes/ChatSessions.php:223
-#: includes/ChatSessions.php:310
-#: includes/ChatSessions.php:365
+#: includes/ChatSessions.php:283
+msgid "Failed to create the chat session."
+msgstr ""
+
+#: includes/ChatSessions.php:288
+msgid "Chat session not found after creation."
+msgstr ""
+
+#: includes/ChatSessions.php:306
+#: includes/ChatSessions.php:355
+#: includes/ChatSessions.php:432
+#: includes/ChatSessions.php:490
 msgid "Chat session not found."
 msgstr ""
 
-#: includes/ChatSessions.php:200
+#: includes/ChatSessions.php:333
 msgid "label cannot be empty."
 msgstr ""
 
-#: includes/ChatSessions.php:242
+#: includes/ChatSessions.php:379
 msgid "Failed to delete the chat session."
 msgstr ""
 
-#: includes/ChatSessions.php:264
-msgid "messages array is required."
-msgstr ""
-
-#: includes/ChatSessions.php:289
-msgid "No valid messages were provided."
+#. translators: 1: rejected role value, 2: comma-separated allowed values
+#: includes/ChatSessions.php:421
+#, php-format
+msgid "role \"%1$s\" is not in the allowed enum (%2$s)."
 msgstr ""
 
 #. translators: 1: maximum bytes allowed, 2: actual bytes received
-#: includes/ChatSessions.php:350
-#: includes/RestApi.php:78
+#: includes/ChatSessions.php:471
+#: includes/RestApi.php:76
 #, php-format
 msgid "Request body exceeds %1$d bytes (got %2$d)."
 msgstr ""
 
-#: includes/ChatSessions.php:374
+#: includes/ChatSessions.php:497
 msgid "You do not have access to this chat session."
-msgstr ""
-
-#: includes/ConversationCompactor.php:132
-#, php-format
-msgid "[Summary of prior work — %d turns folded, ~%d tokens reduced past the %d-token threshold]"
 msgstr ""
 
 #: includes/CredentialStore.php:50
@@ -174,10 +140,13 @@ msgstr ""
 #: includes/CredentialStore.php:117
 #: includes/CredentialStore.php:135
 #: includes/CredentialStore.php:228
-#: includes/CredentialStore.php:266
+#: includes/CredentialStore.php:277
+#: includes/CredentialStore.php:343
 #: includes/ProviderHealth.php:37
-#: includes/ProviderModelDiscovery.php:28
-#: includes/ProviderModelDiscovery.php:86
+#: includes/ProviderModelDiscovery.php:47
+#: includes/ProviderModelDiscovery.php:595
+#: includes/RestApi.php:584
+#: includes/RestApi.php:868
 msgid "Provider preset was not found."
 msgstr ""
 
@@ -195,8 +164,8 @@ msgstr ""
 
 #: includes/CredentialStore.php:141
 #: includes/CredentialStore.php:234
-#: includes/CredentialStore.php:272
-#: includes/CredentialStore.php:309
+#: includes/CredentialStore.php:349
+#: includes/CredentialStore.php:395
 msgid "Provider is not configured."
 msgstr ""
 
@@ -224,89 +193,204 @@ msgstr ""
 msgid "Provider family is not supported for runtime calls."
 msgstr ""
 
-#: includes/CredentialStore.php:278
+#: includes/CredentialStore.php:283
+msgid "Provider must be configured before saving models."
+msgstr ""
+
+#: includes/CredentialStore.php:355
 msgid "Connection validation updated."
 msgstr ""
 
-#: includes/CredentialStore.php:347
+#: includes/CredentialStore.php:433
 msgid "Credential encryption failed."
 msgstr ""
 
-#: includes/CredentialStore.php:364
+#: includes/CredentialStore.php:450
 msgid "Stored credential cipher is unsupported."
 msgstr ""
 
-#: includes/CredentialStore.php:371
+#: includes/CredentialStore.php:457
 msgid "Stored credential payload is invalid."
 msgstr ""
 
-#: includes/CredentialStore.php:381
+#: includes/CredentialStore.php:467
 msgid "Credential decryption failed."
 msgstr ""
 
-#: includes/CredentialStore.php:448
+#: includes/CredentialStore.php:707
 msgid "Provider family does not expose a models endpoint for connection testing."
 msgstr ""
 
-#: includes/CredentialStore.php:482
+#: includes/CredentialStore.php:741
 msgid "Provider requires additional settings before testing connection."
 msgstr ""
 
-#: includes/CredentialStore.php:486
-#: includes/ProviderModelDiscovery.php:430
+#: includes/CredentialStore.php:745
+#: includes/ProviderModelDiscovery.php:1168
 #: includes/ProviderRuntime.php:431
 msgid "Provider base URL must be an HTTP URL."
 msgstr ""
 
-#: includes/LlmGateway.php:124
-msgid "At least one tool definition is required for toolCall."
+#: includes/DashboardWidget.php:35
+msgid "Setyenv Agent"
 msgstr ""
 
-#: includes/LlmGateway.php:761
-#: includes/ProviderModelDiscovery.php:68
+#: includes/DashboardWidget.php:60
+msgid "Your natural-language copilot"
+msgstr ""
+
+#: includes/DashboardWidget.php:62
+msgid "Ask it to create entities, draw workflows or explore your data. The agent knows the PFM model and the PFW catalog — it builds whatever you describe."
+msgstr ""
+
+#: includes/DashboardWidget.php:63
+msgid "Ask it in plain language to manage your posts, media, users, comments and settings — and your WooCommerce, SEO and forms when those plugins are active. It proposes; you approve every change."
+msgstr ""
+
+#: includes/DashboardWidget.php:82
+msgid "Conversations (30d)"
+msgstr ""
+
+#: includes/DashboardWidget.php:83
+msgid "Providers configured"
+msgstr ""
+
+#: includes/DashboardWidget.php:84
+msgid "Messages (30d)"
+msgstr ""
+
+#: includes/DashboardWidget.php:93
+msgid "Open agent"
+msgstr ""
+
+#: includes/DashboardWidget.php:99
+msgid "PF Management"
+msgstr ""
+
+#: includes/DashboardWidget.php:102
+msgid "PF Workflow"
+msgstr ""
+
+#: includes/FrameworkRuntime.php:57
+msgid "providerId is required."
+msgstr ""
+
+#: includes/FrameworkRuntime.php:62
+msgid "message is required."
+msgstr ""
+
+#: includes/FrameworkRuntime.php:72
+msgid "model is required for the framework runtime."
+msgstr ""
+
+#: includes/FrameworkRuntime.php:77
+#: includes/FrameworkRuntime.php:113
+#: includes/FrameworkRuntime.php:143
+msgid "WordPress database is not available."
+msgstr ""
+
+#: includes/MaintenanceGate.php:99
+msgid "The system is under maintenance. Please try again later."
+msgstr ""
+
+#: includes/ManagementApiBridge.php:47
+msgid "Tool is not executable by Management API bridge."
+msgstr ""
+
+#: includes/ManagementApiBridge.php:59
+msgid "kind is required (entity, record, action, application, module, group, role, page)."
+msgstr ""
+
+#: includes/ManagementApiBridge.php:130
+#: includes/ManagementApiBridge.php:374
+msgid "kind and ref are required."
+msgstr ""
+
+#: includes/ManagementApiBridge.php:188
+msgid "Send { kind: \"<entity|record|action|application|module|group|role|page>\", payload: { <kind>: {...} } }."
+msgstr ""
+
+#: includes/ManagementApiBridge.php:465
+msgid "wp-pfmanagement agent-ready service is not available."
+msgstr ""
+
+#: includes/ProviderFailure.php:116
+msgid "The AI provider rejected the credentials: its API key is not valid any more. Update it in the provider settings and try again."
+msgstr ""
+
+#: includes/ProviderFailure.php:118
+msgid "The AI provider refused the request for lack of credit or quota on the account. Top the account up and try again."
+msgstr ""
+
+#: includes/ProviderFailure.php:120
+msgid "The AI provider is rate limiting this account. Wait a moment and try again."
+msgstr ""
+
+#: includes/ProviderFailure.php:122
+msgid "The AI provider does not recognise the selected model. Pick another model in the provider settings."
+msgstr ""
+
+#: includes/ProviderFailure.php:124
+msgid "The AI provider is unavailable right now. Nothing was left half-done; try again shortly."
+msgstr ""
+
+#: includes/ProviderFailure.php:126
+msgid "This site could not reach the AI provider. Check the connection or any egress restriction, then try again."
+msgstr ""
+
+#: includes/ProviderFailure.php:128
+msgid "The provider configuration on this site is incomplete. Review the provider settings."
+msgstr ""
+
+#: includes/ProviderFailure.php:130
+msgid "That confirmation is no longer valid: it was already answered, or the conversation moved on without it. Ask again and confirm the new one."
+msgstr ""
+
+#: includes/ProviderFailure.php:132
+msgid "This turn could not be completed. Nothing was left half-done; ask again."
+msgstr ""
+
+#. translators: %d: HTTP status the AI provider answered with.
+#: includes/ProviderFailure.php:137
+#, php-format
+msgid "The AI provider answered with an error (HTTP %d). This is the provider, not this site."
+msgstr ""
+
+#: includes/ProviderFailure.php:140
+msgid "The AI provider did not complete the request. This is the provider, not this site."
+msgstr ""
+
+#: includes/ProviderModelDiscovery.php:72
+msgid "Provider does not expose API model discovery. Manual model entries are required for this preset."
+msgstr ""
+
+#: includes/ProviderModelDiscovery.php:85
+msgid "Provider family declares no discovery endpoints."
+msgstr ""
+
+#: includes/ProviderModelDiscovery.php:155
 #: includes/ProviderRuntime.php:132
 msgid "Provider model discovery returned no models."
 msgstr ""
 
-#: includes/LlmGateway.php:784
-#: includes/ProviderRuntime.php:163
-msgid "Provider model discovery returned no text generation model candidate."
-msgstr ""
-
-#: includes/PhpStreamTransport.php:26
-msgid "PHP stream transport is not available because allow_url_fopen is disabled."
-msgstr ""
-
-#: includes/PhpStreamTransport.php:45
-msgid "PHP stream transport could not open provider stream."
-msgstr ""
-
-#: includes/PhpStreamTransport.php:74
-msgid "PHP stream transport failed while reading provider stream."
-msgstr ""
-
-#: includes/PhpStreamTransport.php:81
-msgid "Provider stream timed out."
-msgstr ""
-
-#: includes/ProviderModelDiscovery.php:40
-msgid "Provider does not expose API model discovery. Manual model entries are required for this preset."
-msgstr ""
-
-#: includes/ProviderModelDiscovery.php:91
+#: includes/ProviderModelDiscovery.php:600
 msgid "Manual model entries are not allowed for this provider preset."
 msgstr ""
 
-#: includes/ProviderModelDiscovery.php:116
+#: includes/ProviderModelDiscovery.php:625
 msgid "At least one manual model id is required."
 msgstr ""
 
-#: includes/ProviderModelDiscovery.php:139
+#: includes/ProviderModelDiscovery.php:648
 #: includes/ProviderRuntime.php:321
 msgid "Provider family does not expose the required runtime endpoint."
 msgstr ""
 
-#: includes/ProviderModelDiscovery.php:426
+#: includes/ProviderModelDiscovery.php:900
+msgid "Provider discovery failed recently and is on cooldown."
+msgstr ""
+
+#: includes/ProviderModelDiscovery.php:1164
 #: includes/ProviderRuntime.php:427
 msgid "Provider requires additional settings before runtime call."
 msgstr ""
@@ -351,21 +435,223 @@ msgstr ""
 msgid "Provider family is not supported for generation yet."
 msgstr ""
 
-#: includes/RateLimiter.php:65
-#, php-format
-msgid "Rate limit reached for \"%s\" (%d per %ds). Retry in %ds."
+#: includes/ProviderRuntime.php:163
+msgid "Provider model discovery returned no text generation model candidate."
 msgstr ""
 
-#: includes/RestApi.php:90
+#. translators: 1: rate-limit bucket key, 2: max requests allowed, 3: window length in seconds, 4: seconds until retry is allowed
+#: includes/RateLimiter.php:71
+#, php-format
+msgid "Rate limit reached for \"%1$s\" (%2$d per %3$ds). Retry in %4$ds."
+msgstr ""
+
+#: includes/RestApi.php:88
 msgid "oversized request body"
 msgstr ""
 
-#: includes/TraceLogger.php:88
+#: includes/RestApi.php:809
+msgid "rules must be a JSON object."
+msgstr ""
+
+#: includes/RestApi.php:861
+msgid "providerId and model are required."
+msgstr ""
+
+#: includes/RestApi.php:903
+msgid "conversationId, confirmationToken, providerId and model are required."
+msgstr ""
+
+#: includes/RestApi.php:934
+msgid "conversationId, providerId and model are required."
+msgstr ""
+
+#: includes/RestApi.php:960
+msgid "conversationId is required."
+msgstr ""
+
+#: includes/RestApi.php:973
+msgid "Database unavailable."
+msgstr ""
+
+#: includes/ThirdParty/FormsAgentApi.php:28
+msgid "You cannot list forms."
+msgstr ""
+
+#: includes/ThirdParty/FormsAgentApi.php:77
+msgid "You cannot read form entries."
+msgstr ""
+
+#: includes/ThirdParty/FormsAgentApi.php:83
+msgid "A form id is required."
+msgstr ""
+
+#: includes/ThirdParty/FormsAgentApi.php:116
+msgid "WPForms stores form entries only in the Pro version. This site runs WPForms Lite, which does not save entries."
+msgstr ""
+
+#: includes/ThirdParty/FormsAgentApi.php:131
+msgid "Contact Form 7 does not store submissions; there are no entries to list."
+msgstr ""
+
+#: includes/ThirdParty/FormsAgentApi.php:134
+msgid "That form plugin does not expose entries here."
+msgstr ""
+
+#: includes/ThirdParty/FormsAgentApi.php:148
+msgid "You cannot manage form entries."
+msgstr ""
+
+#: includes/ThirdParty/FormsAgentApi.php:154
+msgid "An entry_id and a valid action (read/spam/trash/star/note) are required."
+msgstr ""
+
+#: includes/ThirdParty/FormsAgentApi.php:162
+msgid "A note is required."
+msgstr ""
+
+#: includes/ThirdParty/FormsAgentApi.php:184
+msgid "Fluent Forms submissions table not found."
+msgstr ""
+
+#: includes/ThirdParty/FormsAgentApi.php:187
+msgid "Notes are not supported for Fluent Forms entries here."
+msgstr ""
+
+#: includes/ThirdParty/FormsAgentApi.php:202
+msgid "That form plugin does not support managing entries here."
+msgstr ""
+
+#: includes/ThirdParty/LearnDashAgentApi.php:31
+#: includes/ThirdParty/LearnDashAgentApi.php:70
+msgid "LearnDash is not installed on this site."
+msgstr ""
+
+#: includes/ThirdParty/LearnDashAgentApi.php:34
+msgid "You cannot read LearnDash data."
+msgstr ""
+
+#: includes/ThirdParty/LearnDashAgentApi.php:42
+msgid "A user_id is required to read enrollments."
+msgstr ""
+
+#: includes/ThirdParty/LearnDashAgentApi.php:73
+msgid "You cannot manage LearnDash enrollments."
+msgstr ""
+
+#: includes/ThirdParty/LearnDashAgentApi.php:78
+msgid "A valid user_id and course_id are required."
+msgstr ""
+
+#: includes/ThirdParty/MemberPressAgentApi.php:33
+#: includes/ThirdParty/MemberPressAgentApi.php:74
+msgid "MemberPress is not installed on this site."
+msgstr ""
+
+#: includes/ThirdParty/MemberPressAgentApi.php:36
+msgid "You cannot read MemberPress data."
+msgstr ""
+
+#: includes/ThirdParty/MemberPressAgentApi.php:43
+msgid "A valid user_id is required."
+msgstr ""
+
+#: includes/ThirdParty/MemberPressAgentApi.php:77
+msgid "You cannot change MemberPress access."
+msgstr ""
+
+#: includes/ThirdParty/MemberPressAgentApi.php:82
+msgid "A valid user_id and membership_id are required."
+msgstr ""
+
+#: includes/ThirdParty/SeoAgentApi.php:58
+#: includes/ThirdParty/SeoAgentApi.php:83
+msgid "No SEO plugin is installed on this site."
+msgstr ""
+
+#: includes/ThirdParty/SeoAgentApi.php:65
+#: includes/WpCore/WpCoreAgentApi.php:118
+msgid "You cannot read this content."
+msgstr ""
+
+#: includes/ThirdParty/SeoAgentApi.php:90
+#: includes/WpCore/WpCoreAgentApi.php:190
+#: includes/WpCore/WpCoreAgentApi.php:325
+#: includes/WpCore/WpCoreAgentApi.php:881
+msgid "You cannot edit this content."
+msgstr ""
+
+#: includes/ThirdParty/SeoAgentApi.php:105
+msgid "Provide at least one SEO field to set (title, description, focus_keyword, canonical, noindex, og_title, og_description)."
+msgstr ""
+
+#: includes/ThirdParty/SeoAgentApi.php:162
+#: includes/WpCore/WpCoreAgentApi.php:963
+msgid "That content could not be found."
+msgstr ""
+
+#: includes/ThirdParty/WooCommerceAgentApi.php:28
+#: includes/ThirdParty/WooCommerceAgentApi.php:105
+#: includes/ThirdParty/WooCommerceAgentApi.php:358
+msgid "WooCommerce is not installed on this site."
+msgstr ""
+
+#: includes/ThirdParty/WooCommerceAgentApi.php:31
+msgid "You cannot read WooCommerce data."
+msgstr ""
+
+#: includes/ThirdParty/WooCommerceAgentApi.php:62
+#: includes/ThirdParty/WooCommerceAgentApi.php:221
+#: includes/ThirdParty/WooCommerceAgentApi.php:267
+#: includes/ThirdParty/WooCommerceAgentApi.php:295
+msgid "That product does not exist."
+msgstr ""
+
+#: includes/ThirdParty/WooCommerceAgentApi.php:79
+#: includes/ThirdParty/WooCommerceAgentApi.php:117
+#: includes/ThirdParty/WooCommerceAgentApi.php:375
+msgid "That order does not exist."
+msgstr ""
+
+#: includes/ThirdParty/WooCommerceAgentApi.php:108
+msgid "You cannot edit WooCommerce orders."
+msgstr ""
+
+#: includes/ThirdParty/WooCommerceAgentApi.php:113
+msgid "An order id and a note are required."
+msgstr ""
+
+#: includes/ThirdParty/WooCommerceAgentApi.php:141
+msgid "A valid order status is required."
+msgstr ""
+
+#: includes/ThirdParty/WooCommerceAgentApi.php:212
+msgid "An item_id is required to remove a line."
+msgstr ""
+
+#: includes/ThirdParty/WooCommerceAgentApi.php:243
+msgid "A coupon code is required."
+msgstr ""
+
+#: includes/ThirdParty/WooCommerceAgentApi.php:270
+msgid "A stock quantity is required."
+msgstr ""
+
+#. translators: 1: amount, 2: reason
+#: includes/ThirdParty/WooCommerceAgentApi.php:337
 #, php-format
-msgid "%04x%04x-%04x-%04x-%04x-%04x%04x%04x"
+msgid "Refund REQUESTED via the agent%1$s%2$s — NOT yet issued. A person must review and process this refund in WooCommerce."
+msgstr ""
+
+#: includes/ThirdParty/WooCommerceAgentApi.php:348
+msgid "Refund request recorded on the order. It was NOT issued — a person must approve and process it in WooCommerce."
+msgstr ""
+
+#: includes/ThirdParty/WooCommerceAgentApi.php:361
+msgid "You cannot manage WooCommerce."
 msgstr ""
 
 #: includes/WorkflowApiBridge.php:31
+#: includes/WorkflowVfsBridge.php:36
 msgid "WP PFWorkflow plugin is not active."
 msgstr ""
 
@@ -377,27 +663,266 @@ msgstr ""
 msgid "workflowId is required."
 msgstr ""
 
-#: includes/WorkflowApiBridge.php:70
-msgid "payload is required."
+#: includes/WorkflowApiBridge.php:80
+msgid "payload is required: send { payload: { workflow: { id, name, status }, graph: { schemaVersion: 1, nodes: [], connections: [] } } }."
 msgstr ""
 
-#: includes/WorkflowApiBridge.php:135
+#: includes/WorkflowApiBridge.php:145
 msgid "wp-pfworkflow agent-ready service is not available."
+msgstr ""
+
+#: includes/WorkflowVfsBridge.php:52
+msgid "Tool is not executable by the VFS bridge."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:141
+msgid "You cannot create this content type."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:146
+msgid "A title or content is required."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:207
+msgid "You cannot publish this content."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:212
+#: includes/WpCore/WpCoreAgentApi.php:551
+msgid "No updatable fields were provided."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:234
+msgid "You cannot trash this content."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:238
+msgid "The content could not be moved to trash."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:255
+msgid "That taxonomy does not exist."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:290
+#: includes/WpCore/WpCoreAgentApi.php:329
+msgid "A valid taxonomy is required."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:294
+msgid "You cannot manage terms in this taxonomy."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:298
+msgid "A term name is required."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:333
+msgid "A non-empty list of terms is required."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:361
+msgid "You cannot browse the media library."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:398
+msgid "You cannot read the media library."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:403
+msgid "That media item does not exist."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:425
+msgid "You cannot list users."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:460
+msgid "You cannot read users."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:469
+#: includes/WpCore/WpCoreAgentApi.php:525
+msgid "That user does not exist."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:485
+msgid "You cannot create users."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:490
+msgid "A valid username and email are required."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:520
+msgid "You cannot edit users."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:536
+msgid "The email address is not valid."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:542
+msgid "You cannot change user roles."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:570
+#: includes/WpCore/WpCoreAgentApi.php:600
+msgid "You cannot moderate comments."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:605
+msgid "That comment does not exist."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:612
+msgid "A reply needs content."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:625
+msgid "The reply could not be posted."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:632
+msgid "Unknown moderation action."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:636
+msgid "The comment status could not be changed."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:650
+msgid "You cannot read site settings."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:654
+msgid "That setting is not readable through the agent."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:666
+msgid "You cannot change site settings."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:670
+msgid "That setting cannot be changed through the agent."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:673
+#: includes/WpCore/WpCoreAgentApi.php:888
+msgid "A value is required."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:689
+msgid "You cannot read the site overview."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:722
+msgid "You cannot read navigation menus."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:746
+msgid "You cannot manage navigation menus."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:753
+msgid "A menu name is required."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:765
+msgid "That menu does not exist."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:777
+msgid "Provide a post_id or a url for the menu item."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:786
+msgid "Unknown menu action (use create_menu or add_item)."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:798
+msgid "You cannot read widgets."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:826
+msgid "You cannot read the plugin list."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:885
+msgid "Only public custom fields can be set (protected keys are refused)."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:907
+msgid "You cannot add media."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:912
+msgid "A valid http(s) URL is required."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:918
+msgid "That URL is not allowed (it points at a private or unsafe address)."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:971
+msgid "That content type does not exist."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:1017
+msgid "A role is required."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:1021
+msgid "That role does not exist."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:1027
+msgid "You cannot grant the administrator role."
+msgstr ""
+
+#: includes/WpCore/WpCoreAgentApi.php:1033
+msgid "You cannot grant a role with more capabilities than your own."
+msgstr ""
+
+#: assets/src/ConversationPicker.tsx:189
+#, javascript-format
+msgid "\"%s\" will be permanently deleted along with its messages. This action cannot be undone."
 msgstr ""
 
 #: assets/src/Diagnostic.tsx:194
 msgid "$0 (no pricing configured)"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:186
+#: assets/src/ConversationPicker.tsx:123
 #, javascript-format
-msgid "%1$d turn(s) · last %2$s"
+msgid "%1$d turn · updated %2$s"
+msgid_plural "%1$d turns · updated %2$s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/src/wpTarget.ts:422
+#, javascript-format
+msgid "%1$s %2$s%3$s"
 msgstr ""
 
-#: assets/src/App.tsx:849
-#: assets/src/App.tsx:882
+#: assets/src/App.tsx:1214
 #, javascript-format
-msgid "%1$s / %2$d nodes / %3$d wires"
+msgid "%1$s / %2$s tokens (%3$d%%)"
+msgstr ""
+
+#: assets/src/wpTarget.ts:414
+#, javascript-format
+msgid "%1$s coupon%2$s"
+msgstr ""
+
+#: assets/src/wpTarget.ts:415
+#, javascript-format
+msgid "%1$s order%2$s"
+msgstr ""
+
+#: assets/src/wpTarget.ts:413
+#, javascript-format
+msgid "%1$s product%2$s"
 msgstr ""
 
 #: assets/src/Diagnostic.tsx:108
@@ -405,69 +930,55 @@ msgstr ""
 msgid "%1$s tokens, %2$s"
 msgstr ""
 
-#: assets/src/App.tsx:709
+#: assets/src/App.tsx:1278
 #, javascript-format
-msgid "%d execution(s)"
-msgstr ""
+msgid "%d execution"
+msgid_plural "%d executions"
+msgstr[0] ""
+msgstr[1] ""
 
 #: assets/src/Diagnostic.tsx:128
 #, javascript-format
-msgid "%d issue(s)"
-msgstr ""
+msgid "%d issue"
+msgid_plural "%d issues"
+msgstr[0] ""
+msgstr[1] ""
 
-#: assets/src/App.tsx:785
-#, javascript-format
-msgid "%d nodes"
-msgstr ""
-
-#: assets/src/App.tsx:786
-#, javascript-format
-msgid "%d wires"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:289
+#: assets/src/ProviderWizard.tsx:867
 msgid "(manual)"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:218
+#: assets/src/ProviderWizard.tsx:777
 msgid "+ Add new credential"
 msgstr ""
 
-#: assets/src/App.tsx:638
+#: assets/src/App.tsx:1110
 msgid "+ New"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:197
-msgid "1. Pick a credential"
+#: assets/src/ProviderWizard.tsx:1435
+msgid "A custom rule is in place. Use the advanced editor to change it."
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:231
-msgid "1b. New credential"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:277
-msgid "2. Model"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:251
+#: assets/src/ProviderWizard.tsx:829
 msgid "API key"
 msgstr ""
 
-#: assets/src/ActionInspector.tsx:22
-#: assets/src/ActionInspector.tsx:34
-#: assets/src/ActionInspector.tsx:46
-#: assets/src/ActionInspector.tsx:60
-msgid "Action Inspector"
-msgstr ""
-
-#: assets/src/App.tsx:511
+#: assets/src/App.tsx:918
 msgid "Action cancelled by the user."
 msgstr ""
 
-#: assets/src/App.tsx:368
-#: assets/src/App.tsx:410
+#: assets/src/ProviderWizard.tsx:101
+msgid "Activate a workflow"
+msgstr ""
+
+#: assets/src/App.tsx:1455
+msgid "Activate this workflow so it starts firing on its trigger?"
+msgstr ""
+
+#: assets/src/App.tsx:1454
 #, javascript-format
-msgid "Action failed: %s"
+msgid "Activate workflow \"%s\" so it starts firing on its trigger?"
 msgstr ""
 
 #: assets/src/Diagnostic.tsx:167
@@ -475,880 +986,89 @@ msgstr ""
 msgid "Active (%s)"
 msgstr ""
 
-#: assets/src/App.tsx:537
+#: assets/src/App.tsx:1090
+msgid "Active LLM"
+msgstr ""
+
+#: assets/src/wpTarget.ts:201
+msgid "Added"
+msgstr ""
+
+#: assets/src/wpTarget.ts:319
 #, javascript-format
-msgid "Active LLM: %1$s · %2$s."
+msgid "Added an order note%s"
 msgstr ""
 
-#: assets/src/ActionInspector.tsx:206
-msgid "After"
+#: assets/src/wpTarget.ts:204
+msgid "Adjusted"
 msgstr ""
 
-#: assets/src/App.tsx:475
+#: assets/src/wpTarget.ts:416
+msgid "Adjusted stock"
+msgstr ""
+
+#: assets/src/App.tsx:769
+#: assets/src/App.tsx:905
 #, javascript-format
 msgid "Agent runtime failed: %s"
 msgstr ""
 
-#: assets/src/App.tsx:858
-msgid "All"
-msgstr ""
-
-#: assets/src/ActionInspector.tsx:163
-#: assets/src/App.tsx:694
-msgid "Arguments"
-msgstr ""
-
-#: assets/src/App.tsx:765
-msgid "Ask the agent…"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:269
-msgid "Back"
-msgstr ""
-
-#: assets/src/App.tsx:602
-msgid "Back to WP admin"
-msgstr ""
-
-#: assets/src/ActionInspector.tsx:198
-msgid "Before"
-msgstr ""
-
-#: assets/src/App.tsx:912
-msgid "Can manage"
-msgstr ""
-
-#: assets/src/App.tsx:910
-msgid "Can view"
-msgstr ""
-
-#: assets/src/App.tsx:702
-#: assets/src/ProviderWizard.tsx:222
-#: assets/src/ProviderWizard.tsx:333
-msgid "Cancel"
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:138
-msgid "Capability matrix"
-msgstr ""
-
-#: assets/src/App.tsx:629
-msgid "Change"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:329
-msgid "Change provider"
-msgstr ""
-
-#: assets/src/App.tsx:899
-msgid "Chat history is local to this screen. Provider keys are never stored in browser storage."
-msgstr ""
-
-#: assets/src/App.tsx:302
-msgid "Checking Workflow API endpoints…"
-msgstr ""
-
-#: assets/src/App.tsx:901
-msgid "Clear local history"
-msgstr ""
-
-#: assets/src/App.tsx:815
-msgid "Close"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:166
-msgid "Configure LLM"
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:173
-#, javascript-format
-msgid "Configured providers (%d)"
-msgstr ""
-
-#: assets/src/App.tsx:699
-#: assets/src/ProviderWizard.tsx:317
-msgid "Confirm"
-msgstr ""
-
-#: assets/src/ActionInspector.tsx:68
-msgid "Confirmation pending:"
-msgstr ""
-
-#: assets/src/App.tsx:689
-msgid "Confirmation required"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:179
-msgid "Continue a previous conversation or proceed to start a new one."
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:178
-msgid "Conversation"
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:88
-#, javascript-format
-msgid "Cost and tokens (last %dh)"
-msgstr ""
-
-#: assets/src/ActionInspector.tsx:208
-msgid "Could not capture the resulting state."
-msgstr ""
-
-#: assets/src/App.tsx:799
-msgid "Create draft"
-msgstr ""
-
-#: assets/src/App.tsx:400
-#, javascript-format
-msgid "Created workflow #%1$d \"%2$s\" (status: %3$s) from template %4$s \"%5$s\" and loaded it."
-msgstr ""
-
-#: assets/src/App.tsx:287
-msgid "Current user cannot view workflows. API calls were skipped."
-msgstr ""
-
-#: assets/src/App.tsx:827
-#: assets/src/Diagnostic.tsx:35
-#: assets/src/Diagnostic.tsx:46
-#: assets/src/Diagnostic.tsx:66
-msgid "Diagnostic"
-msgstr ""
-
-#: assets/src/App.tsx:1000
-msgid "Done."
-msgstr ""
-
-#: assets/src/App.tsx:756
-#: assets/src/Diagnostic.tsx:50
-#: assets/src/ProviderWizard.tsx:172
-msgid "Error:"
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:94
-msgid "Estimated cost"
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:97
-msgid "Events recorded"
-msgstr ""
-
-#: assets/src/ActionInspector.tsx:168
-msgid "Evidence"
-msgstr ""
-
-#: assets/src/ActionInspector.tsx:73
-#, javascript-format
-msgid "Executions (%d)"
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:123
-msgid "FAIL"
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:83
-#, javascript-format
-msgid "Generated at %s."
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:168
-msgid "Inactive (fallback in use)"
-msgstr ""
-
-#: assets/src/App.tsx:442
-#, javascript-format
-msgid "LLM error: %1$s — %2$s"
-msgstr ""
-
-#: assets/src/App.tsx:804
-msgid "Load a workflow or preview a template."
-msgstr ""
-
-#: assets/src/App.tsx:358
-#, javascript-format
-msgid "Loaded workflow #%1$d \"%2$s\" (status: %3$s, nodes: %4$d, wires: %5$d)."
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:37
-msgid "Loading beta readiness report…"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:282
-msgid "Loading models…"
-msgstr ""
-
-#: assets/src/App.tsx:767
-msgid "Message to the agent"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:285
-msgid "Model"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:296
-msgid "Model (manual)"
-msgstr ""
-
-#: assets/src/App.tsx:906
-msgid "Namespace"
-msgstr ""
-
-#: assets/src/App.tsx:526
-#: assets/src/App.tsx:573
-msgid "New conversation"
-msgstr ""
-
-#: assets/src/App.tsx:579
-msgid "New conversation."
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:199
-msgid "No credentials in the store yet. Add one to continue."
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:175
-msgid "No credentials stored yet. Configure one from Settings."
-msgstr ""
-
-#: assets/src/ActionInspector.tsx:200
-msgid "No prior state existed (creation or import)."
-msgstr ""
-
-#: assets/src/App.tsx:1008
-msgid "No response from the runtime."
-msgstr ""
-
-#: assets/src/ActionInspector.tsx:75
-msgid "No tool was executed in this turn."
-msgstr ""
-
-#: assets/src/App.tsx:595
-msgid "No workflow loaded"
-msgstr ""
-
-#: assets/src/App.tsx:731
-msgid "Open in viewer"
-msgstr ""
-
-#: assets/src/App.tsx:615
-msgid "Open menu"
-msgstr ""
-
-#: assets/src/App.tsx:729
-#, javascript-format
-msgid "Open workflow %d in the viewer"
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:123
-msgid "PASS"
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:150
-msgid "Partial capabilities"
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:102
-msgid "Per provider"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:157
-msgid "Pick a model or enter the id manually."
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:129
-msgid "Pick a provider and paste the API key."
-msgstr ""
-
-#: assets/src/App.tsx:941
-msgid "Pick an LLM provider to get started. Your credentials live encrypted inside the WordPress store."
-msgstr ""
-
-#: assets/src/App.tsx:886
-msgid "Preview before creating"
-msgstr ""
-
-#: assets/src/App.tsx:381
-#, javascript-format
-msgid "Preview loaded for template %1$s \"%2$s\" (%3$d nodes, %4$d wires). No workflow was created yet."
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:233
-msgid "Provider"
-msgstr ""
-
-#: assets/src/App.tsx:621
-msgid "Provider · model"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:279
-msgid "Provider:"
-msgstr ""
-
-#: assets/src/App.tsx:645
-#: assets/src/Diagnostic.tsx:78
-msgid "Refresh"
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:76
-msgid "Refresh diagnostic"
-msgstr ""
-
-#: assets/src/ActionInspector.tsx:49
-msgid "Run an action against the agent to see the steps, evidence and diffs here."
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:266
-msgid "Save and continue"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:266
-msgid "Saving…"
-msgstr ""
-
-#: assets/src/App.tsx:835
-msgid "Search…"
-msgstr ""
-
-#: assets/src/App.tsx:769
-msgid "Send"
-msgstr ""
-
-#: assets/src/App.tsx:555
-#, javascript-format
-msgid "Session %d is empty."
-msgstr ""
-
-#: assets/src/App.tsx:898
-msgid "Session only"
-msgstr ""
-
-#: assets/src/App.tsx:830
-msgid "Settings"
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:119
-msgid "Severe criteria"
-msgstr ""
-
-#: assets/src/App.tsx:908
-msgid "Source"
-msgstr ""
-
-#: assets/src/App.tsx:636
-msgid "Start a new conversation with the active LLM"
-msgstr ""
-
-#: assets/src/App.tsx:594
-msgid "Template Preview"
-msgstr ""
-
-#: assets/src/App.tsx:856
-msgid "Template categories"
-msgstr ""
-
-#: assets/src/App.tsx:824
-msgid "Templates"
-msgstr ""
-
-#: assets/src/App.tsx:321
-#, javascript-format
-msgid "Templates failed: %s"
-msgstr ""
-
-#: assets/src/App.tsx:1006
-msgid "The action ran but the final response failed."
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:263
-msgid "The key is encrypted (AES-256-GCM) in the WordPress store and never returned over REST."
-msgstr ""
-
-#: assets/src/App.tsx:1004
-msgid "The runtime rejected this call."
-msgstr ""
-
-#: assets/src/App.tsx:747
-msgid "Thinking…"
-msgstr ""
-
-#: assets/src/App.tsx:1002
-msgid "This action requires confirmation."
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:305
-msgid "This provider does not allow manual models; check your credential or retry."
-msgstr ""
-
-#: assets/src/ActionInspector.tsx:175
-msgid "This tool produces no diff (read-only or without workflow state)."
-msgstr ""
-
-#: assets/src/ActionInspector.tsx:86
-#, javascript-format
-msgid "Timeline (%d)"
-msgstr ""
-
-#: assets/src/ActionInspector.tsx:88
-msgid "Timeline is empty."
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:167
-msgid "To send messages to the agent you need to pick a provider and a model."
-msgstr ""
-
-#: assets/src/App.tsx:691
-msgid "Tool:"
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:91
-msgid "Total tokens"
-msgstr ""
-
-#: assets/src/App.tsx:983
-msgid "Unexpected error."
-msgstr ""
-
-#: assets/src/ActionInspector.tsx:25
-msgid "Waiting for the agent response…"
-msgstr ""
-
-#: assets/src/App.tsx:765
-msgid "Waiting for the agent…"
-msgstr ""
-
-#: assets/src/App.tsx:904
-msgid "Workflow API"
-msgstr ""
-
-#: assets/src/App.tsx:334
-msgid "Workflow API check failed. See dependency status for the exact endpoint result."
-msgstr ""
-
-#: assets/src/App.tsx:813
-msgid "Workflow API consumer"
-msgstr ""
-
-#: assets/src/App.tsx:174
-msgid "Workflow API has not been checked yet."
-msgstr ""
-
-#: assets/src/App.tsx:318
-msgid "Workflow API responded for workflows and templates."
-msgstr ""
-
-#: assets/src/App.tsx:594
-msgid "Workflow View"
-msgstr ""
-
-#: assets/src/App.tsx:642
-msgid "Workflow companion"
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:164
-msgid "Workflow dependency"
-msgstr ""
-
-#: assets/src/App.tsx:658
-msgid "Workflow dependency active"
-msgstr ""
-
-#: assets/src/App.tsx:658
-msgid "Workflow dependency inactive"
-msgstr ""
-
-#: assets/src/App.tsx:276
-msgid "Workflow plugin is not active. API calls were skipped."
-msgstr ""
-
-#: assets/src/App.tsx:652
-msgid "Workflow plugin was not detected during page bootstrap. API calls may fail until it is active."
-msgstr ""
-
-#: assets/src/App.tsx:821
-msgid "Workflows"
-msgstr ""
-
-#: assets/src/App.tsx:320
-#, javascript-format
-msgid "Workflows failed: %s"
-msgstr ""
-
-#: assets/src/App.tsx:812
-msgid "Workspace"
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:61
-msgid "beta partial"
-msgstr ""
-
-#: assets/src/Diagnostic.tsx:61
-msgid "beta ready"
-msgstr ""
-
-#: assets/src/App.tsx:717
-#, javascript-format
-msgid "diff: %s"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:301
-msgid "model-id"
-msgstr ""
-
-#: assets/src/App.tsx:444
-msgid "no message"
-msgstr ""
-
-#: assets/src/App.tsx:443
-msgid "unknown"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:240
-msgid "— Pick one —"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:694
-#, javascript-format
-msgid "\"%s\" will be permanently deleted along with its messages. This action cannot be undone."
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:429
-#, javascript-format
-msgid "%1$d turn(s) · updated %2$s"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:1005
+#: assets/src/ConversationPicker.tsx:232
 #, javascript-format
 msgid "All conversations whose last activity is older than %d days will be permanently deleted. This action cannot be undone."
 msgstr ""
 
-#: assets/src/App.tsx:629
-#: assets/src/App.tsx:630
-msgid "Back to conversations"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:811
-msgid "Base URL"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:447
-msgid "Conversation pages"
-msgstr ""
-
-#: assets/src/App.tsx:655
-msgid "Conversation title"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:830
-msgid "Credential"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:476
-msgid "Credentials"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:742
-#, javascript-format
-msgid "Credentials for \"%s\" will be removed from the encrypted store. This action cannot be undone."
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:715
-#: assets/src/ProviderWizard.tsx:763
-msgid "Delete"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:413
-#, javascript-format
-msgid "Delete all conversations older than %d days"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:438
-#: assets/src/ProviderWizard.tsx:689
-msgid "Delete conversation"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:437
-#, javascript-format
-msgid "Delete conversation %s"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:1026
-msgid "Delete conversations"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:519
-#: assets/src/ProviderWizard.tsx:737
-msgid "Delete credential"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:518
-#, javascript-format
-msgid "Delete credential %s"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:715
-#: assets/src/ProviderWizard.tsx:763
-msgid "Deleting…"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:813
-msgid "Discovery"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:819
-msgid "Last validation"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:895
-msgid "Load"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:508
-#: assets/src/ProviderWizard.tsx:785
-#, javascript-format
-msgid "Manage %s"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:509
-msgid "Manage credential"
-msgstr ""
-
-#: assets/src/App.tsx:779
-msgid "Management"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:941
-msgid "Manual model IDs"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:887
-msgid "Models"
-msgstr ""
-
-#: assets/src/App.tsx:816
-msgid "Neither Setyenv Workflow nor Setyenv Management is installed."
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:832
-msgid "New API key"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:543
-msgid "New credential"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:465
-msgid "Next page"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:421
-msgid "No conversations yet."
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:934
-msgid "No model list loaded yet. Click Load to fetch from the API or Refresh to bypass cache."
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:929
-msgid "No models returned."
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:1049
-msgid "Not configured"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:1045
-msgid "Not verified"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:458
-#, javascript-format
-msgid "Page %1$d of %2$d"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:837
-msgid "Paste API key to confirm changes"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:453
-msgid "Previous page"
-msgstr ""
-
-#: assets/src/App.tsx:800
-msgid "Setyenv Management"
-msgstr ""
-
-#: assets/src/App.tsx:808
-msgid "Setyenv Workflow"
-msgstr ""
-
-#: assets/src/App.tsx:769
-msgid "Setyenv views"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:416
-#, javascript-format
-msgid "Purge > %dd"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:1000
-msgid "Purge old conversations"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:416
-#: assets/src/ProviderWizard.tsx:1026
-msgid "Purging…"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:253
-msgid "Re-enter the API key to save changes."
-msgstr ""
-
-#: assets/src/App.tsx:676
-#: assets/src/App.tsx:677
-msgid "Rename conversation"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:863
-msgid "Save"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:957
-msgid "Save manual list"
-msgstr ""
-
-#: assets/src/App.tsx:663
-#: assets/src/App.tsx:664
-msgid "Save title"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:912
-#, javascript-format
-msgid "Source: %1$s · fetched %2$s · %3$d model(s)"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:801
-msgid "Status"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:807
-msgid "Stored key"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:499
-#: assets/src/ProviderWizard.tsx:871
-msgid "Test connection"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:498
-#, javascript-format
-msgid "Test connection for %s"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:1047
-msgid "Validation failed"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:1043
-msgid "Verified"
-msgstr ""
-
-#: assets/src/App.tsx:579
-#: assets/src/App.tsx:580
-msgid "Volver al admin de WordPress"
-msgstr ""
-
-#: assets/src/App.tsx:791
-msgid "Workflow"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:808
-msgid "not stored"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:945
-msgid "one model id per line"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:694
-#, javascript-format
-msgid "\"%s\" will be permanently deleted along with its messages. This action cannot be undone."
-msgstr ""
-
-#: assets/src/App.tsx:611
-msgid "Active LLM"
-msgstr ""
-
-#: assets/src/App.tsx:618
-msgid "Change LLM"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:742
-#, javascript-format
-msgid "Credentials for \"%s\" will be removed from the encrypted store. This action cannot be undone."
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:694
-#, javascript-format
-msgid "\"%s\" will be permanently deleted along with its messages. This action cannot be undone."
-msgstr ""
-
-#: assets/src/App.tsx:625
-msgid "Configure"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:742
-#, javascript-format
-msgid "Credentials for \"%s\" will be removed from the encrypted store. This action cannot be undone."
-msgstr ""
-
-#: assets/src/App.tsx:635
-msgid "No LLM configured."
-msgstr ""
-
-#: assets/src/ConversationPicker.tsx:185
-#, javascript-format
-msgid "\"%s\" will be permanently deleted along with its messages. This action cannot be undone."
-msgstr ""
-
-#: assets/src/App.tsx:1138
-#, javascript-format
-msgid "%1$s / %2$s tokens (%3$d%%)"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:1430
-msgid "A custom rule is in place. Use the advanced editor to change it."
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:101
-msgid "Activate a workflow"
-msgstr ""
-
-#: assets/src/App.tsx:1327
-msgid "Activate this workflow so it starts firing on its trigger?"
-msgstr ""
-
-#: assets/src/App.tsx:1326
-#, javascript-format
-msgid "Activate workflow \"%s\" so it starts firing on its trigger?"
-msgstr ""
-
-#: assets/src/ProviderWizard.tsx:1412
-#: assets/src/ProviderWizard.tsx:1440
+#: assets/src/ProviderWizard.tsx:1417
+#: assets/src/ProviderWizard.tsx:1445
 msgid "Allow"
 msgstr ""
 
-#: assets/src/App.tsx:1460
+#: assets/src/wpTarget.ts:200
+msgid "Applied"
+msgstr ""
+
+#: assets/src/wpTarget.ts:329
+#, javascript-format
+msgid "Applied a coupon to order%s"
+msgstr ""
+
+#: assets/src/App.tsx:1664
 msgid "Applying changes…"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1413
-#: assets/src/ProviderWizard.tsx:1441
+#: assets/src/ProviderWizard.tsx:1418
+#: assets/src/ProviderWizard.tsx:1446
 msgid "Ask"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1145
+#: assets/src/App.tsx:1323
+msgid "Ask the agent…"
+msgstr ""
+
+#: assets/src/wpTarget.ts:204
+msgid "Assigned"
+msgstr ""
+
+#: assets/src/wpTarget.ts:267
+msgid "Assigned terms"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:847
+msgid "Back"
+msgstr ""
+
+#: assets/src/App.tsx:1148
+#: assets/src/App.tsx:1149
+msgid "Back to conversations"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1150
 #, javascript-format
 msgid "Balance: %1$s %2$s (topped up %3$s · granted %4$s)"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1034
+msgid "Base URL"
 msgstr ""
 
 #: assets/src/ProviderWizard.tsx:82
@@ -1359,28 +1079,91 @@ msgstr ""
 msgid "Browse your workflow library"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1241
+#: assets/src/ProviderWizard.tsx:1246
 msgid "Cache read $/Mtok"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1253
+#: assets/src/ProviderWizard.tsx:1258
 msgid "Cache write $/Mtok"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1273
+#: assets/src/App.tsx:1256
+#: assets/src/ConversationPicker.tsx:195
+#: assets/src/ConversationPicker.tsx:238
+#: assets/src/ProviderWizard.tsx:784
+#: assets/src/ProviderWizard.tsx:938
+#: assets/src/ProviderWizard.tsx:976
+msgid "Cancel"
+msgstr ""
+
+#: assets/src/wpTarget.ts:201
+msgid "Cancelled"
+msgstr ""
+
+#: assets/src/wpTarget.ts:325
+#, javascript-format
+msgid "Cancelled order%s"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1278
 msgid "Capabilities:"
+msgstr ""
+
+#: assets/src/Diagnostic.tsx:138
+msgid "Capability matrix"
+msgstr ""
+
+#: assets/src/App.tsx:1101
+msgid "Change"
+msgstr ""
+
+#: assets/src/App.tsx:1099
+msgid "Change LLM"
 msgstr ""
 
 #: assets/src/ProviderWizard.tsx:62
 msgid "Change a specific section of an existing workflow without rewriting the rest."
 msgstr ""
 
+#: assets/src/ProviderWizard.tsx:934
+msgid "Change provider"
+msgstr ""
+
 #: assets/src/ProviderWizard.tsx:67
 msgid "Change the name of a workflow as it appears in your library."
 msgstr ""
 
+#: assets/src/App.tsx:495
+msgid "Checking Workflow API endpoints…"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1014
+#: assets/src/ProviderWizard.tsx:1372
+#: assets/src/ProviderWizard.tsx:1390
+#: assets/src/ProviderWizard.tsx:1502
+msgid "Close"
+msgstr ""
+
+#: assets/src/App.tsx:1121
+msgid "Configure"
+msgstr ""
+
+#: assets/src/App.tsx:1119
+msgid "Configure LLM"
+msgstr ""
+
+#: assets/src/Diagnostic.tsx:173
+#, javascript-format
+msgid "Configured providers (%d)"
+msgstr ""
+
+#: assets/src/App.tsx:1253
+#: assets/src/ProviderWizard.tsx:922
+msgid "Confirm"
+msgstr ""
+
 #: assets/src/ProviderWizard.tsx:889
-#: assets/src/ProviderWizard.tsx:1170
+#: assets/src/ProviderWizard.tsx:1175
 msgid "Context length (tokens)"
 msgstr ""
 
@@ -1388,16 +1171,41 @@ msgstr ""
 msgid "Context length and max output tokens are required (greater than zero) before confirming the model."
 msgstr ""
 
-#: assets/src/App.tsx:1135
+#: assets/src/App.tsx:1211
 msgid "Context window usage"
 msgstr ""
 
-#: assets/src/App.tsx:1378
+#: assets/src/ConversationPicker.tsx:107
+msgid "Continue a previous conversation or proceed to start a new one."
+msgstr ""
+
+#: assets/src/App.tsx:655
+msgid "Continuing…"
+msgstr ""
+
+#: assets/src/ConversationPicker.tsx:95
+msgid "Conversation"
+msgstr ""
+
+#: assets/src/ConversationPicker.tsx:144
+msgid "Conversation pages"
+msgstr ""
+
+#: assets/src/App.tsx:1174
+msgid "Conversation title"
+msgstr ""
+
+#: assets/src/Diagnostic.tsx:88
+#, javascript-format
+msgid "Cost and tokens (last %dh)"
+msgstr ""
+
+#: assets/src/App.tsx:1582
 #, javascript-format
 msgid "Create %1$s \"%2$s\"?"
 msgstr ""
 
-#: assets/src/App.tsx:1382
+#: assets/src/App.tsx:1586
 #, javascript-format
 msgid "Create a new %s?"
 msgstr ""
@@ -1410,9 +1218,46 @@ msgstr ""
 msgid "Create or replace a workflow"
 msgstr ""
 
-#: assets/src/App.tsx:1356
+#: assets/src/App.tsx:1555
 #, javascript-format
 msgid "Create record in %1$s%2$s?"
+msgstr ""
+
+#: assets/src/App.tsx:1474
+#, javascript-format
+msgid "Create workflow \"%s\"?"
+msgstr ""
+
+#: assets/src/wpTarget.ts:196
+msgid "Created"
+msgstr ""
+
+#: assets/src/wpTarget.ts:247
+#, javascript-format
+msgid "Created %1$s%2$s%3$s"
+msgstr ""
+
+#: assets/src/wpTarget.ts:321
+#, javascript-format
+msgid "Created an order%s"
+msgstr ""
+
+#: assets/src/wpTarget.ts:265
+#, javascript-format
+msgid "Created term%s"
+msgstr ""
+
+#: assets/src/wpTarget.ts:279
+#, javascript-format
+msgid "Created user%1$s%2$s"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1053
+msgid "Credential"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:723
+msgid "Credentials"
 msgstr ""
 
 #: assets/src/ProviderWizard.tsx:965
@@ -1420,7 +1265,11 @@ msgstr ""
 msgid "Credentials for \"%s\" will be removed from the encrypted store. This action cannot be undone."
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1431
+#: assets/src/App.tsx:486
+msgid "Current user cannot view workflows. API calls were skipped."
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1436
 msgid "Custom rule"
 msgstr ""
 
@@ -1428,15 +1277,15 @@ msgstr ""
 msgid "Declare a workflow variable"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1401
+#: assets/src/ProviderWizard.tsx:1406
 msgid "Default for any other action"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1194
+#: assets/src/ProviderWizard.tsx:1199
 msgid "Default reasoning effort"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1292
+#: assets/src/ProviderWizard.tsx:1297
 msgid "Defaults:"
 msgstr ""
 
@@ -1444,71 +1293,235 @@ msgstr ""
 msgid "Define a new variable that workflows can read or write."
 msgstr ""
 
+#: assets/src/ConversationPicker.tsx:205
+#: assets/src/ProviderWizard.tsx:986
+msgid "Delete"
+msgstr ""
+
+#: assets/src/App.tsx:1529
+#, javascript-format
+msgid "Delete \"%s\"? This cannot be undone."
+msgstr ""
+
 #: assets/src/ProviderWizard.tsx:71
 msgid "Delete a workflow"
 msgstr ""
 
-#: assets/src/App.tsx:1333
+#: assets/src/ConversationPicker.tsx:101
+#, javascript-format
+msgid "Delete all conversations older than %d days"
+msgstr ""
+
+#: assets/src/ConversationPicker.tsx:135
+#: assets/src/ConversationPicker.tsx:184
+msgid "Delete conversation"
+msgstr ""
+
+#: assets/src/ConversationPicker.tsx:134
+#, javascript-format
+msgid "Delete conversation %s"
+msgstr ""
+
+#: assets/src/ConversationPicker.tsx:248
+msgid "Delete conversations"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:766
+#: assets/src/ProviderWizard.tsx:960
+msgid "Delete credential"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:765
+#, javascript-format
+msgid "Delete credential %s"
+msgstr ""
+
+#: assets/src/App.tsx:1507
+#, javascript-format
+msgid "Delete one record from \"%s\"? This cannot be undone."
+msgstr ""
+
+#: assets/src/App.tsx:1526
+#, javascript-format
+msgid "Delete the %1$s \"%2$s\"? This cannot be undone."
+msgstr ""
+
+#: assets/src/App.tsx:1516
+#, javascript-format
+msgid "Delete the table \"%s\" and every record in it? This cannot be undone."
+msgstr ""
+
+#: assets/src/App.tsx:1508
+msgid "Delete this record? This cannot be undone."
+msgstr ""
+
+#: assets/src/App.tsx:1517
+msgid "Delete this table and every record in it? This cannot be undone."
+msgstr ""
+
+#: assets/src/App.tsx:1461
 msgid "Delete this workflow? This cannot be undone."
 msgstr ""
 
-#: assets/src/App.tsx:1332
+#: assets/src/App.tsx:1460
 #, javascript-format
 msgid "Delete workflow \"%s\"? This cannot be undone."
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1414
-#: assets/src/ProviderWizard.tsx:1442
+#: assets/src/wpTarget.ts:197
+msgid "Deleted"
+msgstr ""
+
+#: assets/src/ConversationPicker.tsx:205
+#: assets/src/ProviderWizard.tsx:986
+msgid "Deleting…"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1419
+#: assets/src/ProviderWizard.tsx:1447
 msgid "Deny"
+msgstr ""
+
+#: assets/src/App.tsx:1396
+#: assets/src/Diagnostic.tsx:35
+#: assets/src/Diagnostic.tsx:46
+#: assets/src/Diagnostic.tsx:66
+msgid "Diagnostic"
 msgstr ""
 
 #: assets/src/ProviderWizard.tsx:76
 msgid "Discover your data model"
 msgstr ""
 
+#: assets/src/ProviderWizard.tsx:1036
+msgid "Discovery"
+msgstr ""
+
+#: assets/src/App.tsx:2225
+msgid "Done."
+msgstr ""
+
 #: assets/src/ProviderWizard.tsx:61
 msgid "Edit part of a workflow"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1464
+#: assets/src/ProviderWizard.tsx:1469
 msgid "Edit the raw rules JSON. Use this for argument-pattern rules that the simple list above cannot express."
 msgstr ""
 
-#: assets/src/App.tsx:1443
+#: assets/src/wpTarget.ts:202
+msgid "Enrolled"
+msgstr ""
+
+#: assets/src/wpTarget.ts:362
+msgid "Enrolled a user in a course"
+msgstr ""
+
+#: assets/src/App.tsx:1314
+#: assets/src/ConversationPicker.tsx:110
+#: assets/src/Diagnostic.tsx:50
+#: assets/src/ProviderWizard.tsx:717
+#: assets/src/ProviderWizard.tsx:1400
+msgid "Error:"
+msgstr ""
+
+#: assets/src/Diagnostic.tsx:94
+msgid "Estimated cost"
+msgstr ""
+
+#: assets/src/Diagnostic.tsx:97
+msgid "Events recorded"
+msgstr ""
+
+#: assets/src/App.tsx:1647
 msgid "Exploring the workspace…"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1391
+#: assets/src/Diagnostic.tsx:123
+msgid "FAIL"
+msgstr ""
+
+#: assets/src/wpTarget.ts:241
+msgid "Failed: "
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1396
 msgid "For each thing the agent can do, choose whether it runs straight away, asks you first, or is not allowed at all. \"Ask\" is the safe default."
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1458
+#: assets/src/Diagnostic.tsx:83
+#, javascript-format
+msgid "Generated at %s."
+msgstr ""
+
+#: assets/src/wpTarget.ts:202
+msgid "Granted"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1463
 msgid "Hide advanced editor"
 msgstr ""
 
-#: assets/src/App.tsx:1448
+#: assets/src/App.tsx:1652
 msgid "Implementing the workflow logic…"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1217
+#: assets/src/wpTarget.ts:275
+#, javascript-format
+msgid "Imported media%s"
+msgstr ""
+
+#: assets/src/Diagnostic.tsx:168
+msgid "Inactive (fallback in use)"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1222
 msgid "Input $/Mtok"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1489
+#: assets/src/ProviderWizard.tsx:1494
 #, javascript-format
 msgid "Last updated: %s"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1042
+msgid "Last validation"
 msgstr ""
 
 #: assets/src/ProviderWizard.tsx:81
 msgid "List records"
 msgstr ""
 
-#: assets/src/App.tsx:1456
+#: assets/src/wpTarget.ts:199
+msgid "Listed"
+msgstr ""
+
+#: assets/src/wpTarget.ts:350
+msgid "Listed forms"
+msgstr ""
+
+#: assets/src/wpTarget.ts:310
+msgid "Listed plugins"
+msgstr ""
+
+#: assets/src/App.tsx:1660
 msgid "Listing resources…"
 msgstr ""
 
-#: assets/src/App.tsx:1458
+#: assets/src/ProviderWizard.tsx:1118
+msgid "Load"
+msgstr ""
+
+#: assets/src/App.tsx:1662
 msgid "Loading a resource…"
+msgstr ""
+
+#: assets/src/Diagnostic.tsx:37
+msgid "Loading beta readiness report…"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:860
+msgid "Loading models…"
 msgstr ""
 
 #: assets/src/ProviderWizard.tsx:77
@@ -1519,17 +1532,116 @@ msgstr ""
 msgid "Look inside a single workflow without making changes."
 msgstr ""
 
-#: assets/src/App.tsx:1454
+#: assets/src/App.tsx:1658
 msgid "Looking up the data model…"
 msgstr ""
 
+#: assets/src/ProviderWizard.tsx:755
+#: assets/src/ProviderWizard.tsx:1008
+#, javascript-format
+msgid "Manage %s"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:756
+msgid "Manage credential"
+msgstr ""
+
+#: assets/src/App.tsx:1378
+msgid "Management"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1341
+msgid "Manual model IDs"
+msgstr ""
+
 #: assets/src/ProviderWizard.tsx:901
-#: assets/src/ProviderWizard.tsx:1182
+#: assets/src/ProviderWizard.tsx:1187
 msgid "Max output (tokens)"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1287
+#: assets/src/App.tsx:1325
+msgid "Message to the agent"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1292
 msgid "Modalities:"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:855
+#: assets/src/ProviderWizard.tsx:863
+msgid "Model"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:874
+msgid "Model (manual)"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1110
+msgid "Models"
+msgstr ""
+
+#: assets/src/wpTarget.ts:203
+msgid "Moderated"
+msgstr ""
+
+#: assets/src/wpTarget.ts:290
+msgid "Moderated a comment"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1055
+msgid "New API key"
+msgstr ""
+
+#: assets/src/App.tsx:981
+msgid "New conversation"
+msgstr ""
+
+#: assets/src/App.tsx:988
+msgid "New conversation."
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:793
+msgid "New credential"
+msgstr ""
+
+#: assets/src/ConversationPicker.tsx:162
+msgid "Next page"
+msgstr ""
+
+#: assets/src/App.tsx:1131
+msgid "No LLM configured."
+msgstr ""
+
+#: assets/src/ConversationPicker.tsx:114
+msgid "No conversations yet."
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:725
+msgid "No credentials in the store yet. Add one to continue."
+msgstr ""
+
+#: assets/src/Diagnostic.tsx:175
+msgid "No credentials stored yet. Configure one from Settings."
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1334
+msgid "No model list loaded yet. Click Load to fetch from the API or Refresh to bypass cache."
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1329
+msgid "No models returned."
+msgstr ""
+
+#: assets/src/App.tsx:2237
+msgid "No response from the runtime."
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1526
+msgid "Not configured"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1522
+msgid "Not verified"
 msgstr ""
 
 #: assets/src/ProviderWizard.tsx:86
@@ -1540,15 +1652,45 @@ msgstr ""
 msgid "Open a workflow to read it"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:107
-msgid "Other capability — see this site\\'s integrator for details."
+#: assets/src/WordPressPane.tsx:51
+msgid "Open this in WordPress admin"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1229
+#: assets/src/wpTarget.ts:343
+#, javascript-format
+msgid "Optimized SEO%1$s%2$s"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:107
+msgid "Other capability — see this site's integrator for details."
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1234
 msgid "Output $/Mtok"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1384
+#: assets/src/Diagnostic.tsx:123
+msgid "PASS"
+msgstr ""
+
+#: assets/src/ConversationPicker.tsx:155
+#, javascript-format
+msgid "Page %1$d of %2$d"
+msgstr ""
+
+#: assets/src/Diagnostic.tsx:150
+msgid "Partial capabilities"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1060
+msgid "Paste API key to confirm changes"
+msgstr ""
+
+#: assets/src/Diagnostic.tsx:102
+msgid "Per provider"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1389
 msgid "Permission rules"
 msgstr ""
 
@@ -1556,27 +1698,119 @@ msgstr ""
 msgid "Permissions"
 msgstr ""
 
+#: assets/src/ProviderWizard.tsx:669
+msgid "Pick a model or enter the id manually."
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:612
+msgid "Pick a provider and paste the API key."
+msgstr ""
+
+#: assets/src/App.tsx:2106
+msgid "Pick an LLM provider to get started. Your credentials live encrypted inside the WordPress store."
+msgstr ""
+
 #: assets/src/ProviderWizard.tsx:913
 msgid "Pre-filled when the provider API exposes caps; required otherwise. Stored on the credential so the runtime never has to guess."
+msgstr ""
+
+#: assets/src/ConversationPicker.tsx:150
+msgid "Previous page"
+msgstr ""
+
+#: assets/src/ProductSwitcher.tsx:50
+#: assets/src/ProductSwitcher.tsx:51
+#: assets/src/ProductSwitcher.tsx:58
+msgid "Products"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:795
+#: assets/src/ProviderWizard.tsx:1022
+msgid "Provider"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:857
+msgid "Provider:"
+msgstr ""
+
+#: assets/src/ConversationPicker.tsx:104
+#, javascript-format
+msgid "Purge > %dd"
+msgstr ""
+
+#: assets/src/ConversationPicker.tsx:227
+msgid "Purge old conversations"
+msgstr ""
+
+#: assets/src/ConversationPicker.tsx:104
+#: assets/src/ConversationPicker.tsx:248
+msgid "Purging…"
+msgstr ""
+
+#: assets/src/wpTarget.ts:209
+msgid "Ran"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:442
+msgid "Re-enter the API key to save changes."
+msgstr ""
+
+#: assets/src/wpTarget.ts:198
+msgid "Read"
+msgstr ""
+
+#: assets/src/wpTarget.ts:360
+msgid "Read LearnDash courses"
+msgstr ""
+
+#: assets/src/wpTarget.ts:364
+msgid "Read MemberPress data"
+msgstr ""
+
+#: assets/src/wpTarget.ts:341
+#, javascript-format
+msgid "Read SEO fields%s"
+msgstr ""
+
+#: assets/src/wpTarget.ts:317
+msgid "Read WooCommerce data"
+msgstr ""
+
+#: assets/src/wpTarget.ts:304
+#, javascript-format
+msgid "Read setting%s"
 msgstr ""
 
 #: assets/src/ProviderWizard.tsx:87
 msgid "Read the full content of a single record. Read-only."
 msgstr ""
 
-#: assets/src/App.tsx:1445
+#: assets/src/App.tsx:1649
 msgid "Reading the reference library…"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1282
+#: assets/src/ProviderWizard.tsx:1287
 msgid "Reasoning:"
+msgstr ""
+
+#: assets/src/Diagnostic.tsx:78
+#: assets/src/ProviderWizard.tsx:1126
+msgid "Refresh"
+msgstr ""
+
+#: assets/src/Diagnostic.tsx:76
+msgid "Refresh diagnostic"
+msgstr ""
+
+#: assets/src/wpTarget.ts:200
+msgid "Refunded"
 msgstr ""
 
 #: assets/src/ProviderWizard.tsx:72
 msgid "Remove a workflow from your library permanently."
 msgstr ""
 
-#: assets/src/App.tsx:1452
+#: assets/src/App.tsx:1656
 msgid "Removing a file…"
 msgstr ""
 
@@ -1584,41 +1818,74 @@ msgstr ""
 msgid "Rename a workflow"
 msgstr ""
 
-#: assets/src/App.tsx:1336
+#: assets/src/App.tsx:1195
+#: assets/src/App.tsx:1196
+msgid "Rename conversation"
+msgstr ""
+
+#: assets/src/App.tsx:1464
 msgid "Rename this workflow?"
 msgstr ""
 
-#: assets/src/App.tsx:1450
+#: assets/src/App.tsx:1654
 msgid "Reorganising files…"
 msgstr ""
 
-#: assets/src/App.tsx:722
+#: assets/src/wpTarget.ts:331
+#, javascript-format
+msgid "Requested a refund%s"
+msgstr ""
+
+#: assets/src/App.tsx:822
 msgid "Resuming…"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1467
+#: assets/src/wpTarget.ts:203
+msgid "Revoked"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1472
 msgid "Rules JSON"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1086
+#: assets/src/ProviderWizard.tsx:1499
+msgid "Save"
 msgstr ""
 
 #: assets/src/ProviderWizard.tsx:57
 msgid "Save a brand-new workflow or fully replace the contents of an existing one."
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1482
+#: assets/src/ProviderWizard.tsx:1487
 msgid "Save advanced JSON"
 msgstr ""
 
-#: assets/src/App.tsx:1379
+#: assets/src/ProviderWizard.tsx:844
+msgid "Save and continue"
+msgstr ""
+
+#: assets/src/App.tsx:1583
 #, javascript-format
 msgid "Save changes to %1$s \"%2$s\"?"
 msgstr ""
 
-#: assets/src/App.tsx:1383
+#: assets/src/App.tsx:1587
 #, javascript-format
 msgid "Save changes to a %s?"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1316
+#: assets/src/App.tsx:1475
+#: assets/src/App.tsx:1482
+#, javascript-format
+msgid "Save changes to workflow \"%s\"?"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1357
+msgid "Save manual list"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1321
 msgid "Save model config"
 msgstr ""
 
@@ -1626,101 +1893,437 @@ msgstr ""
 msgid "Save new records or modify existing ones (customers, orders, configuration, etc.)."
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1319
+#: assets/src/App.tsx:1182
+#: assets/src/App.tsx:1183
+msgid "Save title"
+msgstr ""
+
+#: assets/src/maintenanceNotice.ts:87
+msgid "Save your work — the system will be unavailable during maintenance."
+msgstr ""
+
+#: assets/src/wpTarget.ts:335
+#, javascript-format
+msgid "Saved product%1$s%2$s"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1324
 msgid "Saved."
 msgstr ""
+
+#: assets/src/ProviderWizard.tsx:844
+#: assets/src/ProviderWizard.tsx:922
+msgid "Saving…"
+msgstr ""
+
+#: assets/src/maintenanceNotice.ts:79
+#, javascript-format
+msgid "Scheduled maintenance begins in about %d minute."
+msgid_plural "Scheduled maintenance begins in about %d minutes."
+msgstr[0] ""
+msgstr[1] ""
 
 #: assets/src/ProviderWizard.tsx:47
 msgid "See the workflows that exist on this site. Read-only."
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1459
+#: assets/src/App.tsx:1327
+msgid "Send"
+msgstr ""
+
+#: assets/src/App.tsx:1404
+msgid "Setyenv Management"
+msgstr ""
+
+#: assets/src/App.tsx:1412
+msgid "Setyenv Workflow"
+msgstr ""
+
+#: assets/src/App.tsx:1356
+msgid "Setyenv views"
+msgstr ""
+
+#: assets/src/App.tsx:1077
+msgid "Setyenv — setyenv.com"
+msgstr ""
+
+#: assets/src/App.tsx:1078
+msgid "Setyenv — visit setyenv.com"
+msgstr ""
+
+#: assets/src/Diagnostic.tsx:119
+msgid "Severe criteria"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1464
 msgid "Show advanced editor"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1300
+#: assets/src/wpTarget.ts:308
+msgid "Site overview"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1305
 msgid "Snapshot:"
 msgstr ""
 
-#: assets/src/App.tsx:486
+#: assets/src/ProviderWizard.tsx:1135
+#, javascript-format
+msgid "Source: %1$s · fetched %2$s · %3$d model"
+msgid_plural "Source: %1$s · fetched %2$s · %3$d models"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/src/App.tsx:1108
+msgid "Start a new conversation with the active LLM"
+msgstr ""
+
+#: assets/src/App.tsx:668
 msgid "Starting…"
 msgstr ""
 
-#: assets/src/App.tsx:1471
+#: assets/src/ProviderWizard.tsx:1024
+msgid "Status"
+msgstr ""
+
+#: assets/src/App.tsx:2235
+msgid "Still working…"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1030
+msgid "Stored key"
+msgstr ""
+
+#: assets/src/App.tsx:1675
 msgid "Summarising older context…"
+msgstr ""
+
+#: assets/src/App.tsx:505
+#, javascript-format
+msgid "Templates failed: %s"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:746
+#: assets/src/ProviderWizard.tsx:1094
+msgid "Test connection"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:745
+#, javascript-format
+msgid "Test connection for %s"
+msgstr ""
+
+#: assets/src/App.tsx:2233
+msgid "The AI provider did not return a response."
 msgstr ""
 
 #: assets/src/ProviderWizard.tsx:306
 msgid "The advanced JSON must be an object."
 msgstr ""
 
-#: assets/src/App.tsx:1338
+#: assets/src/App.tsx:1477
+#: assets/src/App.tsx:1483
+#: assets/src/App.tsx:1486
 msgid "The agent is about to apply a change. Confirm to proceed."
+msgstr ""
+
+#: assets/src/App.tsx:1531
+msgid "The agent is about to delete something. Confirm to proceed."
+msgstr ""
+
+#: assets/src/App.tsx:2198
+msgid "The answer did not arrive complete. Ask again."
+msgstr ""
+
+#: assets/src/App.tsx:2205
+msgid "The assistant could not be reached. Check the connection and ask again."
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:841
+msgid "The key is encrypted (AES-256-GCM) in the WordPress store and never returned over REST."
+msgstr ""
+
+#: assets/src/App.tsx:2229
+msgid "The runtime rejected this call."
+msgstr ""
+
+#: assets/src/App.tsx:1304
+#: assets/src/App.tsx:1673
+msgid "Thinking…"
+msgstr ""
+
+#: assets/src/App.tsx:2227
+msgid "This action requires confirmation."
+msgstr ""
+
+#: assets/src/App.tsx:970
+msgid "This conversation has no messages yet."
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:883
+msgid "This provider does not allow manual models; check your credential or retry."
+msgstr ""
+
+#: assets/src/Diagnostic.tsx:91
+msgid "Total tokens"
+msgstr ""
+
+#: assets/src/wpTarget.ts:198
+msgid "Trashed"
+msgstr ""
+
+#: assets/src/wpTarget.ts:251
+#, javascript-format
+msgid "Trashed %1$s%2$s%3$s"
 msgstr ""
 
 #: assets/src/ProviderWizard.tsx:102
 msgid "Turn on a draft workflow so it starts running when its trigger fires."
 msgstr ""
 
-#: assets/src/App.tsx:1355
+#: assets/src/App.tsx:2175
+msgid "Unexpected error."
+msgstr ""
+
+#: assets/src/App.tsx:372
+#: assets/src/App.tsx:971
+#: assets/src/App.tsx:987
+msgid "Untitled conversation"
+msgstr ""
+
+#: assets/src/App.tsx:1554
 #, javascript-format
 msgid "Update record in %1$s%2$s?"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1403
+#: assets/src/wpTarget.ts:196
+#: assets/src/wpTarget.ts:197
+msgid "Updated"
+msgstr ""
+
+#: assets/src/wpTarget.ts:256
+#, javascript-format
+msgid "Updated %1$s meta%2$s"
+msgstr ""
+
+#: assets/src/wpTarget.ts:249
+#, javascript-format
+msgid "Updated %1$s%2$s%3$s"
+msgstr ""
+
+#: assets/src/wpTarget.ts:354
+msgid "Updated a form entry"
+msgstr ""
+
+#: assets/src/wpTarget.ts:366
+msgid "Updated membership access"
+msgstr ""
+
+#: assets/src/wpTarget.ts:296
+#, javascript-format
+msgid "Updated menu%s"
+msgstr ""
+
+#: assets/src/wpTarget.ts:327
+#, javascript-format
+msgid "Updated order items%s"
+msgstr ""
+
+#: assets/src/wpTarget.ts:323
+#, javascript-format
+msgid "Updated order%s"
+msgstr ""
+
+#: assets/src/wpTarget.ts:303
+#, javascript-format
+msgid "Updated setting%s"
+msgstr ""
+
+#: assets/src/wpTarget.ts:333
+#, javascript-format
+msgid "Updated stock%s"
+msgstr ""
+
+#: assets/src/wpTarget.ts:281
+#, javascript-format
+msgid "Updated user%1$s%2$s"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1408
 msgid "Used when a future capability is added that you have not set up yet."
 msgstr ""
 
-#: assets/src/App.tsx:1462
-#: assets/src/App.tsx:1473
+#: assets/src/ProviderWizard.tsx:1524
+msgid "Validation failed"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1520
+msgid "Verified"
+msgstr ""
+
+#: assets/src/wpTarget.ts:199
+msgid "Viewed"
+msgstr ""
+
+#: assets/src/wpTarget.ts:254
+#, javascript-format
+msgid "Viewed %s"
+msgstr ""
+
+#: assets/src/wpTarget.ts:288
+msgid "Viewed comments"
+msgstr ""
+
+#: assets/src/wpTarget.ts:352
+msgid "Viewed form entries"
+msgstr ""
+
+#: assets/src/wpTarget.ts:273
+#, javascript-format
+msgid "Viewed media item%s"
+msgstr ""
+
+#: assets/src/wpTarget.ts:271
+msgid "Viewed media library"
+msgstr ""
+
+#: assets/src/wpTarget.ts:294
+msgid "Viewed navigation menus"
+msgstr ""
+
+#: assets/src/wpTarget.ts:263
+msgid "Viewed taxonomies"
+msgstr ""
+
+#: assets/src/wpTarget.ts:284
+msgid "Viewed users"
+msgstr ""
+
+#: assets/src/App.tsx:1323
+msgid "Waiting for the agent…"
+msgstr ""
+
+#: assets/src/wpTarget.ts:417
+msgid "WooCommerce action"
+msgstr ""
+
+#: assets/src/WordPressPane.tsx:21
+msgid "WordPress"
+msgstr ""
+
+#: assets/src/wpTarget.ts:425
+#, javascript-format
+msgid "WordPress action: %s"
+msgstr ""
+
+#: assets/src/WordPressPane.tsx:44
+msgid "WordPress actions this turn"
+msgstr ""
+
+#: assets/src/WordPressPane.tsx:61
+msgid "WordPress admin"
+msgstr ""
+
+#: assets/src/App.tsx:1366
+msgid "Workflow"
+msgstr ""
+
+#: assets/src/App.tsx:208
+msgid "Workflow API has not been checked yet."
+msgstr ""
+
+#: assets/src/App.tsx:502
+msgid "Workflow API responded for workflows and templates."
+msgstr ""
+
+#: assets/src/Diagnostic.tsx:164
+msgid "Workflow dependency"
+msgstr ""
+
+#: assets/src/App.tsx:476
+msgid "Workflow plugin is not active. API calls were skipped."
+msgstr ""
+
+#: assets/src/App.tsx:504
+#, javascript-format
+msgid "Workflows failed: %s"
+msgstr ""
+
+#: assets/src/App.tsx:1666
+#: assets/src/App.tsx:1677
 msgid "Working on it…"
 msgstr ""
 
-#: assets/src/App.tsx:1415
+#: assets/src/App.tsx:1619
 msgid "action"
 msgstr ""
 
-#: assets/src/App.tsx:1362
+#: assets/src/App.tsx:1561
 msgid "an entity"
 msgstr ""
 
-#: assets/src/App.tsx:1416
+#: assets/src/App.tsx:1620
 msgid "application"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1177
+#: assets/src/Diagnostic.tsx:61
+msgid "beta partial"
+msgstr ""
+
+#: assets/src/Diagnostic.tsx:61
+msgid "beta ready"
+msgstr ""
+
+#: assets/src/App.tsx:1284
+#, javascript-format
+msgid "diff: %s"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1182
 msgid "e.g. 128000 — fill in manually"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1189
+#: assets/src/ProviderWizard.tsx:1194
 msgid "e.g. 8192 — fill in manually"
 msgstr ""
 
-#: assets/src/App.tsx:1413
+#: assets/src/App.tsx:1617
 msgid "entity"
 msgstr ""
 
-#: assets/src/App.tsx:1418
+#: assets/src/App.tsx:1622
 msgid "group"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1211
+#: assets/src/ProviderWizard.tsx:1216
 msgid "low | medium | high | max"
 msgstr ""
 
-#: assets/src/App.tsx:1417
+#: assets/src/ProviderWizard.tsx:879
+msgid "model-id"
+msgstr ""
+
+#: assets/src/App.tsx:1621
 msgid "module"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1277
+#: assets/src/ProviderWizard.tsx:1282
 msgid "none"
 msgstr ""
 
-#: assets/src/App.tsx:1420
+#: assets/src/ProviderWizard.tsx:1031
+msgid "not stored"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1345
+msgid "one model id per line"
+msgstr ""
+
+#: assets/src/App.tsx:1624
 msgid "page"
 msgstr ""
 
-#: assets/src/App.tsx:1414
+#: assets/src/App.tsx:1618
 msgid "record"
 msgstr ""
 
@@ -1732,15 +2335,19 @@ msgstr ""
 msgid "required — e.g. 8192"
 msgstr ""
 
-#: assets/src/App.tsx:1421
+#: assets/src/App.tsx:1625
 msgid "resource"
 msgstr ""
 
-#: assets/src/App.tsx:1419
+#: assets/src/App.tsx:1623
 msgid "role"
 msgstr ""
 
-#: assets/src/ProviderWizard.tsx:1201
+#: assets/src/ProviderWizard.tsx:802
+msgid "— Pick one —"
+msgstr ""
+
+#: assets/src/ProviderWizard.tsx:1206
 msgid "— none —"
 msgstr ""
 

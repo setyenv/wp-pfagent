@@ -16,13 +16,8 @@
       "functional": true,
       "endpointPolicy": "none",
       "endpoints": [],
-      "sourceFiles": [
-        "config/capabilities.json",
-        "scripts/validate-capabilities.mjs"
-      ],
-      "tests": [
-        "scripts/validate-capabilities.mjs"
-      ],
+      "sourceFiles": ["config/capabilities.json", "scripts/validate-capabilities.mjs"],
+      "tests": ["scripts/validate-capabilities.mjs"],
       "evidence": [
         "npm.cmd run validate:capabilities"
       ],
@@ -46,11 +41,7 @@
         "assets/src/api.ts",
         "assets/src/types.ts"
       ],
-      "tests": [
-        "scripts/test-workflow-dependency.mjs",
-        "tests/runtime-workflow-dependency-smoke.php",
-        "tests/runtime-workflow-inactive-check.php"
-      ],
+      "tests": ["scripts/test-workflow-dependency.mjs", "tests-suite/tools-and-bridges.spec.cjs"],
       "evidence": [
         "npm.cmd run test:dependency",
         "npm.cmd run smoke:dependency:docker"
@@ -77,9 +68,7 @@
         "assets/src/api.ts",
         "assets/src/types.ts"
       ],
-      "tests": [
-        "scripts/test-workflow-api-client.mjs"
-      ],
+      "tests": ["scripts/test-workflow-api-client.mjs"],
       "evidence": [
         "npm.cmd run test:api-client"
       ],
@@ -99,10 +88,7 @@
         "assets/src/api.ts",
         "assets/src/App.tsx"
       ],
-      "tests": [
-        "scripts/test-workflow-api-client.mjs",
-        "tests/runtime-workflow-dependency-smoke.php"
-      ],
+      "tests": ["scripts/test-workflow-api-client.mjs", "tests-suite/tools-and-bridges.spec.cjs"],
       "evidence": [
         "npm.cmd run test:api-client",
         "npm.cmd run smoke:dependency:docker"
@@ -123,10 +109,7 @@
         "assets/src/api.ts",
         "assets/src/App.tsx"
       ],
-      "tests": [
-        "scripts/test-workflow-api-client.mjs",
-        "tests/runtime-workflow-api-smoke.php"
-      ],
+      "tests": ["scripts/test-workflow-api-client.mjs", "tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "evidence": [
         "npm.cmd run test:api-client",
         "npm.cmd run smoke:workflow-api:docker"
@@ -147,10 +130,7 @@
         "assets/src/api.ts",
         "assets/src/App.tsx"
       ],
-      "tests": [
-        "scripts/test-workflow-api-client.mjs",
-        "tests/runtime-workflow-dependency-smoke.php"
-      ],
+      "tests": ["scripts/test-workflow-api-client.mjs", "tests-suite/tools-and-bridges.spec.cjs"],
       "evidence": [
         "npm.cmd run test:api-client",
         "npm.cmd run smoke:dependency:docker"
@@ -171,11 +151,7 @@
         "assets/src/api.ts",
         "assets/src/App.tsx"
       ],
-      "tests": [
-        "scripts/test-workflow-api-client.mjs",
-        "tests/runtime-workflow-api-smoke.php",
-        "scripts/test-ui-sprint-4-5.cjs"
-      ],
+      "tests": ["scripts/test-workflow-api-client.mjs", "tests-suite/vfs-and-bridges-end-to-end.spec.cjs", "tests-suite/console.spec.cjs"],
       "evidence": [
         "npm.cmd run test:api-client",
         "npm.cmd run smoke:workflow-api:docker",
@@ -196,10 +172,7 @@
       "sourceFiles": [
         "assets/src/api.ts"
       ],
-      "tests": [
-        "scripts/test-workflow-api-client.mjs",
-        "tests/runtime-workflow-api-smoke.php"
-      ],
+      "tests": ["scripts/test-workflow-api-client.mjs", "tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "evidence": [
         "npm.cmd run test:api-client",
         "npm.cmd run smoke:workflow-api:docker"
@@ -219,10 +192,7 @@
       "sourceFiles": [
         "assets/src/api.ts"
       ],
-      "tests": [
-        "scripts/test-workflow-api-client.mjs",
-        "tests/runtime-workflow-api-smoke.php"
-      ],
+      "tests": ["scripts/test-workflow-api-client.mjs", "tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "evidence": [
         "npm.cmd run test:api-client",
         "npm.cmd run smoke:workflow-api:docker"
@@ -242,9 +212,7 @@
       "sourceFiles": [
         "assets/src/api.ts"
       ],
-      "tests": [
-        "scripts/test-workflow-api-client.mjs"
-      ],
+      "tests": ["scripts/test-workflow-api-client.mjs"],
       "evidence": [
         "npm.cmd run test:api-client"
       ],
@@ -263,10 +231,7 @@
       "sourceFiles": [
         "assets/src/api.ts"
       ],
-      "tests": [
-        "scripts/test-workflow-api-client.mjs",
-        "tests/runtime-workflow-api-smoke.php"
-      ],
+      "tests": ["scripts/test-workflow-api-client.mjs", "tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "evidence": [
         "npm.cmd run test:api-client",
         "npm.cmd run smoke:workflow-api:docker"
@@ -287,9 +252,7 @@
         "config/agent-tools.json",
         "includes/WorkflowApiBridge.php"
       ],
-      "tests": [
-        "scripts/test-agent-tool-contracts.mjs"
-      ],
+      "tests": ["scripts/test-agent-tool-contracts.mjs"],
       "evidence": [
         "npm.cmd run test:agent-tools",
         "npm.cmd run smoke:agent-tooling:docker"
@@ -310,9 +273,7 @@
         "config/agent-tools.json",
         "includes/WorkflowApiBridge.php"
       ],
-      "tests": [
-        "scripts/test-agent-tool-contracts.mjs"
-      ],
+      "tests": ["scripts/test-agent-tool-contracts.mjs"],
       "evidence": [
         "npm.cmd run test:agent-tools",
         "npm.cmd run smoke:agent-tooling:docker"
@@ -333,9 +294,7 @@
         "config/agent-tools.json",
         "includes/WorkflowApiBridge.php"
       ],
-      "tests": [
-        "scripts/test-agent-tool-contracts.mjs"
-      ],
+      "tests": ["scripts/test-agent-tool-contracts.mjs"],
       "evidence": [
         "npm.cmd run test:agent-tools",
         "npm.cmd run smoke:agent-tooling:docker"
@@ -356,9 +315,7 @@
         "config/agent-tools.json",
         "includes/WorkflowApiBridge.php"
       ],
-      "tests": [
-        "scripts/test-agent-tool-contracts.mjs"
-      ],
+      "tests": ["scripts/test-agent-tool-contracts.mjs"],
       "evidence": [
         "npm.cmd run test:agent-tools",
         "npm.cmd run smoke:agent-tooling:docker"
@@ -379,9 +336,7 @@
         "config/agent-tools.json",
         "includes/WorkflowApiBridge.php"
       ],
-      "tests": [
-        "scripts/test-agent-tool-contracts.mjs"
-      ],
+      "tests": ["scripts/test-agent-tool-contracts.mjs"],
       "evidence": [
         "npm.cmd run test:agent-tools",
         "npm.cmd run smoke:agent-tooling:docker"
@@ -402,9 +357,7 @@
         "config/agent-tools.json",
         "includes/WorkflowApiBridge.php"
       ],
-      "tests": [
-        "scripts/test-agent-tool-contracts.mjs"
-      ],
+      "tests": ["scripts/test-agent-tool-contracts.mjs"],
       "evidence": [
         "npm.cmd run test:agent-tools",
         "npm.cmd run smoke:agent-tooling:docker"
@@ -425,9 +378,7 @@
         "config/agent-tools.json",
         "includes/WorkflowApiBridge.php"
       ],
-      "tests": [
-        "scripts/test-agent-tool-contracts.mjs"
-      ],
+      "tests": ["scripts/test-agent-tool-contracts.mjs"],
       "evidence": [
         "npm.cmd run test:agent-tools",
         "npm.cmd run smoke:agent-tooling:docker"
@@ -448,9 +399,7 @@
         "config/agent-tools.json",
         "includes/WorkflowApiBridge.php"
       ],
-      "tests": [
-        "scripts/test-agent-tool-contracts.mjs"
-      ],
+      "tests": ["scripts/test-agent-tool-contracts.mjs"],
       "evidence": [
         "npm.cmd run test:agent-tools",
         "npm.cmd run smoke:agent-tooling:docker"
@@ -471,9 +420,7 @@
         "config/agent-tools.json",
         "includes/WorkflowApiBridge.php"
       ],
-      "tests": [
-        "scripts/test-agent-tool-contracts.mjs"
-      ],
+      "tests": ["scripts/test-agent-tool-contracts.mjs"],
       "evidence": [
         "npm.cmd run test:agent-tools",
         "npm.cmd run smoke:agent-tooling:docker"
@@ -494,9 +441,7 @@
         "config/agent-tools.json",
         "includes/WorkflowApiBridge.php"
       ],
-      "tests": [
-        "scripts/test-agent-tool-contracts.mjs"
-      ],
+      "tests": ["scripts/test-agent-tool-contracts.mjs"],
       "evidence": [
         "npm.cmd run test:agent-tools",
         "npm.cmd run smoke:agent-tooling:docker"
@@ -517,9 +462,7 @@
         "config/agent-tools.json",
         "includes/WorkflowApiBridge.php"
       ],
-      "tests": [
-        "scripts/test-agent-tool-contracts.mjs"
-      ],
+      "tests": ["scripts/test-agent-tool-contracts.mjs"],
       "evidence": [
         "npm.cmd run test:agent-tools",
         "npm.cmd run smoke:agent-tooling:docker"
@@ -540,9 +483,7 @@
         "assets/src/App.tsx",
         "assets/src/ProviderWizard.tsx"
       ],
-      "tests": [
-        "tests/runtime-chat-sessions-smoke.php"
-      ],
+      "tests": ["tests-suite/chat-sessions.spec.cjs"],
       "evidence": [
         "npm.cmd run smoke:agent-runtime:docker"
       ],
@@ -563,13 +504,10 @@
         "assets/src/styles.css",
         "includes/FrameworkRuntime.php"
       ],
-      "tests": [
-        "tests-e2e/chat-basic.spec.cjs",
-        "tests-e2e/chat-multiturn.spec.cjs",
-        "tests-e2e/chat-confirmation.spec.cjs"
-      ],
+      "tests": ["tests-suite/console.spec.cjs", "tests-suite/chat-sessions.spec.cjs", "tests-suite/a-turn.spec.cjs", "tests-suite/failures-and-confirmations.spec.cjs"],
       "evidence": [
-        "npx playwright test tests-e2e/chat-basic.spec.cjs",
+        "npx playwright test --config=playwright.suite.cjs console chat-sessions failures-and-confirmations",
+        "PFA_RUN_LLM=1 npx playwright test --config=playwright.suite.cjs a-turn — real round-trip against the configured engine, written into the conversation",
         "live cert iter 2 (deepseek-v4-flash): round-trip + multi-round tool calls + side-effect confirmation gate verified end-to-end"
       ],
       "notes": "Functional agent chat shell: drives the Framework Loop via /agent-runtime/turn-v2 (round-trip, multi-round tool calls, side-effect confirmation gate). Promoted from scaffolded after end-to-end certification (Slice 7 iter 2)."
@@ -586,9 +524,7 @@
         "assets/src/App.tsx",
         "assets/src/styles.css"
       ],
-      "tests": [
-        "scripts/test-ui-sprint-4-5.cjs"
-      ],
+      "tests": ["tests-suite/console.spec.cjs"],
       "evidence": [
         "npm.cmd run test:ui",
         ".release/playwright/sprint-4-5-desktop.png"
@@ -606,13 +542,8 @@
         "wp-pfworkflow/v1/templates",
         "wp-pfworkflow/v1/workflows"
       ],
-      "sourceFiles": [
-        "assets/src/App.tsx",
-        "scripts/test-ui-sprint-4-5.cjs"
-      ],
-      "tests": [
-        "scripts/test-ui-sprint-4-5.cjs"
-      ],
+      "sourceFiles": ["assets/src/App.tsx", "tests-suite/console.spec.cjs"],
+      "tests": ["tests-suite/console.spec.cjs"],
       "evidence": [
         "npm.cmd run test:ui",
         ".release/playwright/sprint-4-5-desktop.png"
@@ -636,10 +567,7 @@
         "includes/RestApi.php",
         "assets/src/ProviderWizard.tsx"
       ],
-      "tests": [
-        "scripts/test-provider-presets.mjs",
-        "tests/runtime-provider-credentials-smoke.php"
-      ],
+      "tests": ["scripts/test-provider-presets.mjs", "tests-suite/providers.spec.cjs"],
       "evidence": [
         "npm.cmd run test:providers",
         "npm.cmd run smoke:providers:docker"
@@ -671,9 +599,7 @@
         "assets/src/api.ts",
         "assets/src/types.ts"
       ],
-      "tests": [
-        "scripts/test-agent-api-client.mjs"
-      ],
+      "tests": ["scripts/test-agent-api-client.mjs"],
       "evidence": [
         "npm.cmd run test:agent-api"
       ],
@@ -700,9 +626,7 @@
         "assets/src/App.tsx",
         "assets/src/styles.css"
       ],
-      "tests": [
-        "scripts/test-provider-settings-ui.cjs"
-      ],
+      "tests": ["tests-suite/providers.spec.cjs"],
       "evidence": [
         "npm.cmd run test:provider-ui"
       ],
@@ -725,9 +649,7 @@
         "includes/Capabilities.php",
         "includes/RestApi.php"
       ],
-      "tests": [
-        "tests/runtime-provider-credentials-smoke.php"
-      ],
+      "tests": ["tests-suite/providers.spec.cjs"],
       "evidence": [
         "npm.cmd run smoke:providers:docker"
       ],
@@ -750,11 +672,7 @@
         "includes/RestApi.php",
         "assets/src/ProviderWizard.tsx"
       ],
-      "tests": [
-        "tests/runtime-provider-credentials-smoke.php",
-        "tests/runtime-provider-health-smoke.php",
-        "scripts/test-provider-settings-ui.cjs"
-      ],
+      "tests": ["tests-suite/providers.spec.cjs"],
       "evidence": [
         "npm.cmd run smoke:providers:docker",
         "npm.cmd run smoke:provider-health:docker",
@@ -779,10 +697,7 @@
         "assets/src/types.ts",
         "assets/src/ProviderWizard.tsx"
       ],
-      "tests": [
-        "tests/runtime-provider-model-discovery-smoke.php",
-        "scripts/test-agent-api-client.mjs"
-      ],
+      "tests": ["tests-suite/providers.spec.cjs", "scripts/test-agent-api-client.mjs"],
       "evidence": [
         "npm.cmd run smoke:model-discovery:docker",
         "npm.cmd run test:agent-api"
@@ -804,9 +719,7 @@
         "includes/RestApi.php",
         "assets/src/ProviderWizard.tsx"
       ],
-      "tests": [
-        "tests/runtime-provider-model-discovery-smoke.php"
-      ],
+      "tests": ["tests-suite/providers.spec.cjs"],
       "evidence": [
         "npm.cmd run smoke:model-discovery:docker"
       ],
@@ -828,10 +741,7 @@
         "assets/src/api.ts",
         "assets/src/ProviderWizard.tsx"
       ],
-      "tests": [
-        "tests/runtime-provider-model-discovery-smoke.php",
-        "scripts/test-agent-api-client.mjs"
-      ],
+      "tests": ["tests-suite/providers.spec.cjs", "scripts/test-agent-api-client.mjs"],
       "evidence": [
         "npm.cmd run smoke:model-discovery:docker",
         "npm.cmd run test:agent-api"
@@ -856,10 +766,7 @@
         "assets/src/api.ts",
         "assets/src/ProviderWizard.tsx"
       ],
-      "tests": [
-        "tests/runtime-provider-health-smoke.php",
-        "scripts/test-agent-api-client.mjs"
-      ],
+      "tests": ["tests-suite/providers.spec.cjs", "scripts/test-agent-api-client.mjs"],
       "evidence": [
         "npm.cmd run smoke:provider-health:docker",
         "npm.cmd run test:agent-api"
@@ -883,10 +790,7 @@
         "includes/RestApi.php",
         "assets/src/api.ts"
       ],
-      "tests": [
-        "tests/runtime-provider-generation-smoke.php",
-        "scripts/test-agent-api-client.mjs"
-      ],
+      "tests": ["tests-suite/a-turn.spec.cjs", "scripts/test-agent-api-client.mjs"],
       "evidence": [
         "npm.cmd run smoke:provider-generation:docker",
         "npm.cmd run test:agent-api"
@@ -906,11 +810,9 @@
         "includes/Framework/Llm/OpenAiCompatibleGateway.php",
         "includes/Framework/Loop.php"
       ],
-      "tests": [
-        "tests/runtime-compaction-real-deepseek.php"
-      ],
+      "tests": ["tests-suite/a-turn.spec.cjs"],
       "evidence": [
-        "php tests/runtime-compaction-real-deepseek.php"
+        "npx playwright test --config=playwright.suite.cjs a-turn"
       ],
       "notes": "The live LLM gateway is the Framework one (Framework\\Llm\\Gateway), driven by the Loop. Certified end-to-end in runtime-compaction-real-deepseek, where the Loop calls gateway->complete() against the real DeepSeek API and completes multi-round turns. The old SPA-side complete/toolCall/stream surface against /llm/* was removed in the Framework migration (those endpoints no longer exist)."
     },
@@ -924,17 +826,8 @@
       "endpoints": [
         "wp-pfagent/v1/contract"
       ],
-      "sourceFiles": [
-        "includes/AgentContract.php",
-        "includes/RestApi.php",
-        "assets/src/api.ts",
-        "assets/src/types.ts",
-        "tests/runtime-agent-contract-smoke.php"
-      ],
-      "tests": [
-        "scripts/test-agent-api-client.mjs",
-        "tests/runtime-agent-contract-smoke.php"
-      ],
+      "sourceFiles": ["includes/AgentContract.php", "includes/RestApi.php", "assets/src/api.ts", "assets/src/types.ts", "tests-suite/contract.spec.cjs"],
+      "tests": ["scripts/test-agent-api-client.mjs", "tests-suite/contract.spec.cjs"],
       "evidence": [
         "npm.cmd run test:agent-api",
         "npm.cmd run smoke:agent-contract:docker"
@@ -951,17 +844,8 @@
       "endpoints": [
         "wp-pfagent/v1/contract/openapi"
       ],
-      "sourceFiles": [
-        "includes/AgentContract.php",
-        "includes/RestApi.php",
-        "assets/src/api.ts",
-        "assets/src/types.ts",
-        "tests/runtime-agent-contract-smoke.php"
-      ],
-      "tests": [
-        "scripts/test-agent-api-client.mjs",
-        "tests/runtime-agent-contract-smoke.php"
-      ],
+      "sourceFiles": ["includes/AgentContract.php", "includes/RestApi.php", "assets/src/api.ts", "assets/src/types.ts", "tests-suite/contract.spec.cjs"],
+      "tests": ["scripts/test-agent-api-client.mjs", "tests-suite/contract.spec.cjs"],
       "evidence": [
         "npm.cmd run test:agent-api",
         "npm.cmd run smoke:agent-contract:docker"
@@ -985,10 +869,7 @@
         "assets/src/api.ts",
         "assets/src/types.ts"
       ],
-      "tests": [
-        "tests/runtime-agent-support-smoke.php",
-        "scripts/test-agent-api-client.mjs"
-      ],
+      "tests": ["tests-suite/runtime-surfaces.spec.cjs", "scripts/test-agent-api-client.mjs"],
       "evidence": [
         "npm.cmd run smoke:agent-support:docker",
         "npm.cmd run test:agent-api"
@@ -1012,10 +893,7 @@
         "assets/src/api.ts",
         "assets/src/types.ts"
       ],
-      "tests": [
-        "tests/runtime-agent-support-smoke.php",
-        "scripts/test-agent-api-client.mjs"
-      ],
+      "tests": ["tests-suite/runtime-surfaces.spec.cjs", "scripts/test-agent-api-client.mjs"],
       "evidence": [
         "npm.cmd run smoke:agent-support:docker",
         "npm.cmd run test:agent-api"
@@ -1043,10 +921,7 @@
         "assets/src/api.ts",
         "assets/src/types.ts"
       ],
-      "tests": [
-        "scripts/test-agent-api-client.mjs",
-        "scripts/test-agent-tool-contracts.mjs"
-      ],
+      "tests": ["scripts/test-agent-api-client.mjs", "scripts/test-agent-tool-contracts.mjs"],
       "evidence": [
         "npm.cmd run smoke:agent-runtime:docker",
         "npm.cmd run smoke:agent-tooling:docker",
@@ -1083,9 +958,7 @@
         "includes/RateLimiter.php",
         "includes/RestApi.php"
       ],
-      "tests": [
-        "tests/runtime-security-negative-smoke.php"
-      ],
+      "tests": ["tests-suite/security.spec.cjs"],
       "evidence": [
         "npm.cmd run smoke:security-negative:docker"
       ],
@@ -1112,9 +985,7 @@
         "includes/CredentialStore.php",
         "includes/RateLimiter.php"
       ],
-      "tests": [
-        "tests/runtime-security-negative-smoke.php"
-      ],
+      "tests": ["tests-suite/security.spec.cjs"],
       "evidence": [
         "npm.cmd run smoke:security-negative:docker"
       ],
@@ -1134,9 +1005,7 @@
       "sourceFiles": [
         "includes/RestApi.php"
       ],
-      "tests": [
-        "tests/runtime-security-negative-smoke.php"
-      ],
+      "tests": ["tests-suite/security.spec.cjs"],
       "evidence": [
         "npm.cmd run smoke:security-negative:docker"
       ],
@@ -1157,9 +1026,7 @@
         "includes/RestApi.php",
         "includes/AgentContract.php"
       ],
-      "tests": [
-        "tests/runtime-beta-readiness-smoke.php"
-      ],
+      "tests": ["tests-suite/runtime-surfaces.spec.cjs"],
       "evidence": [
         "npm.cmd run smoke:beta-readiness:docker"
       ],
@@ -1182,9 +1049,7 @@
         "assets/src/types.ts",
         "assets/src/styles.css"
       ],
-      "tests": [
-        "scripts/test-beta-walkthrough.cjs"
-      ],
+      "tests": ["tests-suite/runtime-surfaces.spec.cjs"],
       "evidence": [
         "npm.cmd run test:beta-walkthrough",
         ".release/playwright/sprint-20-beta-walkthrough.png"
@@ -1199,12 +1064,8 @@
       "functional": true,
       "endpointPolicy": "none",
       "endpoints": [],
-      "sourceFiles": [
-        "scripts/test-beta-walkthrough.cjs"
-      ],
-      "tests": [
-        "scripts/test-beta-walkthrough.cjs"
-      ],
+      "sourceFiles": ["tests-suite/runtime-surfaces.spec.cjs"],
+      "tests": ["tests-suite/runtime-surfaces.spec.cjs"],
       "evidence": [
         "npm.cmd run test:beta-walkthrough",
         ".release/playwright/sprint-20-beta-walkthrough.png"
@@ -1219,17 +1080,8 @@
       "functional": true,
       "endpointPolicy": "none",
       "endpoints": [],
-      "sourceFiles": [
-        ".distignore",
-        "scripts/build-release.mjs",
-        "scripts/test-release-package.mjs",
-        "tests/runtime-release-package-smoke.php",
-        "wp-pfagent.php"
-      ],
-      "tests": [
-        "scripts/test-release-package.mjs",
-        "tests/runtime-release-package-smoke.php"
-      ],
+      "sourceFiles": [".distignore", "scripts/build-release.mjs", "scripts/test-release-package.mjs", "wp-pfagent.php"],
+      "tests": ["scripts/test-release-package.mjs"],
       "evidence": [
         "npm.cmd run test:release-package",
         "npm.cmd run smoke:release-package:docker"
@@ -1249,9 +1101,7 @@
         "assets/src/App.tsx",
         "assets/src/styles.css"
       ],
-      "tests": [
-        "scripts/test-ui-sprint-16.cjs"
-      ],
+      "tests": ["tests-suite/console.spec.cjs"],
       "evidence": [
         "npm.cmd run test:ui-sprint-16",
         ".release/playwright/sprint-16-wide.png",
@@ -1277,9 +1127,7 @@
         "includes/RestApi.php",
         "wp-pfagent.php"
       ],
-      "tests": [
-        "tests/runtime-observability-smoke.php"
-      ],
+      "tests": ["tests-suite/runtime-surfaces.spec.cjs"],
       "evidence": [
         "npm.cmd run smoke:observability:docker"
       ],
@@ -1299,9 +1147,7 @@
         "includes/RestApi.php",
         "includes/TraceLogger.php"
       ],
-      "tests": [
-        "tests/runtime-observability-smoke.php"
-      ],
+      "tests": ["tests-suite/runtime-surfaces.spec.cjs"],
       "evidence": [
         "npm.cmd run smoke:observability:docker"
       ],
@@ -1321,9 +1167,7 @@
         "includes/RestApi.php",
         "includes/TraceLogger.php"
       ],
-      "tests": [
-        "tests/runtime-observability-smoke.php"
-      ],
+      "tests": ["tests-suite/runtime-surfaces.spec.cjs"],
       "evidence": [
         "npm.cmd run smoke:observability:docker"
       ],
@@ -1347,9 +1191,7 @@
         "assets/src/api.ts",
         "assets/src/types.ts"
       ],
-      "tests": [
-        "tests/runtime-chat-sessions-smoke.php"
-      ],
+      "tests": ["tests-suite/chat-sessions.spec.cjs"],
       "evidence": [
         "npm.cmd run smoke:chat-sessions:docker"
       ],
@@ -1369,9 +1211,7 @@
         "includes/FrameworkRuntime.php",
         "includes/WorkflowApiBridge.php"
       ],
-      "tests": [
-        "tests/runtime-observability-smoke.php"
-      ],
+      "tests": ["tests-suite/runtime-surfaces.spec.cjs"],
       "evidence": [
         "npm.cmd run smoke:action-inspector:docker"
       ],
@@ -1392,9 +1232,7 @@
         "includes/AgentToolRegistry.php",
         "includes/WorkflowApiBridge.php"
       ],
-      "tests": [
-        "scripts/test-agent-tool-contracts.mjs"
-      ],
+      "tests": ["scripts/test-agent-tool-contracts.mjs"],
       "evidence": [
         "npm.cmd run test:agent-tools",
         "npm.cmd run smoke:agent-tooling:docker"
@@ -1413,9 +1251,7 @@
         "includes/WorkflowApiBridge.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/runtime-workflow-bridge-smoke.php"
-      ],
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "evidence": [
         "npm.cmd run smoke:agent-tooling:docker"
       ],
@@ -1433,9 +1269,7 @@
         "includes/WorkflowApiBridge.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/runtime-workflow-bridge-smoke.php"
-      ],
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "evidence": [
         "npm.cmd run smoke:agent-tooling:docker"
       ],
@@ -1453,9 +1287,7 @@
         "includes/WorkflowApiBridge.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/runtime-workflow-bridge-smoke.php"
-      ],
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "evidence": [
         "npm.cmd run smoke:agent-tooling:docker",
         "npm.cmd run smoke:action-inspector:docker"
@@ -1475,10 +1307,7 @@
         "includes/FrameworkRuntime.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/runtime-workflow-bridge-smoke.php",
-        "tests/runtime-compaction-real-deepseek.php"
-      ],
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs", "tests-suite/a-turn.spec.cjs"],
       "evidence": [
         "npm.cmd run smoke:agent-tooling:docker",
         "npm.cmd run smoke:action-inspector:docker"
@@ -1497,12 +1326,8 @@
         "includes/ManagementApiBridge.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/runtime-pfm-bridge-smoke.php"
-      ],
-      "evidence": [
-        "tests/runtime-pfm-bridge-smoke.php"
-      ],
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
+      "evidence": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "notes": "PHP-internal call to agent_contract() via projectflash_management_agent_api filter. Returns the field-type catalog + EQL operator vocabulary + supported resource kinds, wrapped as { content, contextForYou }."
     },
     {
@@ -1517,12 +1342,8 @@
         "includes/ManagementApiBridge.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/runtime-pfm-bridge-smoke.php"
-      ],
-      "evidence": [
-        "tests/runtime-pfm-bridge-smoke.php"
-      ],
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
+      "evidence": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "notes": "PHP-internal call to agent_list(kind, filters) via projectflash_management_agent_api filter. kind chooses the resource family (entity, record, action, application, module, group, role, page)."
     },
     {
@@ -1537,12 +1358,8 @@
         "includes/ManagementApiBridge.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/runtime-pfm-bridge-smoke.php"
-      ],
-      "evidence": [
-        "tests/runtime-pfm-bridge-smoke.php"
-      ],
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
+      "evidence": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "notes": "PHP-internal call to agent_get(kind, ref) via projectflash_management_agent_api filter. Returns the round-trippable payload for one resource (same shape pfm_apply accepts back)."
     },
     {
@@ -1558,12 +1375,8 @@
         "includes/FrameworkRuntime.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/runtime-pfm-bridge-smoke.php"
-      ],
-      "evidence": [
-        "tests/runtime-pfm-bridge-smoke.php"
-      ],
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
+      "evidence": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "notes": "PHP-internal call to agent_apply(kind, payload). Side-effecting; the AgentRuntime confirmation gate fires before invocation. Construction only; no execution semantics."
     },
     {
@@ -1579,12 +1392,8 @@
         "includes/FrameworkRuntime.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/runtime-pfm-bridge-smoke.php"
-      ],
-      "evidence": [
-        "tests/runtime-pfm-bridge-smoke.php"
-      ],
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
+      "evidence": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "notes": "PHP-internal call to agent_delete(kind, ref, options). Side-effecting; the confirmation gate fires before invocation. Gated by the SAME AgentCapabilityGuard as agent_apply (delete_<kind>), audited via the pfm.record.deleted / repository events, and cascade-aware (business_rule delete refused → deactivate instead; entity delete drops records + layout; record delete clears inbound relations). One ref = one target; no bulk delete."
     },
     {
@@ -1606,11 +1415,9 @@
         "includes/Sourcecode/DecompileCache.php",
         "docs/WORKFLOW_SOURCE_LANGUAGE.md"
       ],
-      "tests": [
-        "tests/runtime-variables-vfs-smoke.php"
-      ],
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "evidence": [
-        "php tests/runtime-variables-vfs-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs vfs-and-bridges-end-to-end"
       ],
       "notes": "JavaScript-subset DSL used internally between the authoring LLM and pfagent. The customer never sees the source. Auto-generates /lib/nodes.d.ts from wp-pfworkflow's contract. Roundtrip smoke verifies compile + decompile + recompile yields structurally equivalent graphs."
     },
@@ -1632,11 +1439,9 @@
         "assets/src/App.tsx",
         "assets/src/api.ts"
       ],
-      "tests": [
-        "tests/runtime-variables-vfs-smoke.php"
-      ],
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "evidence": [
-        "php tests/runtime-variables-vfs-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs vfs-and-bridges-end-to-end"
       ],
       "notes": "LLM file tools (list_files / read_file / write_file / edit_file / move_file / delete_file) operate on a virtual workspace whose contents the customer never sees. Write/edit update an in-progress draft that compiles to a live preview graph; the customer commits via the Apply button which calls POST /vfs/apply. Drafts persisted in option storage so reopening the chat restores them."
     },
@@ -1652,11 +1457,9 @@
         "includes/WorkflowVfsBridge.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/runtime-variables-vfs-smoke.php"
-      ],
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "evidence": [
-        "php tests/runtime-variables-vfs-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs vfs-and-bridges-end-to-end"
       ],
       "notes": "Enumerates the LLM virtual workspace; /lib/nodes.d.ts, /workflows/*, /templates/* with metadata."
     },
@@ -1672,11 +1475,9 @@
         "includes/WorkflowVfsBridge.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/runtime-variables-vfs-smoke.php"
-      ],
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "evidence": [
-        "php tests/runtime-variables-vfs-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs vfs-and-bridges-end-to-end"
       ],
       "notes": "Returns the current source for a workflow file (draft if one exists; otherwise the postmeta-cached live source)."
     },
@@ -1692,11 +1493,9 @@
         "includes/WorkflowVfsBridge.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/runtime-variables-vfs-smoke.php"
-      ],
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "evidence": [
-        "php tests/runtime-variables-vfs-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs vfs-and-bridges-end-to-end"
       ],
       "notes": "Updates a draft + compiled preview without touching the live workflow. Returns typed compile errors on bad source."
     },
@@ -1712,11 +1511,9 @@
         "includes/WorkflowVfsBridge.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/runtime-variables-vfs-smoke.php"
-      ],
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "evidence": [
-        "php tests/runtime-variables-vfs-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs vfs-and-bridges-end-to-end"
       ],
       "notes": "Surgical string replacement requiring the snippet to be unique in the file; compiles the result and updates draft+preview."
     },
@@ -1732,11 +1529,9 @@
         "includes/WorkflowVfsBridge.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/runtime-variables-vfs-smoke.php"
-      ],
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "evidence": [
-        "php tests/runtime-variables-vfs-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs vfs-and-bridges-end-to-end"
       ],
       "notes": "Renames a workflow's live name on the underlying record; side-effect, gated by the runtime confirmation modal."
     },
@@ -1752,11 +1547,9 @@
         "includes/WorkflowVfsBridge.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/runtime-variables-vfs-smoke.php"
-      ],
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"],
       "evidence": [
-        "php tests/runtime-variables-vfs-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs vfs-and-bridges-end-to-end"
       ],
       "notes": "Deletes the underlying workflow; side-effect, gated by the runtime confirmation modal."
     },
@@ -1772,11 +1565,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "List/search WordPress posts, pages or any custom post type. Filter by type, status, author, search text, date order. Read-only."
     },
@@ -1792,11 +1583,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Read one post/page/CPT by id (or slug + post_type): fields, terms and public meta. Read-only."
     },
@@ -1812,11 +1601,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Create a post/page/CPT. Defaults to draft. Content is sanitised. Side-effect."
     },
@@ -1832,11 +1619,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Update an existing post/page/CPT (title, content, excerpt, status). Side-effect."
     },
@@ -1852,11 +1637,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Move a post/page/CPT to the trash (not permanent deletion). Side-effect."
     },
@@ -1872,11 +1655,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "With no argument, list public taxonomies. With 'taxonomy', list that taxonomy's terms. Read-only."
     },
@@ -1892,11 +1673,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Create a taxonomy term (category, tag or custom). Side-effect."
     },
@@ -1912,11 +1691,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Assign terms to a post. Terms may be ids or names/slugs. Side-effect."
     },
@@ -1932,11 +1709,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "List the media library (filter by search text or mime type). Read-only."
     },
@@ -1952,11 +1727,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Read one media attachment's metadata (url, alt, dimensions). Read-only."
     },
@@ -1972,11 +1745,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "List users (filter by role or search). Never returns passwords. Read-only."
     },
@@ -1992,11 +1763,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Read one user's profile by id or login. Never returns the password. Read-only."
     },
@@ -2012,11 +1781,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Create a user (username, email, role). Password is auto-generated and never disclosed. Role grants are guarded against privilege escalation. Side-effect."
     },
@@ -2032,11 +1799,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Update a user's profile or role (role changes need promote_users and are escalation-guarded). Passwords are not changeable here. Side-effect."
     },
@@ -2052,11 +1817,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "List comments (filter by post, status, search). Read-only."
     },
@@ -2072,11 +1835,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Moderate a comment: approve, hold, spam, trash, or reply. Side-effect."
     },
@@ -2092,11 +1853,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Read a basic site setting (only an allow-list of general options; suite/plugin options are not exposed). Read-only."
     },
@@ -2112,11 +1871,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Change a basic site setting (only an allow-list of general options; suite/plugin options cannot be touched). Side-effect."
     },
@@ -2132,11 +1889,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Site overview: WordPress version, active theme, language, content counts, active plugins. Read-only."
     },
@@ -2152,11 +1907,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "List navigation menus and their items. Read-only."
     },
@@ -2172,11 +1925,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Read WooCommerce data: list recent orders or products, or one by id. Read-only. Only when WooCommerce is active."
     },
@@ -2192,11 +1943,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Add a note to a WooCommerce order (private, or customer-visible). Side-effect. Only when WooCommerce is active."
     },
@@ -2212,11 +1961,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Read the SEO title, meta description and focus keyword of a post/page. Works with Yoast, Rank Math or SEOPress (auto-detected). Read-only."
     },
@@ -2232,11 +1979,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Optimize a post/page's SEO: set the SEO title, meta description and/or focus keyword. Works with Yoast, Rank Math or SEOPress. Side-effect."
     },
@@ -2252,11 +1997,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "List forms across the installed form plugins (Contact Form 7, Fluent Forms, Gravity Forms, WPForms), noting which support stored entries. Read-only."
     },
@@ -2272,11 +2015,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "List a form's stored entries (Fluent Forms / Gravity Forms; Contact Form 7 stores none). Read-only."
     },
@@ -2292,11 +2033,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Set a PUBLIC custom field (post meta) on a post. Protected keys (starting with _) are refused. Side-effect."
     },
@@ -2312,11 +2051,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Download a remote http(s) image/file URL into the media library. SSRF-guarded (rejects private/loopback hosts). Side-effect."
     },
@@ -2332,11 +2069,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Create a navigation menu (action=create_menu) or append an item to one (action=add_item, with a post_id or a url). Side-effect."
     },
@@ -2352,11 +2087,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "List widgets grouped by sidebar. Read-only."
     },
@@ -2372,11 +2105,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "List installed plugins and their active state. Read-only."
     },
@@ -2392,11 +2123,9 @@
         "includes/WpCore/WpCoreAgentApi.php",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/wpcore-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "List registered post types and their taxonomies (discover any plugin's content; then use the wp_post_* tools with the post_type). Read-only."
     },
@@ -2412,11 +2141,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Change a WooCommerce order's status (processing/completed/on-hold/…). Side-effect."
     },
@@ -2432,11 +2159,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Cancel a WooCommerce order. Side-effect."
     },
@@ -2452,11 +2177,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Create a pending WooCommerce order, optionally with a customer and line items. Side-effect."
     },
@@ -2472,11 +2195,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Add or remove a product line on a WooCommerce order. Side-effect."
     },
@@ -2492,11 +2213,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Apply a coupon code to a WooCommerce order. Side-effect."
     },
@@ -2512,11 +2231,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Set a product's stock quantity (and derived stock status). Side-effect."
     },
@@ -2532,11 +2249,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Create or edit a simple WooCommerce product (name, price, sku, description, status). Side-effect."
     },
@@ -2552,11 +2267,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Record a refund REQUEST on an order for a human to process. NEVER issues the refund automatically (our policy). Side-effect."
     },
@@ -2572,11 +2285,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Manage a stored form entry: read/unread, spam/unspam, trash, star/unstar, or add a note (Gravity Forms, Fluent Forms). Side-effect."
     },
@@ -2592,11 +2303,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Read LearnDash courses, lessons, or a user's enrollments. Read-only."
     },
@@ -2612,11 +2321,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Enroll or unenroll a user in a LearnDash course. Side-effect."
     },
@@ -2632,11 +2339,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Read MemberPress membership products, or a member's active memberships. Read-only."
     },
@@ -2652,11 +2357,9 @@
         "includes/ThirdParty/",
         "config/agent-tools.json"
       ],
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ],
+      "tests": ["tests-suite/tool-invocation.spec.cjs"],
       "evidence": [
-        "php tests/thirdparty-tools-smoke.php"
+        "npx playwright test --config=playwright.suite.cjs tool-invocation"
       ],
       "notes": "Grant or revoke a member's access to a membership (creates/expires a manual transaction). Sensitive; side-effect."
     }

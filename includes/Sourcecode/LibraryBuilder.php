@@ -86,17 +86,20 @@ TS;
 
     /**
      * Returns the per-workflow variables surface as TypeScript
-     * declarations. `null` (or 0) workflow_id triggers a self-explaining
+     * declarations. A null/empty workflow id triggers a self-explaining
      * stub so the agent sees the file but understands no workflow is in
      * context yet. wp-pfworkflow's VariablesTypingsBuilder handles the
      * "workflow exists but has no variables" case with its own stub.
+     *
+     * @param mixed $workflow_id  opaque workflow id (uuid string or legacy int)
      */
-    public static function variablesLibrary(?int $workflow_id): string
+    public static function variablesLibrary($workflow_id): string
     {
-        if ($workflow_id === null || $workflow_id <= 0) {
+        $id = \ProjectFlash\Agent\WorkflowDependency::normalize_workflow_id($workflow_id ?? '');
+        if ($id === '') {
             return self::FALLBACK_VARIABLES_NO_WORKFLOW;
         }
-        $dts = apply_filters('projectflash_workflow_variables_dts', null, $workflow_id);
+        $dts = apply_filters('projectflash_workflow_variables_dts', null, $id);
         if (!is_string($dts) || $dts === '') {
             return self::FALLBACK_VARIABLES_NO_WORKFLOW;
         }

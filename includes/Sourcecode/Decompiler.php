@@ -86,10 +86,10 @@ final class Decompiler
      * F12 disambiguation: the input is the NORMALIZED workflow envelope
      * produced by {@see DecompileCache::refresh} or
      * {@see \ProjectFlash\Management\Agent\AgentWorkflowService::agent_workflow_full},
-     * NOT the raw `wp_posts.post_content` JSON row. The expected shape is:
+     * NOT the raw `wp_pfw_workflows.graph` JSON column. The expected shape is:
      *
      *   array{
-     *       id?: int,
+     *       id?: string,
      *       name?: string,
      *       status?: string,
      *       graph: array{

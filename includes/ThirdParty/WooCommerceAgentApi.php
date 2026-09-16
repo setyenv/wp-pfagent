@@ -85,6 +85,12 @@ final class WooCommerceAgentApi
             'paged' => $page,
             'orderby' => 'date',
             'order' => 'DESC',
+            // A refund is its own object type, not an order. Without this the
+            // store hands back WC_Order_Refund rows too, and those do not carry
+            // the order interface: the listing FATALED on the first refund in
+            // the shop (get_order_number() is undefined on a refund), so the
+            // agent's read of a perfectly healthy store died with a 500.
+            'type' => 'shop_order',
         ]);
         return ['kind' => 'orders', 'items' => array_map(fn($o) => $this->order_summary($o, false), is_array($orders) ? $orders : [])];
     }
@@ -376,25 +382,39 @@ final class WooCommerceAgentApi
         return is_numeric($v) ? (int) $v : 0;
     }
 
-    /** @param mixed $o @return array<string, mixed> */
+    /**
+     * Summarise an order without assuming which order type it is.
+     *
+     * WooCommerce hands back several classes through the same reading paths
+     * (WC_Order, WC_Order_Refund, and whatever a store's extensions register),
+     * and they do NOT share the whole order interface. Calling a getter that
+     * one of them lacks is a fatal error, i.e. a 500 for the agent instead of
+     * an answer — so every accessor here is asked for, never assumed.
+     *
+     * @param mixed $o
+     * @return array<string, mixed>
+     */
     private function order_summary($o, bool $full): array
     {
+        $created = is_callable([$o, 'get_date_created']) ? $o->get_date_created() : null;
         $data = [
             'id' => (int) $o->get_id(),
-            'number' => (string) $o->get_order_number(),
-            'status' => (string) $o->get_status(),
-            'total' => (string) $o->get_total(),
-            'currency' => (string) $o->get_currency(),
-            'date' => $o->get_date_created() ? $o->get_date_created()->date('c') : '',
-            'customer' => trim($o->get_billing_first_name() . ' ' . $o->get_billing_last_name()),
+            'number' => is_callable([$o, 'get_order_number']) ? (string) $o->get_order_number() : (string) $o->get_id(),
+            'status' => is_callable([$o, 'get_status']) ? (string) $o->get_status() : '',
+            'total' => is_callable([$o, 'get_total']) ? (string) $o->get_total() : '',
+            'currency' => is_callable([$o, 'get_currency']) ? (string) $o->get_currency() : '',
+            'date' => $created ? $created->date('c') : '',
+            'customer' => is_callable([$o, 'get_billing_first_name'])
+                ? trim($o->get_billing_first_name() . ' ' . $o->get_billing_last_name())
+                : '',
         ];
         if ($full) {
             $items = [];
-            foreach ($o->get_items() as $it) {
+            foreach (is_callable([$o, 'get_items']) ? $o->get_items() : [] as $it) {
                 $items[] = ['name' => $it->get_name(), 'qty' => (int) $it->get_quantity(), 'total' => (string) $it->get_total()];
             }
             $data['items'] = $items;
-            $data['email'] = (string) $o->get_billing_email();
+            $data['email'] = is_callable([$o, 'get_billing_email']) ? (string) $o->get_billing_email() : '';
         }
         return $data;
     }

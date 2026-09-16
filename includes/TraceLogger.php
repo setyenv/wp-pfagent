@@ -30,7 +30,7 @@ final class TraceLogger
     // unavoidable and per-request trace reads are not object-cache candidates.
     // Justified, class-scoped.
     // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-    public const SCHEMA_VERSION = '2';
+    public const SCHEMA_VERSION = '3';
     private const VERSION_OPTION = 'pfa_trace_log_schema_version';
     public const KIND_AGENT_TURN = 'agent_turn';
     public const KIND_WORKFLOW_API = 'workflow_api';
@@ -59,9 +59,9 @@ final class TraceLogger
         $table = self::table_name();
         $charset = $wpdb->get_charset_collate();
         $sql = "CREATE TABLE {$table} (
-            id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+            id CHAR(36) NOT NULL,
             trace_id VARCHAR(36) NOT NULL,
-            user_id BIGINT UNSIGNED NOT NULL DEFAULT 0,
+            user_id CHAR(32) NULL DEFAULT NULL,
             kind VARCHAR(32) NOT NULL,
             status VARCHAR(32) NOT NULL,
             tool VARCHAR(64) NOT NULL DEFAULT '',
@@ -119,13 +119,16 @@ final class TraceLogger
         string $kind,
         string $status,
         array $context = []
-    ): int {
+    ): string {
         global $wpdb;
         self::maybe_install();
 
+        $id = $this->new_trace_id();
         $row = [
+            'id' => $id,
             'trace_id' => substr($trace_id, 0, 36),
-            'user_id' => (int) get_current_user_id(),
+            // WHOSE trace it is: a person of the platform.
+            'user_id' => \ProjectFlash\Agent\PersonColumns::current() ?: null,
             'kind' => substr($kind, 0, 32),
             'status' => substr($status, 0, 32),
             'tool' => substr((string) ($context['tool'] ?? ''), 0, 64),
@@ -142,11 +145,11 @@ final class TraceLogger
 
         $inserted = $wpdb->insert($wpdb->prefix . 'pfa_trace_log', $row);
 
-        return $inserted === false ? 0 : (int) $wpdb->insert_id;
+        return $inserted === false ? '' : $id;
     }
 
     /**
-     * @param array{user_id?: int, kind?: string, status?: string, since?: string, limit?: int} $filters
+     * @param array{user_id?: string, kind?: string, status?: string, since?: string, limit?: int} $filters
      * @return array<int, array<string, mixed>>
      */
     public function query(array $filters = []): array
@@ -159,8 +162,9 @@ final class TraceLogger
         $values = [];
 
         if (isset($filters['user_id'])) {
-            $where[] = 'user_id = %d';
-            $values[] = (int) $filters['user_id'];
+            // The trace belongs to a person, so the filter takes their sys_id.
+            $where[] = 'user_id = %s';
+            $values[] = strtolower((string) $filters['user_id']);
         }
         if (!empty($filters['kind'])) {
             $where[] = 'kind = %s';
@@ -180,7 +184,7 @@ final class TraceLogger
         }
 
         $limit = max(1, min(500, (int) ($filters['limit'] ?? 100)));
-        $sql = 'SELECT * FROM ' . $table . ' WHERE ' . implode(' AND ', $where) . ' ORDER BY id DESC LIMIT ' . $limit;
+        $sql = 'SELECT * FROM ' . $table . ' WHERE ' . implode(' AND ', $where) . ' ORDER BY created_at DESC, id DESC LIMIT ' . $limit;
         $prepared = $values === [] ? $sql : $wpdb->prepare($sql, $values);
         $rows = $wpdb->get_results($prepared, ARRAY_A);
 
@@ -188,7 +192,7 @@ final class TraceLogger
     }
 
     /**
-     * @param array{user_id?: int, since?: string} $filters
+     * @param array{user_id?: string, since?: string} $filters
      * @return array{byKind: array<string, int>, byStatus: array<string, int>, byProvider: array<string, int>, totalRows: int}
      */
     public function aggregate(array $filters = []): array
@@ -200,8 +204,8 @@ final class TraceLogger
         $where = ['1=1'];
         $values = [];
         if (isset($filters['user_id'])) {
-            $where[] = 'user_id = %d';
-            $values[] = (int) $filters['user_id'];
+            $where[] = 'user_id = %s';
+            $values[] = strtolower((string) $filters['user_id']);
         }
         if (!empty($filters['since'])) {
             $where[] = 'created_at >= %s';
@@ -309,7 +313,7 @@ final class TraceLogger
         $context = json_decode((string) ($row['context_json'] ?? ''), true);
 
         return [
-            'id' => (int) ($row['id'] ?? 0),
+            'id' => (string) ($row['id'] ?? ''),
             'traceId' => (string) ($row['trace_id'] ?? ''),
             'userId' => (int) ($row['user_id'] ?? 0),
             'kind' => (string) ($row['kind'] ?? ''),

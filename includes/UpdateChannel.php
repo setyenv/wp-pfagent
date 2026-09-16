@@ -1,24 +1,24 @@
 <?php
 /**
- * Canal de actualización de WP-PFAgent — enganche al mecanismo ESTÁNDAR de
- * WordPress (cabecera `Update URI:` + filtro `update_plugins_<host>`), gemelo
- * funcional del de WP-PFWorkflow / WP-PFManagement, pero SIN NADA de licencias.
+ * WP-PFAgent update channel — hooked into WordPress's STANDARD mechanism
+ * (`Update URI:` header + `update_plugins_<host>` filter), a functional twin
+ * of the WP-PFWorkflow / WP-PFManagement one, but with NOTHING license-related.
  *
- * PFAgent es open source (GPL-2.0) y no lleva LicenseClient: no hay clave que
- * enviar. Aun así el canal necesita una IDENTIDAD para repartir el turno del
- * despacho escalonado — el censo de `check.php` responde la versión instalada
- * («todavía no hay novedad») a quien manda una identidad vacía, así que sin
- * identidad un sitio NUNCA vería una versión nueva. Por eso este cliente acuña
- * una identidad ANÓNIMA y estable por sitio: un id aleatorio de una sola vez,
- * guardado en una opción. No dice quién es nadie ni acredita derecho a nada;
- * solo da un asa estable para el escalonado.
+ * PFAgent is open source (GPL-2.0) and carries no LicenseClient: there is no
+ * key to send. The channel still needs an IDENTITY to deal out turns in the
+ * staggered rollout — the `check.php` census answers the installed version
+ * ("nothing new yet") to anyone sending an empty identity, so without an
+ * identity a site would NEVER see a new version. That is why this client mints
+ * an ANONYMOUS, stable per-site identity: a one-time random id, stored in an
+ * option. It says who nobody is and vouches for no entitlement; it only gives
+ * the stagger a stable handle.
  *
- * El resto del ciclo es idéntico al de los plugins de pago:
- *   1. El core dispara el filtro; se consulta `check.php` por POST.
- *   2. El canal contesta la versión que le toca a ESTE sitio (o la propia
- *      instalada si el escalonado dice «todavía no»): silencio limpio.
- *   3. El `package` devuelto NO lleva token; al pulsar «Actualizar»,
- *      `upgrader_pre_download` acuña un enlace de un solo uso y descarga.
+ * The rest of the cycle is identical to the paid plugins':
+ *   1. Core fires the filter; `check.php` is queried via POST.
+ *   2. The channel answers the version THIS site is due (or the installed one
+ *      when the stagger says "not yet"): clean silence.
+ *   3. The returned `package` carries NO token; on clicking "Update",
+ *      `upgrader_pre_download` mints a single-use link and downloads.
  *
  * @see https://make.wordpress.org/core/2021/06/29/introducing-update-uri-plugin-header-in-wordpress-5-8/
  */
@@ -36,33 +36,33 @@ if (!class_exists(__NAMESPACE__ . '\\UpdateChannel')) {
 final class UpdateChannel
 {
     /**
-     * Host del canal. Única fuente de esa cadena: coincide carácter a carácter
-     * con el host de la cabecera `Update URI:` del fichero principal, porque de
-     * él sale el nombre del filtro que dispara el core. Una mudanza de host
-     * obliga a escuchar los dos durante toda la transición (los sitios con la
-     * versión vieja siguen declarando el host viejo).
+     * Channel host. Single source of that string: it matches, character for
+     * character, the host in the main file's `Update URI:` header, because
+     * that is where the filter name core fires comes from. A host move forces
+     * listening to both for the whole transition (sites on the old version
+     * keep declaring the old host).
      */
     public const HOST = 'updates.setyenv.com';
 
-    /** Opción donde vive la identidad anónima y estable del sitio. */
+    /** Option where the site's anonymous, stable identity lives. */
     private const IDENTITY_OPTION = 'wp_pfagent_channel_site_id';
 
-    /** Segundos de espera con el canal. Corto: el chequeo corre en la carga del
-     *  admin y un canal caído no puede colgar el escritorio de nadie. */
+    /** Seconds to wait on the channel. Short: the check runs on admin page
+     *  load and a downed channel must not hang anyone's dashboard. */
     private const CHECK_TIMEOUT = 5;
 
-    /** @var array<string, array{slug:string, version:string, domain:string}> por basename */
+    /** @var array<string, array{slug:string, version:string, domain:string}> by basename */
     private static array $plugins = [];
 
     private static bool $hooked = false;
 
     /**
-     * Registra el plugin en el canal.
+     * Registers the plugin with the channel.
      *
-     * @param string $plugin_file ruta absoluta del fichero principal (__FILE__)
-     * @param string $slug        slug del plugin (wp-pfagent)
-     * @param string $version     versión instalada
-     * @param string $text_domain dominio de texto para los mensajes de descarga
+     * @param string $plugin_file absolute path of the main file (__FILE__)
+     * @param string $slug        plugin slug (wp-pfagent)
+     * @param string $version     installed version
+     * @param string $text_domain text domain for the download messages
      */
     public static function register(string $plugin_file, string $slug, string $version, string $text_domain = 'wp-pfagent'): void
     {
@@ -81,12 +81,12 @@ final class UpdateChannel
     }
 
     /**
-     * Identidad ANÓNIMA y estable del sitio ante el canal.
+     * The site's ANONYMOUS, stable identity towards the channel.
      *
-     * No es una clave de licencia (no la hay): es un id aleatorio acuñado una
-     * sola vez y guardado, de modo que el escalonado reparta turnos de forma
-     * estable entre instalaciones distintas sin identificar a nadie. Se mina de
-     * forma perezosa la primera vez que el canal lo necesita.
+     * It is not a license key (there is none): it is a random id minted once
+     * and stored, so the stagger deals turns out stably across distinct
+     * installs without identifying anyone. Minted lazily the first time the
+     * channel needs it.
      */
     private static function identity(): string
     {
@@ -94,7 +94,7 @@ final class UpdateChannel
         if (is_string($id) && $id !== '') {
             return $id;
         }
-        // 32 hex de aleatoriedad criptográfica; una sola vez por sitio.
+        // 32 hex of cryptographic randomness; once per site.
         try {
             $id = bin2hex(random_bytes(16));
         } catch (\Throwable $e) {
@@ -105,14 +105,14 @@ final class UpdateChannel
     }
 
     /**
-     * ¿Tiene este sitio la actualización automática puesta para ESTE plugin?
+     * Does this site have auto-updates turned on for THIS plugin?
      *
-     * El canal lo necesita para el censo: solo se escalona entre quienes se
-     * actualizan solos, y cuando esa cohorte está al día la versión se libera a
-     * todos. El core exige DOS cosas (`WP_Automatic_Updater::should_update()`):
-     * que las automáticas estén habilitadas globalmente Y que el plugin esté en
-     * la lista. Mirar solo la lista contaría como cohorte a un sitio con las
-     * automáticas apagadas del todo, que nunca se actualizaría.
+     * The channel needs it for the census: only self-updating sites take part
+     * in the stagger, and once that cohort is current the version is released
+     * to everyone. Core requires TWO things (`WP_Automatic_Updater::should_update()`):
+     * automatic updates enabled globally AND the plugin present in the list.
+     * Looking only at the list would count as cohort a site with automatics
+     * switched off entirely, which would never update.
      */
     private static function auto_update_enabled(string $plugin_file): bool
     {
@@ -130,8 +130,8 @@ final class UpdateChannel
     }
 
     /**
-     * Respuesta del canal para ESTE plugin. El filtro se dispara por host, así
-     * que se filtra por `$plugin_file` y se devuelve intacto lo ajeno.
+     * The channel's answer for THIS plugin. The filter fires per host, so
+     * filter by `$plugin_file` and return anything not ours untouched.
      *
      * @param array|false $update
      * @param array       $plugin_data
@@ -177,9 +177,9 @@ final class UpdateChannel
     }
 
     /**
-     * Descarga: aquí se acuña el enlace. El `package` del chequeo NO lleva
-     * token (WordPress cachea esa respuesta ~12 h y los enlaces son de un solo
-     * uso y vida corta); se pide en el instante de descargar.
+     * Download: the link is minted HERE. The check's `package` carries NO
+     * token (WordPress caches that response ~12 h and the links are single-use
+     * and short-lived); it is requested at the moment of download.
      *
      * @param bool|\WP_Error $reply
      * @param string         $package
@@ -212,7 +212,7 @@ final class UpdateChannel
         if (is_wp_error($minted)) {
             return $minted;
         }
-        // 404 = versión inexistente (no reintentar); 503 = «ahora no, vuelve luego».
+        // 404 = nonexistent version (do not retry); 503 = "not now, come back later".
         $status = (int) wp_remote_retrieve_response_code($minted);
         if ($status !== 200) {
             $message = $status === 503
@@ -228,10 +228,11 @@ final class UpdateChannel
         if (!function_exists('download_url')) {
             require_once ABSPATH . 'wp-admin/includes/file.php';
         }
-        // El 503 del semáforo llega POR AQUÍ (token.php no tiene semáforo): sin
-        // traducir, el core enseña «Update failed: Service Unavailable». download_url
-        // empaqueta el código HTTP en los datos del error (usa http_404 para todo
-        // lo que no sea 200, así que hay que mirar el dato, no el nombre).
+        // The dispatch gate's 503 arrives THROUGH HERE (token.php has no gate
+        // of its own): untranslated, core shows "Update failed: Service
+        // Unavailable". download_url packs the HTTP code into the error data
+        // (it uses http_404 for anything non-200, so look at the data, not the
+        // error name).
         $file = download_url((string) $body['url']);
         if (is_wp_error($file)) {
             $data = $file->get_error_data();

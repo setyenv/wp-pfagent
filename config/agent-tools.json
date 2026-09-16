@@ -3,7 +3,7 @@
   "tools": [
     {
       "name": "list_files",
-      "description": "List files in the virtual workspace. Pass `prefix` to scope (e.g. '/workflows/' for real workflows, '/templates/' for read-only templates, '/lib/' for reference docs). With no prefix, returns the top-level directory listing. ALWAYS call this once at the start of a conversation to discover what is available, then `read_file('/lib/nodes.d.ts')` to get the full verb library before authoring anything.",
+      "description": "List files in the virtual workspace. Pass `prefix` to scope (e.g. '/workflows/' for real workflows, '/templates/' for read-only templates, '/lib/' for reference docs). With no prefix, returns the top-level directory listing. Call it once at the start of workflow work to see what exists, then reach for search_files to find what you need inside those files.",
       "capabilityKeys": [
         "agent.vfs.list"
       ],
@@ -24,13 +24,49 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/runtime-variables-vfs-smoke.php"
-      ]
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"]
+    },
+    {
+      "name": "search_files",
+      "description": "Search the virtual workspace for a literal string and get back the matching lines, instead of reading whole files. Use it FIRST whenever you need to find something in the reference libraries: the node whose name you half remember, which entity exposes a trigger, how an existing workflow wires a step, where a variable is used. `pattern` is matched case-insensitively anywhere in a line; `prefix` scopes the search ('/lib/', '/workflows/', '/templates/'); `max_results` caps the hits (default 40). Each hit is { path, line, text }, so you can go straight to read_file on the one file that matters — or skip reading altogether when the line already told you what you needed.",
+      "capabilityKeys": [
+        "agent.vfs.read"
+      ],
+      "permission": "viewWorkflows",
+      "sideEffect": false,
+      "phpService": {
+        "filter": "projectflash_agent_vfs_bridge",
+        "method": "search_files"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "pattern": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Literal text to look for, matched case-insensitively (not a regular expression)."
+          },
+          "prefix": {
+            "type": "string",
+            "description": "Optional path prefix to scope the search (e.g. '/lib/', '/workflows/'). Defaults to '/'."
+          },
+          "max_results": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "description": "Maximum number of matching lines to return. Defaults to 40."
+          }
+        },
+        "required": [
+          "pattern"
+        ],
+        "additionalProperties": false
+      },
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"]
     },
     {
       "name": "read_file",
-      "description": "Read a file's current contents. Common targets: '/lib/nodes.d.ts' (the verb library — read this first to learn every available action), '/lib/manage.d.ts' (the pfmanagement model surface — entities, events, actions, plus per-entity virtual CRUD), '/lib/variables.d.ts' (the variables declared in a specific workflow — pass workflow_id), '/workflows/<id>__<slug>.pfflow' (an existing workflow's source), '/templates/<slug>.pfflow' (a built-in template's source). Returns { source, draft, liveSource?, lastError?, workflowId? }; `draft: true` means the user has unsaved changes in this file.",
+      "description": "Read a file's current contents. Common targets: '/lib/nodes.d.ts' (the verb library), '/lib/manage.d.ts' (the pfmanagement model surface — entities, events, actions, plus per-entity virtual CRUD), '/lib/variables.d.ts' (the variables declared in a specific workflow — pass workflow_id), '/workflows/<id>__<slug>.pfflow' (an existing workflow's source), '/templates/<slug>.pfflow' (a built-in template's source). The two libraries are generated and BIG (hundreds of kilobytes): read their first ~120 lines for the authoring model, use search_files to locate the exact declaration you need, and come back with from_line/max_lines to read just that region. A whole-file read of a library is almost never the right call; workflow and template sources are small and fine to read whole. Returns { source, draft, liveSource?, lastError?, workflowId?, window? }; `draft: true` means the user has unsaved changes in this file.",
       "capabilityKeys": [
         "agent.vfs.read"
       ],
@@ -49,9 +85,19 @@
             "description": "Absolute path inside the virtual workspace (starts with /)."
           },
           "workflow_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Required when reading /lib/variables.d.ts (selects which workflow's variables to surface). Ignored for other paths. This is the workflow id exactly as returned by write_file / read_file / list_files (a uuid such as \"f281136a-5387-4a25-baad-3d2db3b2357e\") — never a number you made up."
+          },
+          "from_line": {
             "type": "integer",
             "minimum": 1,
-            "description": "Required when reading /lib/variables.d.ts (selects which workflow's variables to surface). Ignored for other paths."
+            "description": "Optional. First line to return (1-based). Use it with max_lines to read a large generated file in windows instead of whole."
+          },
+          "max_lines": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optional. How many lines to return from from_line. The response then carries a `window` with fromLine, toLine, totalLines and hasMore."
           }
         },
         "required": [
@@ -59,9 +105,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/runtime-variables-vfs-smoke.php"
-      ]
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"]
     },
     {
       "name": "write_file",
@@ -93,9 +137,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/runtime-variables-vfs-smoke.php"
-      ]
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"]
     },
     {
       "name": "edit_file",
@@ -133,9 +175,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/runtime-variables-vfs-smoke.php"
-      ]
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"]
     },
     {
       "name": "move_file",
@@ -167,9 +207,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/runtime-variables-vfs-smoke.php"
-      ]
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"]
     },
     {
       "name": "delete_file",
@@ -196,9 +234,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/runtime-variables-vfs-smoke.php"
-      ]
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"]
     },
     {
       "name": "pfm_get_contract",
@@ -218,9 +254,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/runtime-pfm-bridge-smoke.php"
-      ]
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"]
     },
     {
       "name": "pfm_list",
@@ -270,13 +304,11 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/runtime-pfm-bridge-smoke.php"
-      ]
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"]
     },
     {
       "name": "pfm_get",
-      "description": "Load one wp-pfmanagement resource as a full round-trippable payload. `kind` selects the resource type; `ref` is the slug (for entity/action/application/module/group/role), composite \"entity:sys_id\" (for record), the page slug (for page), or the numeric id (for business_rule — also accepts \"id:<n>\"). UI Policies are admin-only and not gettable through this tool.",
+      "description": "Load one wp-pfmanagement resource as a full round-trippable payload. `kind` selects the resource type; `ref` is the slug (for entity/action/application/module/group/role), composite \"entity:sys_id\" (for record), the page slug (for page), or the id (for business_rule — also accepts \"id:<id>\"). UI Policies are admin-only and not gettable through this tool.",
       "capabilityKeys": [
         "management.agent_get"
       ],
@@ -323,9 +355,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/runtime-pfm-bridge-smoke.php"
-      ]
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"]
     },
     {
       "name": "pfm_apply",
@@ -446,13 +476,11 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/runtime-pfm-bridge-smoke.php"
-      ]
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"]
     },
     {
       "name": "pfm_delete",
-      "description": "Delete ONE wp-pfmanagement resource by reference. `kind` selects the resource type; `ref` identifies the single target: the slug (entity/application/role/group/event), \"<application_slug>.<module_slug>\" (module), \"<entity_slug>.<action_slug>\" (action), \"<entity_slug>:<sys_id_hex>\" (record), or the numeric id (row_visibility rule). SIDE EFFECT — requires user confirmation. Gated exactly like pfm_apply: you may only delete what your role may delete, and every deletion is audited. ONE call deletes ONE explicit target — there is no bulk/mass delete. Business Rules are NOT deletable here (delete is refused; to stop a rule send pfm_apply with is_active=false, which keeps the definition). Pages and UI Policies are not deletable through the agent. Deleting an entity also drops its records and form layout; a record delete clears inbound relations pointing at it.",
+      "description": "Delete ONE wp-pfmanagement resource by reference. `kind` selects the resource type; `ref` identifies the single target: the slug (entity/application/role/group/event), \"<application_slug>.<module_slug>\" (module), \"<entity_slug>.<action_slug>\" (action), \"<entity_slug>:<sys_id_hex>\" (record), or the id (row_visibility rule). SIDE EFFECT — requires user confirmation. Gated exactly like pfm_apply: you may only delete what your role may delete, and every deletion is audited. ONE call deletes ONE explicit target — there is no bulk/mass delete. Business Rules are NOT deletable here (delete is refused; to stop a rule send pfm_apply with is_active=false, which keeps the definition). Pages and UI Policies are not deletable through the agent. Deleting an entity also drops its records and form layout; a record delete clears inbound relations pointing at it.",
       "capabilityKeys": [
         "management.agent_delete"
       ],
@@ -511,9 +539,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/runtime-pfm-bridge-smoke.php"
-      ]
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"]
     },
     {
       "name": "create_variable",
@@ -531,9 +557,9 @@
         "type": "object",
         "properties": {
           "workflow_id": {
-            "type": "integer",
-            "minimum": 1,
-            "description": "Id of the workflow this variable belongs to (the one you wrote with write_file)."
+            "type": "string",
+            "minLength": 1,
+            "description": "Id of the workflow this variable belongs to, exactly as returned by write_file / read_file / list_files (a uuid such as \"f281136a-5387-4a25-baad-3d2db3b2357e\") — never a number you made up."
           },
           "name": {
             "type": "string",
@@ -574,9 +600,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/runtime-pfm-bridge-smoke.php"
-      ]
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"]
     },
     {
       "name": "activate_workflow",
@@ -604,9 +628,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/runtime-variables-vfs-smoke.php"
-      ]
+      "tests": ["tests-suite/vfs-and-bridges-end-to-end.spec.cjs"]
     },
     {
       "name": "wp_post_list",
@@ -659,9 +681,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_post_get",
@@ -694,9 +714,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_post_create",
@@ -741,9 +759,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_post_update",
@@ -792,9 +808,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_post_trash",
@@ -827,9 +841,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_taxonomy_list",
@@ -858,9 +870,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_term_create",
@@ -900,9 +910,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_term_assign",
@@ -949,9 +957,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_media_list",
@@ -988,9 +994,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_media_get",
@@ -1017,9 +1021,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_user_list",
@@ -1056,9 +1058,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_user_get",
@@ -1087,9 +1087,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_user_create",
@@ -1137,9 +1135,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_user_update",
@@ -1186,9 +1182,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_comment_list",
@@ -1229,9 +1223,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_comment_moderate",
@@ -1267,9 +1259,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_option_get",
@@ -1296,9 +1286,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_option_set",
@@ -1335,9 +1323,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_site_info",
@@ -1357,9 +1343,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_menu_list",
@@ -1379,9 +1363,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wc_read",
@@ -1423,9 +1405,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wc_order_note",
@@ -1462,9 +1442,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "seo_get",
@@ -1494,9 +1472,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "seo_set",
@@ -1536,9 +1512,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "forms_list",
@@ -1559,9 +1533,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "forms_entries",
@@ -1597,9 +1569,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_post_meta_set",
@@ -1648,9 +1618,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_media_sideload",
@@ -1681,9 +1649,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_menu_manage",
@@ -1730,9 +1696,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_widget_list",
@@ -1752,9 +1716,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_plugins_list",
@@ -1774,9 +1736,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wp_posttypes_list",
@@ -1796,9 +1756,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/wpcore-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wc_order_update",
@@ -1835,9 +1793,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wc_order_cancel",
@@ -1869,9 +1825,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wc_order_create",
@@ -1918,9 +1872,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wc_order_line",
@@ -1964,9 +1916,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wc_apply_coupon",
@@ -1999,9 +1949,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wc_stock_set",
@@ -2034,9 +1982,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wc_product_upsert",
@@ -2082,9 +2028,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "wc_refund_request",
@@ -2120,9 +2064,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "forms_entry_manage",
@@ -2163,9 +2105,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "ld_read",
@@ -2199,9 +2139,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "ld_enroll",
@@ -2238,9 +2176,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "mp_read",
@@ -2270,9 +2206,7 @@
         "required": [],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     },
     {
       "name": "mp_access",
@@ -2309,9 +2243,7 @@
         ],
         "additionalProperties": false
       },
-      "tests": [
-        "tests/thirdparty-tools-smoke.php"
-      ]
+      "tests": ["tests-suite/tool-invocation.spec.cjs"]
     }
   ]
 }

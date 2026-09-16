@@ -22,7 +22,7 @@ final class Conversation
      * @param array<string, mixed> $metadata
      */
     public function __construct(
-        public readonly int $id,
+        public readonly string $id,
         public readonly string $label,
         public readonly string $status,
         public readonly array $messages,

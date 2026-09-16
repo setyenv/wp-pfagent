@@ -573,8 +573,20 @@ final class RestApi
         if ($error = $this->enforce_rate('config')) {
             return $error;
         }
+        $provider_id = sanitize_key((string) $request['provider']);
+        // Every sibling route (test, delete, save, smoke, models) answers 404
+        // for a provider that does not exist. This one reported 200 with
+        // status "failed", which reads as "your provider is broken" when the
+        // truth is "there is no such provider".
+        if ($this->presets->preset($provider_id) === null) {
+            return new WP_Error(
+                'pfa_provider_unknown',
+                __('Provider preset was not found.', 'wp-pfagent'),
+                ['status' => 404, 'providerId' => $provider_id]
+            );
+        }
 
-        return rest_ensure_response($this->health->check(sanitize_key((string) $request['provider'])));
+        return rest_ensure_response($this->health->check($provider_id));
     }
 
     public function generate_smoke(WP_REST_Request $request): WP_REST_Response|WP_Error
@@ -636,7 +648,8 @@ final class RestApi
         }
 
         global $wp_version;
-        $current = get_current_user_id();
+        // The traces are a PERSON's, so ask for the person.
+        $current = \ProjectFlash\Agent\PersonColumns::current();
         $since = gmdate('Y-m-d H:i:s', time() - DAY_IN_SECONDS);
 
         $recent = $this->trace_logger->query(['user_id' => $current, 'limit' => 50]);
@@ -699,7 +712,8 @@ final class RestApi
             return $error;
         }
 
-        $current = get_current_user_id();
+        // The traces are a PERSON's, so ask for the person.
+        $current = \ProjectFlash\Agent\PersonColumns::current();
         $window_hours = max(1, min(168, (int) ($request->get_param('windowHours') ?? 24)));
         $since = gmdate('Y-m-d H:i:s', time() - $window_hours * HOUR_IN_SECONDS);
 
@@ -763,7 +777,7 @@ final class RestApi
                 'costMicros' => (int) ($result['costMicros'] ?? 0),
                 'durationMs' => (int) round((microtime(true) - $started_at) * 1000),
                 'context' => [
-                    'conversationId' => (int) ($result['conversationId'] ?? 0),
+                    'conversationId' => (string) ($result['conversationId'] ?? ''),
                     'rounds' => (int) ($result['rounds'] ?? 0),
                     'model' => (string) ($params['model'] ?? ''),
                 ],
@@ -821,7 +835,7 @@ final class RestApi
         return rest_ensure_response([
             'providerId' => (string) ($stored['providerId'] ?? ''),
             'model' => (string) ($stored['model'] ?? ''),
-            'sessionId' => isset($stored['sessionId']) ? (int) $stored['sessionId'] : null,
+            'sessionId' => isset($stored['sessionId']) ? (string) $stored['sessionId'] : null,
             'updatedAt' => (string) ($stored['updatedAt'] ?? ''),
         ]);
     }
@@ -837,8 +851,29 @@ final class RestApi
         $params = $this->json_params($request);
         $providerId = sanitize_key((string) ($params['providerId'] ?? ''));
         $model = sanitize_text_field((string) ($params['model'] ?? ''));
+
+        // This option IS the operator's choice of engine, and the whole product
+        // reads it. A body without both fields — or a body that is not even an
+        // object, which json_params() flattens to [] — used to answer 200 and
+        // overwrite the real selection with an empty one: after that the chat
+        // came up with no engine and nothing said why. Refuse instead.
+        if ($providerId === '' || $model === '') {
+            return new WP_Error(
+                'pfa_active_llm_invalid',
+                __('providerId and model are required.', 'wp-pfagent'),
+                ['status' => 400]
+            );
+        }
+        if ($this->presets->preset($providerId) === null) {
+            return new WP_Error(
+                'pfa_provider_unknown',
+                __('Provider preset was not found.', 'wp-pfagent'),
+                ['status' => 404, 'providerId' => $providerId]
+            );
+        }
+
         $sessionId = isset($params['sessionId']) && $params['sessionId'] !== null
-            ? (int) $params['sessionId']
+            ? (string) $params['sessionId']
             : null;
         $now = gmdate('c');
         $payload = [
@@ -860,13 +895,13 @@ final class RestApi
             return $error;
         }
         $params = $this->json_params($request);
-        $conversationId = (int) ($params['conversationId'] ?? 0);
+        $conversationId = trim((string) ($params['conversationId'] ?? ''));
         $token = (string) ($params['confirmationToken'] ?? '');
         $approved = (bool) ($params['approved'] ?? false);
         $providerId = (string) ($params['providerId'] ?? '');
         $model = (string) ($params['model'] ?? '');
 
-        if ($conversationId <= 0 || $token === '' || $providerId === '' || $model === '') {
+        if ($conversationId === '' || $token === '' || $providerId === '' || $model === '') {
             return new WP_Error('pfa_resume_invalid', __('conversationId, confirmationToken, providerId and model are required.', 'wp-pfagent'), ['status' => 400]);
         }
 
@@ -893,11 +928,11 @@ final class RestApi
             return $error;
         }
         $params = $this->json_params($request);
-        $conversationId = (int) ($params['conversationId'] ?? 0);
+        $conversationId = trim((string) ($params['conversationId'] ?? ''));
         $providerId = (string) ($params['providerId'] ?? '');
         $model = (string) ($params['model'] ?? '');
 
-        if ($conversationId <= 0 || $providerId === '' || $model === '') {
+        if ($conversationId === '' || $providerId === '' || $model === '') {
             return new WP_Error('pfa_continue_invalid', __('conversationId, providerId and model are required.', 'wp-pfagent'), ['status' => 400]);
         }
 
@@ -922,12 +957,12 @@ final class RestApi
      */
     public function agent_progress(WP_REST_Request $request): WP_REST_Response|WP_Error
     {
-        $conversationId = (int) ($request->get_param('conversationId') ?? 0);
-        if ($conversationId <= 0) {
+        $conversationId = trim((string) ($request->get_param('conversationId') ?? ''));
+        if ($conversationId === '') {
             return new WP_Error('pfa_progress_invalid', __('conversationId is required.', 'wp-pfagent'), ['status' => 400]);
         }
-        $sinceToolCallId = max(0, (int) ($request->get_param('sinceToolCallId') ?? 0));
-        $sinceTraceId = max(0, (int) ($request->get_param('sinceTraceId') ?? 0));
+        $sinceToolCallSeq = max(0, (int) ($request->get_param('sinceToolCallSeq') ?? 0));
+        $sinceTraceSeq = max(0, (int) ($request->get_param('sinceTraceSeq') ?? 0));
         // sinceMessageOrdinal lets the frontend stream new assistant
         // narrations bubble-by-bubble during a long turn instead of
         // waiting for /turn-v2 to return. -1 means "I haven't seen any
@@ -944,20 +979,20 @@ final class RestApi
         $msgs = $wpdb->prefix . 'pfaf_messages';
 
         $tool_rows = (array) $wpdb->get_results($wpdb->prepare(
-            "SELECT id, tool_name, status, started_at, arguments_json, result_json FROM {$tc}
-             WHERE conversation_id = %d AND id > %d
-             ORDER BY id ASC LIMIT 50",
+            "SELECT seq, tool_name, status, started_at, arguments_json, result_json FROM {$tc}
+             WHERE conversation_id = %s AND seq > %d
+             ORDER BY seq ASC LIMIT 50",
             $conversationId,
-            $sinceToolCallId
+            $sinceToolCallSeq
         ), ARRAY_A);
 
         $trace_rows = (array) $wpdb->get_results($wpdb->prepare(
-            "SELECT id, kind, created_at FROM {$tr}
-             WHERE conversation_id = %d AND id > %d
+            "SELECT seq, kind, created_at FROM {$tr}
+             WHERE conversation_id = %s AND seq > %d
                AND kind IN ('llm_round', 'compaction_applied')
-             ORDER BY id ASC LIMIT 50",
+             ORDER BY seq ASC LIMIT 50",
             $conversationId,
-            $sinceTraceId
+            $sinceTraceSeq
         ), ARRAY_A);
 
         // New assistant narrations since the cursor. Mid-loop rows the
@@ -969,7 +1004,7 @@ final class RestApi
         // detail).
         $msg_rows = (array) $wpdb->get_results($wpdb->prepare(
             "SELECT ordinal, content_json, created_at FROM {$msgs}
-             WHERE conversation_id = %d AND role = 'assistant' AND ordinal > %d
+             WHERE conversation_id = %s AND role = 'assistant' AND ordinal > %d
              ORDER BY ordinal ASC LIMIT 50",
             $conversationId,
             $sinceMessageOrdinal
@@ -1037,21 +1072,27 @@ final class RestApi
                     }
                 }
             }
-            if (isset($resArr['workflowId']) && is_numeric($resArr['workflowId'])) {
-                $focus['workflowId'] = (int) $resArr['workflowId'];
-            } elseif (isset($resArr['content']['workflowId']) && is_numeric($resArr['content']['workflowId'])) {
+            // Opaque ids (P4.2): numeric today, uuid after the PFW cutover.
+            // is_numeric() here used to DROP a uuid focus silently - the same
+            // int-truncation class the BR migration exposed.
+            $focus_wid = WorkflowDependency::normalize_workflow_id($resArr['workflowId'] ?? '');
+            $focus_wid_content = WorkflowDependency::normalize_workflow_id($resArr['content']['workflowId'] ?? '');
+            $focus_wid_br = WorkflowDependency::normalize_workflow_id($resArr['content']['business_rule']['workflow_id'] ?? '');
+            if ($focus_wid !== '') {
+                $focus['workflowId'] = WorkflowDependency::workflow_id_payload($focus_wid);
+            } elseif ($focus_wid_content !== '') {
                 // The VFS tools (write_file / edit_file / read) wrap their return
                 // under `content`, so the id of the workflow the agent just wrote
                 // lands at content.workflowId — NOT the top level. Surface it so the
                 // Workflow tab focuses the graph as the agent authors it (create and
                 // every subsequent edit), both live and at end-of-turn. Without this
                 // the tab stayed on "Waiting for the agent" through a whole build.
-                $focus['workflowId'] = (int) $resArr['content']['workflowId'];
-            } elseif (isset($resArr['content']['business_rule']['workflow_id']) && is_numeric($resArr['content']['business_rule']['workflow_id'])) {
+                $focus['workflowId'] = WorkflowDependency::workflow_id_payload($focus_wid_content);
+            } elseif ($focus_wid_br !== '') {
                 // A workflow born from a Business Rule carries its id nested under
                 // the BR content; surface it so the Workflow tab focuses the live
                 // graph as it evolves.
-                $focus['workflowId'] = (int) $resArr['content']['business_rule']['workflow_id'];
+                $focus['workflowId'] = WorkflowDependency::workflow_id_payload($focus_wid_br);
             }
             // Cross-cutting WordPress layer: derive the live wp-admin focus
             // target for wp_*/wc_*/seo_*/forms_* tools so Susan's "WordPress"
@@ -1063,7 +1104,7 @@ final class RestApi
                 $focus['wpTarget'] = $wpTarget;
             }
             return [
-                'id' => (int) $r['id'],
+                'seq' => (int) $r['seq'],
                 'tool' => (string) $r['tool_name'],
                 'status' => (string) $r['status'],
                 'at' => (string) $r['started_at'],
@@ -1072,7 +1113,7 @@ final class RestApi
         }, $tool_rows);
 
         $traces = array_map(static fn(array $r): array => [
-            'id' => (int) $r['id'],
+            'seq' => (int) $r['seq'],
             'kind' => (string) $r['kind'],
             'at' => (string) $r['created_at'],
         ], $trace_rows);
@@ -1109,20 +1150,20 @@ final class RestApi
         // beginning. MAX is monotonic on insert (no row deletion
         // mid-turn), so no "don't go backwards" guard is needed.
         $lastMessageOrdinalSeen = (int) $wpdb->get_var($wpdb->prepare(
-            "SELECT COALESCE(MAX(ordinal), -1) FROM {$msgs} WHERE conversation_id = %d",
+            "SELECT COALESCE(MAX(ordinal), -1) FROM {$msgs} WHERE conversation_id = %s",
             $conversationId
         ));
 
-        $lastToolCallId = $tools === [] ? $sinceToolCallId : (int) end($tools)['id'];
-        $lastTraceId = $traces === [] ? $sinceTraceId : (int) end($traces)['id'];
+        $lastToolCallSeq = $tools === [] ? $sinceToolCallSeq : (int) end($tools)['seq'];
+        $lastTraceSeq = $traces === [] ? $sinceTraceSeq : (int) end($traces)['seq'];
 
         return rest_ensure_response([
             'conversationId' => $conversationId,
             'tools' => $tools,
             'traces' => $traces,
             'assistantTexts' => $assistantTexts,
-            'lastToolCallId' => $lastToolCallId,
-            'lastTraceId' => $lastTraceId,
+            'lastToolCallSeq' => $lastToolCallSeq,
+            'lastTraceSeq' => $lastTraceSeq,
             'lastMessageOrdinal' => $lastMessageOrdinalSeen,
         ]);
     }

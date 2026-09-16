@@ -1,4 +1,4 @@
-import { __, sprintf } from '@wordpress/i18n';
+import { __, _n, sprintf } from '@wordpress/i18n';
 import {
   Bot,
   Check,
@@ -59,7 +59,7 @@ const iframeStateKey = 'wp-pfagent.iframe.v1';
 interface ActiveState {
   providerId: string;
   model: string;
-  sessionId: number | null;
+  sessionId: string | null;
 }
 
 // 'wordpress' is the transversal tab: it reflects the agent's DIRECT actions on
@@ -369,7 +369,7 @@ export function App() {
       try {
         const session = await getChatSession(active.sessionId!);
         setMessages(messagesFromSession(session.messages));
-        setSessionLabel(session.label || `#${session.id}`);
+        setSessionLabel(session.label || __('Untitled conversation', 'wp-pfagent'));
       } catch {
         // Session disappeared upstream — drop the dangling id and start fresh.
         const next = { ...active, sessionId: null };
@@ -582,14 +582,18 @@ export function App() {
       pushAssistant('', decoration);
     } else if (isFinal) {
       const baseText = result.message || statusFallback(result.status);
+      // A provider failure must not read like a product failure. The server
+      // classifies it and sends a sentence the user can act on ("its API key
+      // is not valid any more…"); showing that alone beats the old
+      // "LLM error: unknown — LLM HTTP 401: {vendor json}", which blamed us
+      // and told nobody what to do. The raw provider text is still in the
+      // turn's errorMessage for support.
       const text =
-        result.status === 'completed_with_response_error' && result.llmError
-          ? `${baseText}\n\n${sprintf(
-              /* translators: 1: error code, 2: error message */
-              __('LLM error: %1$s — %2$s', 'wp-pfagent'),
-              result.llmError.code ?? __('unknown', 'wp-pfagent'),
-              result.llmError.message ?? __('no message', 'wp-pfagent')
-            )}`
+        result.status === 'completed_with_response_error' && result.llmError?.message
+          ? (executions
+              // Tools DID run and the closing answer is what failed: say both.
+              ? `${baseText}\n\n${result.llmError.message}`
+              : result.llmError.message)
           : baseText;
       pushAssistant(text, decoration);
     } else if (executions || errorCodeForMessage) {
@@ -656,7 +660,7 @@ export function App() {
   };
 
   async function runTurn(
-    payload: { providerId: string; model: string; message?: string; conversationId?: number },
+    payload: { providerId: string; model: string; message?: string; conversationId?: string },
     userText?: string
   ) {
     setBusy(true);
@@ -672,21 +676,21 @@ export function App() {
     // cursor and the dedup ref to it.
     lastSeenNarrationOrdinalRef.current = -1;
     livePushedThisTurnRef.current = false;
-    let initialCursors = { sinceToolCallId: 0, sinceTraceId: 0, sinceMessageOrdinal: -1 };
+    let initialCursors = { sinceToolCallSeq: 0, sinceTraceSeq: 0, sinceMessageOrdinal: -1 };
     if (payload.conversationId) {
       try {
         const warmup = await agentProgress({
           conversationId: payload.conversationId,
-          sinceToolCallId: 0,
-          sinceTraceId: 0,
+          sinceToolCallSeq: 0,
+          sinceTraceSeq: 0,
           // Bounded to fit MySQL INT UNSIGNED (max 4294967295);
           // backend's MAX(ordinal) query returns the true cursor
           // regardless of how we set the bound.
           sinceMessageOrdinal: 2147483647,
         });
         initialCursors = {
-          sinceToolCallId: warmup.lastToolCallId ?? 0,
-          sinceTraceId: warmup.lastTraceId ?? 0,
+          sinceToolCallSeq: warmup.lastToolCallSeq ?? 0,
+          sinceTraceSeq: warmup.lastTraceSeq ?? 0,
           sinceMessageOrdinal: warmup.lastMessageOrdinal ?? -1,
         };
         lastSeenNarrationOrdinalRef.current = initialCursors.sinceMessageOrdinal;
@@ -759,7 +763,7 @@ export function App() {
 
       void persistTurnToSession(userText ?? '', result.message || statusFallback(result.status));
     } catch (error) {
-      const message = errorMessage(error);
+      const message = humanFailure(error);
       const code = errorCode(error);
       setTurnError(message);
       pushAssistant(sprintf(__('Agent runtime failed: %s', 'wp-pfagent'), message), { errorCode: code });
@@ -823,21 +827,21 @@ export function App() {
     // bubble.
     lastSeenNarrationOrdinalRef.current = -1;
     livePushedThisTurnRef.current = false;
-    let initialCursors = { sinceToolCallId: 0, sinceTraceId: 0, sinceMessageOrdinal: -1 };
+    let initialCursors = { sinceToolCallSeq: 0, sinceTraceSeq: 0, sinceMessageOrdinal: -1 };
     if (active.sessionId) {
       try {
         const warmup = await agentProgress({
           conversationId: active.sessionId,
-          sinceToolCallId: 0,
-          sinceTraceId: 0,
+          sinceToolCallSeq: 0,
+          sinceTraceSeq: 0,
           // Bounded to fit MySQL INT UNSIGNED (max 4294967295);
           // backend's MAX(ordinal) query returns the true cursor
           // regardless of how we set the bound.
           sinceMessageOrdinal: 2147483647,
         });
         initialCursors = {
-          sinceToolCallId: warmup.lastToolCallId ?? 0,
-          sinceTraceId: warmup.lastTraceId ?? 0,
+          sinceToolCallSeq: warmup.lastToolCallSeq ?? 0,
+          sinceTraceSeq: warmup.lastTraceSeq ?? 0,
           sinceMessageOrdinal: warmup.lastMessageOrdinal ?? -1,
         };
         lastSeenNarrationOrdinalRef.current = initialCursors.sinceMessageOrdinal;
@@ -896,7 +900,7 @@ export function App() {
       // transparently, same as a fresh turn.
       result = await driveContinuations(result, active.providerId, active.model, appendHint);
     } catch (error) {
-      const message = errorMessage(error);
+      const message = humanFailure(error);
       setTurnError(message);
       pushAssistant(sprintf(__('Agent runtime failed: %s', 'wp-pfagent'), message), { errorCode: errorCode(error) });
     } finally {
@@ -936,7 +940,7 @@ export function App() {
     }
   }
 
-  async function handleLoadSession(sessionId: number) {
+  async function handleLoadSession(sessionId: string) {
     // Clear the previous conversation up front and flip on the skeleton so the
     // panel reads as "loading this conversation" rather than briefly showing
     // the old one until the fetch lands. Close the wizard immediately too —
@@ -963,8 +967,8 @@ export function App() {
     try {
       const session = await getChatSession(sessionId);
       const restored = messagesFromSession(session.messages);
-      setMessages(restored.length > 0 ? restored : [message('system', sprintf(__('Session %d is empty.', 'wp-pfagent'), session.id))]);
-      setSessionLabel(session.label || `#${session.id}`);
+      setMessages(restored.length > 0 ? restored : [message('system', __('This conversation has no messages yet.', 'wp-pfagent'))]);
+      setSessionLabel(session.label || __('Untitled conversation', 'wp-pfagent'));
     } catch (error) {
       setTurnError(errorMessage(error));
     } finally {
@@ -980,7 +984,7 @@ export function App() {
         : { providerId: '', model: '', sessionId: session.id };
       persistActiveState(next);
       setActive(next);
-      setSessionLabel(session.label || `#${session.id}`);
+      setSessionLabel(session.label || __('Untitled conversation', 'wp-pfagent'));
       setMessages([message('system', __('New conversation.', 'wp-pfagent'))]);
       setShowSessionsInWizard(false);
     } catch (error) {
@@ -1268,7 +1272,10 @@ export function App() {
                           });
                         }}
                       >
-                        <summary>{ sprintf(__('%d execution(s)', 'wp-pfagent'), item.executions.length) }</summary>
+                        {/* "1 execution(s)" is the shape a plural takes when nobody asks for
+                              one. The catalogues declare six forms for Arabic and three
+                              for Russian, and a parenthesised s serves none of them. */}
+                        <summary>{ sprintf(_n('%d execution', '%d executions', item.executions.length, 'wp-pfagent'), item.executions.length) }</summary>
                         <ul>
                           {item.executions.map((execution, index) => (
                             <li key={index}>
@@ -1439,6 +1446,8 @@ function pendingSummary(toolName: string, args: Record<string, unknown> | undefi
   switch (toolName) {
     case 'pfm_apply':
       return summarizePfmApply(argMap);
+    case 'pfm_delete':
+      return summarizePfmDelete(argMap);
     case 'activate_workflow': {
       const wfName = workflowNameFromPath(path);
       return wfName
@@ -1478,6 +1487,50 @@ function pendingSummary(toolName: string, args: Record<string, unknown> | undefi
   }
 }
 
+/** pfm_delete({ kind, ref }) — the most dangerous thing the agent asks for, and
+ *  it was the one with the least to say: it fell through to "The agent is about
+ *  to apply a change. Confirm to proceed.", so a person was asked to approve a
+ *  deletion without being told what would be deleted.
+ *
+ *  `ref` identifies the single target, and its shape is declared by the tool
+ *  contract: the slug for an entity / application / role / group / event,
+ *  "<application>.<module>", "<entity>.<action>", or "<entity>:<sys_id>" for one
+ *  record. The sys_id itself is not shown — it says nothing to a person, and an
+ *  internal id never travels to the screen. */
+function summarizePfmDelete(argMap: Record<string, unknown>): string {
+  const kind = typeof argMap.kind === 'string' ? argMap.kind : '';
+  const ref = typeof argMap.ref === 'string' ? argMap.ref.trim() : '';
+
+  if (kind === 'record') {
+    const entityLabel = humanizeSlug(ref.split(':')[0] ?? '');
+    return entityLabel
+      ? sprintf(__('Delete one record from "%s"? This cannot be undone.', 'wp-pfagent'), entityLabel)
+      : __('Delete this record? This cannot be undone.', 'wp-pfagent');
+  }
+
+  if (kind === 'entity') {
+    const entityLabel = humanizeSlug(ref);
+    // Said out loud because the contract says so and the person cannot see it:
+    // dropping a table takes every record in it.
+    return entityLabel
+      ? sprintf(__('Delete the table "%s" and every record in it? This cannot be undone.', 'wp-pfagent'), entityLabel)
+      : __('Delete this table and every record in it? This cannot be undone.', 'wp-pfagent');
+  }
+
+  // module: "<application>.<module>" · action: "<entity>.<action>" · the rest is
+  // a plain slug. The tail is the thing being deleted; the head is where it
+  // lives, and both are worth reading.
+  const name = humanizeSlug(ref.includes('.') ? ref.split('.').slice(-1)[0] : ref);
+  const kindLabel = humanizeSlug(kind);
+  if (name && kindLabel) {
+    return sprintf(__('Delete the %1$s "%2$s"? This cannot be undone.', 'wp-pfagent'), kindLabel.toLowerCase(), name);
+  }
+  if (name) {
+    return sprintf(__('Delete "%s"? This cannot be undone.', 'wp-pfagent'), name);
+  }
+  return __('The agent is about to delete something. Confirm to proceed.', 'wp-pfagent');
+}
+
 /** pfm_apply has six shapes — { kind, payload } where payload nests
  *  the resource under its kind key. We unwrap and pull out a name +
  *  whether it's a create (no id / id<=0) or an update (id>0). */
@@ -1486,10 +1539,17 @@ function summarizePfmApply(argMap: Record<string, unknown>): string {
   const payload = (argMap.payload ?? {}) as Record<string, unknown>;
 
   if (kind === 'record') {
-    const entitySlug = typeof payload.entity === 'string' ? payload.entity : '';
+    // The canonical shape nests the resource under its kind — `{ kind:
+    // 'record', payload: { record: { entity, values } } }` — which is what the
+    // bridge documents and what the model sends. This branch read
+    // `payload.entity` straight, found nothing, and asked the operator to
+    // approve "Create record in an entity?": a write with no table named and no
+    // value shown. Every other kind below already unwraps; this one did not.
+    const record = (payload.record ?? payload) as Record<string, unknown>;
+    const entitySlug = typeof record.entity === 'string' ? record.entity : '';
     const entityLabel = humanizeSlug(entitySlug);
-    const values = (payload.values ?? {}) as Record<string, unknown>;
-    const hasSysId = typeof payload.sys_id === 'string' && payload.sys_id !== '';
+    const values = (record.values ?? {}) as Record<string, unknown>;
+    const hasSysId = typeof record.sys_id === 'string' && record.sys_id !== '';
     const verb = hasSysId
       ? __('Update record in %1$s%2$s?', 'wp-pfagent')
       : __('Create record in %1$s%2$s?', 'wp-pfagent');
@@ -1508,8 +1568,13 @@ function summarizePfmApply(argMap: Record<string, unknown>): string {
   const label = typeof inner.label === 'string' ? inner.label : '';
   const slug = typeof inner.slug === 'string' ? inner.slug : '';
   const name = label || humanizeSlug(slug);
-  const id = typeof inner.id === 'number' ? inner.id : Number(inner.id ?? 0);
-  const isCreate = !id || id <= 0;
+  // The id decides whether this modal says "Create" or "Save changes", and
+  // these keys are uuids: Number('4cb4fa90-…') is NaN, which read as "no id"
+  // and made every UPDATE announce itself as a creation. Presence is the test,
+  // not magnitude — 0 and -1 are the historic "absent" sentinels.
+  const rawId = inner.id;
+  const id = typeof rawId === 'string' ? rawId.trim() : typeof rawId === 'number' ? String(rawId) : '';
+  const isCreate = id === '' || id === '0' || id === '-1';
   const kindLabel = pfmKindLabel(kind);
 
   if (name) {
@@ -1628,7 +1693,7 @@ function progressHintForTraceKind(kind: string): string {
 //     dedupes against the end-of-turn assistantTexts payload via
 //     the ordinal carried on each narration.
 function startProgressPolling(
-  conversationId: number,
+  conversationId: string,
   cancelled: () => boolean,
   setHint: (hint: string) => void,
   setFocusFromTool: (tool: AgentRuntimeProgressTool) => void,
@@ -1638,19 +1703,19 @@ function startProgressPolling(
    *  confirmPending to skip every assistant row that existed
    *  BEFORE the turn started — without this seed the first poll
    *  re-pushed every historical narration as a fresh bubble. */
-  initialCursors: { sinceToolCallId: number; sinceTraceId: number; sinceMessageOrdinal: number } = {
-    sinceToolCallId: 0, sinceTraceId: 0, sinceMessageOrdinal: -1,
+  initialCursors: { sinceToolCallSeq: number; sinceTraceSeq: number; sinceMessageOrdinal: number } = {
+    sinceToolCallSeq: 0, sinceTraceSeq: 0, sinceMessageOrdinal: -1,
   }
 ): number {
-  let sinceToolCallId = initialCursors.sinceToolCallId;
-  let sinceTraceId = initialCursors.sinceTraceId;
+  let sinceToolCallSeq = initialCursors.sinceToolCallSeq;
+  let sinceTraceSeq = initialCursors.sinceTraceSeq;
   let sinceMessageOrdinal = initialCursors.sinceMessageOrdinal;
   const tick = async (): Promise<void> => {
     if (cancelled()) {
       return;
     }
     try {
-      const progress = await agentProgress({ conversationId, sinceToolCallId, sinceTraceId, sinceMessageOrdinal });
+      const progress = await agentProgress({ conversationId, sinceToolCallSeq, sinceTraceSeq, sinceMessageOrdinal });
       if (cancelled()) {
         return;
       }
@@ -1665,8 +1730,8 @@ function startProgressPolling(
       if (Array.isArray(progress.assistantTexts) && progress.assistantTexts.length > 0) {
         pushNarration(progress.assistantTexts);
       }
-      sinceToolCallId = progress.lastToolCallId;
-      sinceTraceId = progress.lastTraceId;
+      sinceToolCallSeq = progress.lastToolCallSeq;
+      sinceTraceSeq = progress.lastTraceSeq;
       // lastMessageOrdinal advances past empty-content rows too, so
       // we don't refetch them on every poll.
       if (typeof progress.lastMessageOrdinal === 'number') {
@@ -1702,19 +1767,19 @@ function inferPreviewTargetFromProgressTool(
   if (isWpTool(name) && wpAdminUrl && focus.wpTarget) {
     return {
       tab: 'wordpress',
-      url: wpAdminUrlForTarget(wpAdminUrl, focus.wpTarget as WpTarget, tool.id),
+      url: wpAdminUrlForTarget(wpAdminUrl, focus.wpTarget as WpTarget, tool.seq),
     };
   }
   if (name === 'pfm_get' || name === 'pfm_apply' || name === 'pfm_list') {
     // A business_rule apply births a paired workflow; when the server surfaces
     // its id on the focus payload, focus the WORKFLOW tab on it live (mirrors
     // the end-of-turn path). Takes precedence over the pfm target.
-    const wfId = typeof focus.workflowId === 'number' ? focus.workflowId : 0;
-    if (wfId > 0 && pfwAdminUrl) {
+    const wfId = workflowIdOf(focus.workflowId);
+    if (wfId !== null && pfwAdminUrl) {
       const params = new URLSearchParams();
       params.set('pfa_preview', '1');
-      params.set('workflow_id', String(wfId));
-      params.set('_rev', String(tool.id));
+      params.set('workflow_id', wfId);
+      params.set('_rev', String(tool.seq));
       return { tab: 'pfw', url: appendQueryString(pfwAdminUrl, params) };
     }
     if (!pfmAdminUrl) return null;
@@ -1728,23 +1793,23 @@ function inferPreviewTargetFromProgressTool(
     // F3: same per-tool refresh signal the PFW branch uses. Re-editing the SAME
     // resource twice produces the same kind+ref; without a changing _rev the
     // iframe src is byte-identical and the management SPA never re-mounts, so it
-    // keeps showing the pre-edit state. tool.id is stable across polls of one
+    // keeps showing the pre-edit state. tool.seq is stable across polls of one
     // tool but distinct between two edits → the second edit forces a refresh.
-    params.set('_rev', String(tool.id));
+    params.set('_rev', String(tool.seq));
     return { tab: 'pfm', url: appendQueryString(pfmAdminUrl, params) };
   }
   if (
     (name === 'write_file' || name === 'edit_file' || name === 'move_file' || name === 'delete_file' || name === 'activate_workflow' || name === 'create_variable') &&
     pfwAdminUrl
   ) {
-    const wid = typeof focus.workflowId === 'number' ? focus.workflowId : 0;
-    if (wid <= 0) return null;
+    const wid = workflowIdOf(focus.workflowId);
+    if (wid === null) return null;
     const params = new URLSearchParams();
     params.set('pfa_preview', '1');
-    params.set('workflow_id', String(wid));
+    params.set('workflow_id', wid);
     // Per-tool-call refresh signal. _rev is the DB id of the tool row
     // — stable across polls of the SAME tool (so a write_file at
-    // tool.id=42 produces _rev=42 on every poll until a NEW tool
+    // tool.seq=42 produces _rev=42 on every poll until a NEW tool
     // lands), but different between consecutive write_file /
     // edit_file / create_variable / activate_workflow runs. The
     // iframe re-mounts only when _rev changes, so:
@@ -1756,7 +1821,7 @@ function inferPreviewTargetFromProgressTool(
     //     visible. This fixes the "added the variable, terminated
     //     the workflow, but the editor still shows the version
     //     loaded at write_file" bug the operator reported.
-    params.set('_rev', String(tool.id));
+    params.set('_rev', String(tool.seq));
     return { tab: 'pfw', url: appendQueryString(pfwAdminUrl, params) };
   }
   return null;
@@ -1919,14 +1984,29 @@ function extractPfmApplyRef(kind: string, payloadIn: unknown): string | null {
   return null;
 }
 
-function extractWorkflowIdFromResult(result: Record<string, unknown>): number | null {
+function extractWorkflowIdFromResult(result: Record<string, unknown>): string | null {
   // Most VFS calls return { workflowId } at the top level (per
   // WorkflowVfsBridge wrappers). delete_file does not — it returns
   // { deleted: true } only, in which case we have no id to focus on.
-  const direct = result.workflowId;
-  if (typeof direct === 'number' && direct > 0) return direct;
-  if (typeof direct === 'string' && /^\d+$/.test(direct)) return Number(direct);
-  return null;
+  return workflowIdOf(result.workflowId);
+}
+
+/** A workflow id as the id it is.
+ *
+ *  PFW hands these out as uuids and the payload contract carries EITHER shape
+ *  (a legacy install still sends an int). This used to demand a number, so on
+ *  every current install the answer was "no id" — no error, just a workflow
+ *  preview that never opened and a tab that stayed on "Waiting for the agent".
+ *  0 and -1 are the historic "absent" sentinels and still mean absent. */
+function workflowIdOf(raw: unknown): string | null {
+  if (typeof raw === 'number') {
+    return raw > 0 ? String(raw) : null;
+  }
+  if (typeof raw !== 'string') {
+    return null;
+  }
+  const id = raw.trim();
+  return id === '' || id === '0' || id === '-1' ? null : id;
 }
 
 /** A pfm_apply on kind=business_rule births (or re-reads) a PAIRED workflow —
@@ -1934,15 +2014,12 @@ function extractWorkflowIdFromResult(result: Record<string, unknown>): number | 
  *  under the tool envelope). Pull it so the workflow tab can focus that workflow
  *  the moment the agent creates the rule, instead of the tab sitting on
  *  "Waiting for the agent". Returns null for every other pfm apply. */
-function extractBusinessRuleWorkflowId(result: Record<string, unknown>): number | null {
+function extractBusinessRuleWorkflowId(result: Record<string, unknown>): string | null {
   const content = result.content;
   if (!content || typeof content !== 'object') return null;
   const br = (content as Record<string, unknown>).business_rule;
   if (!br || typeof br !== 'object') return null;
-  const wid = (br as Record<string, unknown>).workflow_id;
-  if (typeof wid === 'number' && wid > 0) return wid;
-  if (typeof wid === 'string' && /^\d+$/.test(wid)) return Number(wid);
-  return null;
+  return workflowIdOf((br as Record<string, unknown>).workflow_id);
 }
 
 function appendQueryString(base: string, params: URLSearchParams): string {
@@ -2098,6 +2175,39 @@ function errorMessage(error: unknown): string {
   return error instanceof Error ? error.message : __('Unexpected error.', 'wp-pfagent');
 }
 
+/**
+ * What to tell a person when a turn does not come back.
+ *
+ * The chat recovers correctly from all three failures — the bubble clears and
+ * the composer comes back — but it repeated the machine's own words: "Failed to
+ * fetch", which is the browser's phrase for a dead connection, and "WP PFAgent
+ * API POST agent-runtime/turn-v2 returned an invalid empty response", which puts
+ * a method and an endpoint in front of someone who asked how many tasks they
+ * have. The two failures a person can act on are named here; anything the server
+ * words itself travels as it is, because that message was written to be read.
+ * The code is not dropped: it rides on the message as errorCode, where the
+ * diagnostic already reads it.
+ */
+function humanFailure(error: unknown): string {
+  const code = errorCode(error);
+  const status = error && typeof error === 'object' && 'status' in error
+    ? Number((error as { status?: unknown }).status)
+    : NaN;
+
+  if (code === 'empty_response') {
+    return __('The answer did not arrive complete. Ask again.', 'wp-pfagent');
+  }
+
+  // A request that never reached the server: fetch rejects with a TypeError and
+  // no status at all, and an aborted one carries status 0.
+  const raw = errorMessage(error);
+  if (code === 'aborted' || status === 0 || /failed to fetch|networkerror|load failed/i.test(raw)) {
+    return __('The assistant could not be reached. Check the connection and ask again.', 'wp-pfagent');
+  }
+
+  return raw;
+}
+
 function errorCode(error: unknown): string | undefined {
   if (error && typeof error === 'object' && 'code' in error) {
     const value = (error as { code?: unknown }).code;
@@ -2118,7 +2228,9 @@ function statusFallback(status: string): string {
     case 'rejected':
       return __('The runtime rejected this call.', 'wp-pfagent');
     case 'completed_with_response_error':
-      return __('The action ran but the final response failed.', 'wp-pfagent');
+      // Do NOT claim an action ran: this status also covers a turn that died
+      // on its very first call to the provider, where nothing ran at all.
+      return __('The AI provider did not return a response.', 'wp-pfagent');
     case 'paused':
       return __('Still working…', 'wp-pfagent');
     default:

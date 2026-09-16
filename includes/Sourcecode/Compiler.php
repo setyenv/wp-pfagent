@@ -35,15 +35,16 @@ final class Compiler
      *   - wp-pfmanagement: every per-entity virtual node
      *     (`Incidentes$Create`, `Incidentes$Updated$Trigger`, …)
      *
-     * Per-workflow (loaded only when $workflow_id > 0):
+     * Per-workflow (loaded only when a workflow id is given):
      *   - wp-pfworkflow VariablesTypingsBuilder: every operator-
      *     declared variable surfaces as `<Name>$Variable$Get/Set`.
      *
      * @return array<string, array{verb: string, entity?: string, entityFilter?: string, variableName?: string}>
      */
-    public static function virtualResolver(int $workflow_id = 0): array
+    public static function virtualResolver($workflow_id = 0): array
     {
-        if ($workflow_id === 0 && self::$resolverCache !== null) {
+        $workflow_id = \ProjectFlash\Agent\WorkflowDependency::normalize_workflow_id($workflow_id);
+        if ($workflow_id === '' && self::$resolverCache !== null) {
             return self::$resolverCache;
         }
         $combined = [];
@@ -52,7 +53,7 @@ final class Compiler
                 apply_filters('projectflash_workflow_typings_resolver', []),
                 apply_filters('projectflash_management_typings_resolver', []),
             ];
-            if ($workflow_id > 0) {
+            if ($workflow_id !== '') {
                 $sources[] = apply_filters('projectflash_workflow_variables_resolver', [], $workflow_id);
             }
             foreach ($sources as $map) {
@@ -66,7 +67,7 @@ final class Compiler
                 }
             }
         }
-        if ($workflow_id === 0) {
+        if ($workflow_id === '') {
             self::$resolverCache = $combined;
         }
         return $combined;
@@ -119,7 +120,7 @@ final class Compiler
     private ?string $execTail = null;   // node id whose exec output we wire next
     private string $execTailOutput = 'next';
 
-    public static function compile(string $source, int $workflow_id = 0): array
+    public static function compile(string $source, $workflow_id = 0): array
     {
         $lexer = new Lexer($source);
         $tokens = $lexer->tokenize();
@@ -127,11 +128,12 @@ final class Compiler
         $program = $parser->parseProgram();
 
         $compiler = new self();
-        $compiler->workflowId = $workflow_id;
+        $compiler->workflowId = \ProjectFlash\Agent\WorkflowDependency::normalize_workflow_id($workflow_id);
         return $compiler->compileProgram($program);
     }
 
-    private int $workflowId = 0;
+    /** Canonical string form ('' = none) - opaque id, never arithmetic. */
+    private string $workflowId = '';
 
     /** @var array<string, array<string, string>>|null */
     private ?array $instanceResolver = null;

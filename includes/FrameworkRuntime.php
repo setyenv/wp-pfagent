@@ -47,7 +47,7 @@ final class FrameworkRuntime
      * Run one user message through the Loop. Returns a normalised result
      * envelope suitable for the REST response.
      *
-     * @param array{providerId: string, model?: string, message: string, conversationId?: ?int, label?: string} $input
+     * @param array{providerId: string, model?: string, message: string, conversationId?: ?string, label?: string} $input
      * @return array<string, mixed>|WP_Error
      */
     public function turn(array $input): array|WP_Error
@@ -83,10 +83,9 @@ final class FrameworkRuntime
             return new WP_Error('pfa_runtime_build_failed', $e->getMessage(), ['status' => 500]);
         }
 
-        $conversationId = isset($input['conversationId']) ? (int) $input['conversationId'] : null;
-        if ($conversationId !== null && $conversationId <= 0) {
-            $conversationId = null;
-        }
+        $conversationId = isset($input['conversationId']) && $input['conversationId'] !== ''
+            ? (string) $input['conversationId']
+            : null;
         $label = (string) ($input['label'] ?? '');
 
         $turnStartIso = gmdate('c');
@@ -102,7 +101,7 @@ final class FrameworkRuntime
     /**
      * Resume after a side-effect approval verdict.
      */
-    public function resume(int $conversationId, string $confirmationToken, bool $approved, string $providerId, string $model): array|WP_Error
+    public function resume(string $conversationId, string $confirmationToken, bool $approved, string $providerId, string $model): array|WP_Error
     {
         $context = $this->credentials->runtime_context($providerId);
         if ($context instanceof WP_Error) {
@@ -132,7 +131,7 @@ final class FrameworkRuntime
      * request. The host calls this repeatedly while the response carries
      * `continuation: true`.
      */
-    public function continueTurn(int $conversationId, string $providerId, string $model): array|WP_Error
+    public function continueTurn(string $conversationId, string $providerId, string $model): array|WP_Error
     {
         $context = $this->credentials->runtime_context($providerId);
         if ($context instanceof WP_Error) {
@@ -336,10 +335,176 @@ final class FrameworkRuntime
                 stateExtractor: null,
                 argMapping: $argMapping,
                 strict: false,
+                argumentShaper: self::argumentShaperFor($name, $filter),
+                resultShaper: self::resultShaperFor($name),
             ));
         }
 
         return $registry;
+    }
+
+    /**
+     * What the data-model tools send back to the agent.
+     *
+     * The tools reach wp-pfmanagement's service directly, so this is where
+     * PFA decides how much of that service's answer is worth spending the
+     * model's context on:
+     *
+     *  - the entity listing arrives as every entity's full definition (a
+     *    third of a megabyte on a normal install) and leaves as the map of
+     *    what exists — one line per entity;
+     *  - single reads keep everything about that one entity EXCEPT the
+     *    per-locale label maps, because the agent renders display values
+     *    into the customer's language itself and has no use for fourteen
+     *    pre-translated copies.
+     *
+     * Nothing changes in wp-pfmanagement: the same service answers the same
+     * way, and its stored translations stay exactly where they are.
+     */
+    private static function resultShaperFor(string $toolName): ?\Closure
+    {
+        if ($toolName === 'pfm_list') {
+            return static function (mixed $result, array $arguments): mixed {
+                if (!is_array($result)) {
+                    return $result;
+                }
+                $kind = sanitize_key((string) ($arguments['kind'] ?? ''));
+                if ($kind === 'entity') {
+                    return ManagementApiBridge::entity_map($result);
+                }
+                if ($kind !== 'record') {
+                    return $result;
+                }
+                return self::countableRecordList($result, $arguments);
+            };
+        }
+
+        if ($toolName === 'pfm_get' || $toolName === 'pfm_get_contract') {
+            return static fn(mixed $result, array $arguments): mixed => ManagementApiBridge::without_translations($result);
+        }
+
+        return null;
+    }
+
+    /**
+     * Make a record list answer "how many" honestly, or say that it cannot.
+     *
+     * A record list is a PAGE: twenty-five rows unless someone asked for a
+     * different number, and the envelope reports `count` (what came back) with
+     * `truncated: false` — which reads as "that is all of them". Asked how many
+     * tasks there were, the agent listed them, read 25, and told the customer
+     * 25. There were 35. The number was never wrong in the model's arithmetic;
+     * it was wrong in the answer it was given.
+     *
+     * So when a page fills up and nobody chose that page size, ask again for
+     * the largest page the platform serves — that turns almost every real
+     * counting question into an exact figure at the cost of one extra call,
+     * paid only when the first page was full. When even that fills up, the
+     * envelope says so in words, so "at least N" is the most the agent can
+     * claim and it knows it.
+     *
+     * @param array<string, mixed> $result
+     * @param array<string, mixed> $arguments
+     * @return array<string, mixed>
+     */
+    private static function countableRecordList(array $result, array $arguments): array
+    {
+        // Mirrors wp-pfmanagement's record listing: 25 rows by default, 100 the
+        // most it will serve for one entity, 200 across a whole sweep.
+        $defaultPage = 25;
+        $maxPage = 100;
+
+        $filters = is_array($arguments['filters'] ?? null) ? $arguments['filters'] : [];
+        $askedFor = (int) ($filters['limit'] ?? 0);
+        $count = (int) ($result['content']['count'] ?? 0);
+        $truncated = (bool) ($result['content']['truncated'] ?? false);
+
+        if ($askedFor <= 0 && !$truncated && $count >= $defaultPage) {
+            $service = apply_filters('projectflash_management_agent_api', null);
+            if (is_object($service) && is_callable([$service, 'agent_list'])) {
+                try {
+                    $wider = $service->agent_list('record', array_merge($filters, ['limit' => $maxPage]));
+                } catch (\Throwable $e) {
+                    $wider = null;
+                }
+                if (is_array($wider) && isset($wider['content']['count'])) {
+                    $result = $wider;
+                    $count = (int) $wider['content']['count'];
+                    $truncated = (bool) ($wider['content']['truncated'] ?? false);
+                    $askedFor = 0;
+                }
+            }
+        }
+
+        $cap = $askedFor > 0 ? min($maxPage, $askedFor) : $maxPage;
+        $isCapped = $truncated || $count >= $cap;
+
+        // The envelope carries the answer, not a number the reply has to
+        // interpret: `total` when the query returned everything it matched,
+        // and no total at all when it did not. Told "count: 100, truncated:
+        // false" and warned in prose that it was only a page, the agent still
+        // reported "exactly 100 entries" for a list of 239 — so the figure it
+        // cannot support is no longer in front of it to quote.
+        if (!$isCapped) {
+            $result['content']['returned'] = $count;
+            $result['content']['total'] = $count;
+            $result['contextForYou'] = trim((string) ($result['contextForYou'] ?? '')) . ' '
+                . sprintf('`total` is the whole answer to "how many": %d records match this query and nothing was cut.', $count);
+
+            return $result;
+        }
+
+        unset($result['content']['count']);
+        $result['content']['returned'] = $count;
+        $result['content']['total'] = null;
+        $result['content']['at_least'] = $count;
+        $result['contextForYou'] = trim((string) ($result['contextForYou'] ?? '')) . ' '
+            . sprintf(
+                'There is no total here: this page filled up at %d and the rest was never fetched, so `total` is '
+                . 'null on purpose. Never present %d as how many there are — either narrow the query until '
+                . '`total` comes back, or tell the customer "more than %d" and say the list was cut.',
+                $count,
+                $count,
+                $count
+            );
+
+        return $result;
+    }
+
+    /**
+     * What the data-model tools receive before the service does.
+     *
+     * An entity write persists whatever label maps its payload carries, and
+     * the agent's payloads no longer carry any — reads stopped including
+     * them. Left alone, the first edit of an entity would wipe its
+     * translations and its fields'. The stored maps are merged back in here,
+     * under anything the agent did send.
+     */
+    private static function argumentShaperFor(string $toolName, string $filter): ?\Closure
+    {
+        if ($toolName !== 'pfm_apply') {
+            return null;
+        }
+
+        return static function (array $arguments) use ($filter): array {
+            // Every shape the tool documents ends up canonical here, so what
+            // follows — and the service behind it — only ever sees one.
+            $canonical = ManagementApiBridge::canonicalise_apply_arguments($arguments);
+            $kind = (string) $canonical['kind'];
+            $payload = (array) $canonical['payload'];
+            if ($kind === '' || $payload === []) {
+                return $arguments;
+            }
+            if ($kind === 'entity') {
+                $payload = ManagementApiBridge::normalize_entity_payload($payload);
+                $service = apply_filters($filter, null);
+                if (is_object($service)) {
+                    $payload = ManagementApiBridge::carry_translations_forward($service, $payload);
+                }
+            }
+
+            return ['kind' => $kind, 'payload' => $payload, 'options' => (array) $canonical['options']];
+        };
     }
 
     /**
@@ -371,7 +536,69 @@ final class FrameworkRuntime
     private function systemPrompt(array $context = []): string
     {
         $family = (string) ($context['preset']['family'] ?? '');
-        return SystemPrompt::forFamily($family);
+        $prompt = SystemPrompt::forFamily($family);
+        $map = self::entityMapSection();
+
+        return $map === '' ? $prompt : $prompt . "\n\n" . $map;
+    }
+
+    /**
+     * The install's entities, preloaded — one line each.
+     *
+     * Knowing WHAT exists is the answer to half the questions a customer
+     * asks, and it used to cost a tool round that dumped every entity's full
+     * definition into the context. It is small enough to just carry: name,
+     * plural and slug, sorted by slug so the section is byte-identical from
+     * one request to the next and the provider's prefix cache keeps hitting.
+     * It changes only when the data model does. Nothing about fields lives
+     * here — that is what reading one entity is for.
+     */
+    private static function entityMapSection(): string
+    {
+        if (!ManagementDependency::is_active()) {
+            return '';
+        }
+        $service = apply_filters('projectflash_management_agent_api', null);
+        if (!is_object($service) || !is_callable([$service, 'agent_entity_list'])) {
+            return '';
+        }
+        try {
+            $catalog = $service->agent_entity_list();
+        } catch (\Throwable $e) {
+            return '';
+        }
+        $content = is_array($catalog) ? ($catalog['content'] ?? null) : null;
+        if (!is_array($content)) {
+            return '';
+        }
+
+        $lines = [];
+        foreach ($content as $item) {
+            $entity = is_array($item) ? ($item['content']['entity'] ?? $item['entity'] ?? $item) : null;
+            if (!is_array($entity)) {
+                continue;
+            }
+            $slug = (string) ($entity['slug'] ?? '');
+            if ($slug === '') {
+                continue;
+            }
+            $label = (string) ($entity['label'] ?? $slug);
+            $plural = (string) ($entity['label_plural'] ?? '');
+            $lines[$slug] = $plural !== '' && $plural !== $label
+                ? sprintf('- %s — %s / %s', $slug, $label, $plural)
+                : sprintf('- %s — %s', $slug, $label);
+        }
+        if ($lines === []) {
+            return '';
+        }
+        ksort($lines);
+
+        return "## Entities on this install\n\n"
+            . "The data model of this site, by slug and display name. This is the whole list: an entity "
+            . "that is not here does not exist, and you never need a listing call to find out what exists. "
+            . "The fields, types, layout and number sequence of one of them come from reading that single "
+            . "entity, on demand.\n\n"
+            . implode("\n", $lines);
     }
 
     /**
@@ -426,8 +653,13 @@ final class FrameworkRuntime
             'evidence' => new \stdClass(),
             'executions' => $executions,
             'timeline' => [],
+            // Named and explained, not dumped: `code` is the same vocabulary
+            // provider health uses, `message` is a sentence the user can act
+            // on, and the provider's raw text stays in errorMessage below for
+            // support. It used to carry only the raw string, which reached the
+            // chat as "LLM error: unknown — LLM HTTP 401: {json…}".
             'llmError' => $status === 'completed_with_response_error' && $result->errorMessage !== ''
-                ? ['message' => $result->errorMessage]
+                ? ProviderFailure::describe($result->errorMessage)
                 : null,
             'rounds' => $result->rounds,
             'usage' => $result->usage,
@@ -451,9 +683,9 @@ final class FrameworkRuntime
      *
      * @return list<array<string, mixed>>
      */
-    private function collectExecutions(?\wpdb $wpdb, int $conversationId, string $turnStartIso): array
+    private function collectExecutions(?\wpdb $wpdb, string $conversationId, string $turnStartIso): array
     {
-        if ($wpdb === null || $conversationId <= 0 || $turnStartIso === '') {
+        if ($wpdb === null || $conversationId === '' || $turnStartIso === '') {
             return [];
         }
         $table = $wpdb->prefix . 'pfaf_tool_calls';
@@ -461,8 +693,8 @@ final class FrameworkRuntime
             "SELECT tool_name, arguments_json, status, result_json, state_after_json,
                     error_code, error_message, duration_ms, started_at, ended_at
              FROM {$table}
-             WHERE conversation_id = %d AND started_at >= %s
-             ORDER BY id ASC",
+             WHERE conversation_id = %s AND started_at >= %s
+             ORDER BY seq ASC",
             $conversationId,
             $turnStartIso,
         ), ARRAY_A);
@@ -521,15 +753,15 @@ final class FrameworkRuntime
      *
      * @return list<array{ordinal: int, content: string, at: string}>
      */
-    private function collectAssistantTexts(?\wpdb $wpdb, int $conversationId, string $turnStartIso): array
+    private function collectAssistantTexts(?\wpdb $wpdb, string $conversationId, string $turnStartIso): array
     {
-        if ($wpdb === null || $conversationId <= 0 || $turnStartIso === '') {
+        if ($wpdb === null || $conversationId === '' || $turnStartIso === '') {
             return [];
         }
         $table = $wpdb->prefix . 'pfaf_messages';
         $rows = (array) $wpdb->get_results($wpdb->prepare(
             "SELECT ordinal, content_json, created_at FROM {$table}
-             WHERE conversation_id = %d AND role = 'assistant' AND created_at >= %s
+             WHERE conversation_id = %s AND role = 'assistant' AND created_at >= %s
              ORDER BY ordinal ASC",
             $conversationId,
             $turnStartIso,

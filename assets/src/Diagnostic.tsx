@@ -1,4 +1,4 @@
-import { __, sprintf } from '@wordpress/i18n';
+import { __, _n, sprintf } from '@wordpress/i18n';
 import { useCallback, useEffect, useState } from 'react';
 
 import { getAgentMetrics, getBetaReadiness } from './api';
@@ -125,7 +125,7 @@ export function Diagnostic() {
               <p>{criterion.description}</p>
               {criterion.violations.length > 0 ? (
                 <details>
-                  <summary>{ sprintf(__('%d issue(s)', 'wp-pfagent'), criterion.violations.length) }</summary>
+                  <summary>{ sprintf(_n('%d issue', '%d issues', criterion.violations.length, 'wp-pfagent'), criterion.violations.length) }</summary>
                   <pre>{JSON.stringify(criterion.violations, null, 2)}</pre>
                 </details>
               ) : null}

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ProjectFlash\Agent;
 
+use ProjectFlash\Agent\Framework\WordPress\Storage\WpDbStore;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -33,9 +34,9 @@ final class ChatSessions
     // object-cache candidates. Justified, class-scoped.
     // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
     /**
-     * Legacy CPT slug. Kept registered so existing posts remain readable
-     * by the migration helper (bin/migrate-cpt-to-pfaf.php) until the
-     * operator has fully cut over.
+     * Legacy CPT slug. Nothing registers or reads the type any more; the
+     * constant survives because it is half of the public
+     * `pfa_chat_session_can_access` filter's signature.
      */
     public const POST_TYPE = 'pfa_chat_session';
 
@@ -59,15 +60,12 @@ final class ChatSessions
 
     public function register(): void
     {
-        // F10: the CPT is intentionally NOT registered. The migration
-        // script (bin/migrate-cpt-to-pfaf.php) is the only caller that
-        // ever reads `pfa_chat_session` posts; it registers the type
-        // ad-hoc when invoked. Production runtime has no read or write
-        // path that uses the CPT — storage moved to wp_pfaf_conversations
-        // during Sprint-C. Keeping the registration at boot was dead
-        // code that confused operators inspecting Tools → Post Types.
-        // The POST_TYPE constant survives for the
-        // `pfa_chat_session_can_access` filter signature.
+        // F10: the CPT is intentionally NOT registered. Storage moved to
+        // wp_pfaf_conversations during Sprint-C and nothing reads
+        // `pfa_chat_session` posts any more — the one caller that did, the
+        // CPT-to-Framework migration script, is gone with the rest of the
+        // history. Keeping the registration at boot was dead code that
+        // confused operators inspecting Tools → Post Types.
     }
 
     public function register_routes(): void
@@ -100,32 +98,32 @@ final class ChatSessions
             ],
         ]);
 
-        register_rest_route($namespace, '/chat-sessions/(?P<id>\d+)', [
+        register_rest_route($namespace, '/chat-sessions/(?P<id>[A-Za-z0-9-]{1,64})', [
             [
                 'methods' => 'GET',
                 'callback' => [$this, 'get_session'],
                 'permission_callback' => [Capabilities::class, 'can_manage_agent'],
-                'args' => ['id' => ['required' => true, 'type' => 'integer']],
+                'args' => ['id' => ['required' => true, 'type' => 'string']],
             ],
             [
                 'methods' => 'PATCH',
                 'callback' => [$this, 'patch_session'],
                 'permission_callback' => [Capabilities::class, 'can_manage_agent'],
-                'args' => ['id' => ['required' => true, 'type' => 'integer']],
+                'args' => ['id' => ['required' => true, 'type' => 'string']],
             ],
             [
                 'methods' => 'DELETE',
                 'callback' => [$this, 'delete_session'],
                 'permission_callback' => [Capabilities::class, 'can_manage_agent'],
-                'args' => ['id' => ['required' => true, 'type' => 'integer']],
+                'args' => ['id' => ['required' => true, 'type' => 'string']],
             ],
         ]);
 
-        register_rest_route($namespace, '/chat-sessions/(?P<id>\d+)/messages', [
+        register_rest_route($namespace, '/chat-sessions/(?P<id>[A-Za-z0-9-]{1,64})/messages', [
             'methods' => 'POST',
             'callback' => [$this, 'append_messages'],
             'permission_callback' => [Capabilities::class, 'can_manage_agent'],
-            'args' => ['id' => ['required' => true, 'type' => 'integer']],
+            'args' => ['id' => ['required' => true, 'type' => 'string']],
         ]);
     }
 
@@ -139,8 +137,9 @@ final class ChatSessions
         $per_page_raw = (int) ($request->get_param('perPage') ?? self::DEFAULT_PER_PAGE);
         $per_page = max(1, min(self::MAX_PER_PAGE, $per_page_raw));
 
-        $current = get_current_user_id();
-        if ($current === 0) {
+        // WHOSE conversations these are: a person of the platform.
+        $current = \ProjectFlash\Agent\PersonColumns::current();
+        if ($current === '') {
             return new WP_Error('pfa_session_no_user', __('A logged-in user is required.', 'wp-pfagent'), ['status' => 401]);
         }
 
@@ -148,7 +147,7 @@ final class ChatSessions
         $table = $wpdb->prefix . 'pfaf_conversations';
 
         $total = (int) $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*) FROM {$table} WHERE owner_user_id = %d",
+            "SELECT COUNT(*) FROM {$table} WHERE owner_user_id = %s",
             $current
         ));
 
@@ -159,7 +158,7 @@ final class ChatSessions
             // string column but ISO-8601 sorts correctly as text.
             "SELECT id, label, status, created_at, last_turn_at, turn_count, metadata_json
              FROM {$table}
-             WHERE owner_user_id = %d
+             WHERE owner_user_id = %s
              ORDER BY (CASE WHEN last_turn_at = '' THEN created_at ELSE last_turn_at END) DESC
              LIMIT %d OFFSET %d",
             $current,
@@ -174,13 +173,14 @@ final class ChatSessions
 
         $total_pages = max(1, (int) ceil($total / $per_page));
 
-        return rest_ensure_response([
+        $response = rest_ensure_response([
             'sessions' => $sessions,
             'total' => $total,
             'page' => $page,
             'perPage' => $per_page,
             'totalPages' => $total_pages,
         ]);
+        return $response;
     }
 
     public function purge_sessions(WP_REST_Request $request): WP_REST_Response|WP_Error
@@ -192,8 +192,9 @@ final class ChatSessions
         $days_raw = (int) ($request->get_param('olderThanDays') ?? self::DEFAULT_PURGE_DAYS);
         $days = max(1, $days_raw);
 
-        $current = get_current_user_id();
-        if ($current === 0) {
+        // WHOSE conversations these are: a person of the platform.
+        $current = \ProjectFlash\Agent\PersonColumns::current();
+        if ($current === '') {
             return new WP_Error('pfa_session_no_user', __('A logged-in user is required.', 'wp-pfagent'), ['status' => 401]);
         }
 
@@ -207,9 +208,9 @@ final class ChatSessions
 
         $ids = (array) $wpdb->get_col($wpdb->prepare(
             "SELECT id FROM {$convs}
-             WHERE owner_user_id = %d
+             WHERE owner_user_id = %s
                AND (CASE WHEN last_turn_at = '' THEN created_at ELSE last_turn_at END) <= %s
-             ORDER BY id ASC
+             ORDER BY created_at ASC
              LIMIT %d",
             $current,
             $cutoff,
@@ -218,7 +219,7 @@ final class ChatSessions
 
         $deleted = 0;
         foreach ($ids as $id) {
-            $deleted += $this->delete_conversation_row((int) $id, $msgs, $tcs, $traces, $convs);
+            $deleted += $this->delete_conversation_row((string) $id, $msgs, $tcs, $traces, $convs);
         }
 
         return rest_ensure_response([
@@ -239,21 +240,26 @@ final class ChatSessions
 
         $params = $this->json_params($request);
         $label = $this->sanitize_label((string) ($params['label'] ?? ''));
-        $workflow_id = isset($params['workflowId']) ? (int) $params['workflowId'] : 0;
+        $workflow_id = WorkflowDependency::normalize_workflow_id($params['workflowId'] ?? '');
 
-        $current = get_current_user_id();
-        if ($current === 0) {
+        // WHOSE conversations these are: a person of the platform.
+        $current = \ProjectFlash\Agent\PersonColumns::current();
+        if ($current === '') {
             return new WP_Error('pfa_session_no_user', __('A logged-in user is required.', 'wp-pfagent'), ['status' => 401]);
         }
 
         global $wpdb;
         $table = $wpdb->prefix . 'pfaf_conversations';
         $metadata = ['ownerUserId' => $current];
-        if ($workflow_id > 0) {
-            $metadata['workflowId'] = $workflow_id;
+        if ($workflow_id !== '') {
+            $metadata['workflowId'] = WorkflowDependency::workflow_id_payload($workflow_id);
         }
 
+        // Same key the Loop mints: a uuid, decided here and not by the
+        // database, so this conversation means the same thing in any install.
+        $id = WpDbStore::new_uuid();
         $ok = $wpdb->insert($table, [
+            'id' => $id,
             'owner_user_id' => $current,
             'label' => $label !== '' ? $label : sprintf(
                 /* translators: %s: UTC timestamp used as default chat session title */
@@ -271,7 +277,6 @@ final class ChatSessions
             return new WP_Error('pfa_session_create_failed', __('Failed to create the chat session.', 'wp-pfagent'), ['status' => 500]);
         }
 
-        $id = (int) $wpdb->insert_id;
         $payload = $this->serialize_full($id);
         if ($payload === null) {
             return new WP_Error('pfa_session_not_found', __('Chat session not found after creation.', 'wp-pfagent'), ['status' => 500]);
@@ -285,7 +290,7 @@ final class ChatSessions
         if ($error = $this->rate('reads')) {
             return $error;
         }
-        $session_id = (int) $request['id'];
+        $session_id = (string) $request['id'];
         if ($error = $this->guard_access($session_id)) {
             return $error;
         }
@@ -306,7 +311,7 @@ final class ChatSessions
         if ($error = $this->guard_body_size($request)) {
             return $error;
         }
-        $session_id = (int) $request['id'];
+        $session_id = (string) $request['id'];
         if ($error = $this->guard_access($session_id)) {
             return $error;
         }
@@ -326,11 +331,11 @@ final class ChatSessions
 
         if (array_key_exists('workflowId', $params)) {
             $metadata = $this->load_metadata($session_id);
-            $workflow_id = (int) $params['workflowId'];
-            if ($workflow_id <= 0) {
+            $workflow_id = WorkflowDependency::normalize_workflow_id($params['workflowId']);
+            if ($workflow_id === '') {
                 unset($metadata['workflowId']);
             } else {
-                $metadata['workflowId'] = $workflow_id;
+                $metadata['workflowId'] = WorkflowDependency::workflow_id_payload($workflow_id);
             }
             $update['metadata_json'] = (string) wp_json_encode($metadata);
         }
@@ -352,7 +357,7 @@ final class ChatSessions
         if ($error = $this->rate('config')) {
             return $error;
         }
-        $session_id = (int) $request['id'];
+        $session_id = (string) $request['id'];
         if ($error = $this->guard_access($session_id)) {
             return $error;
         }
@@ -386,7 +391,7 @@ final class ChatSessions
         if ($error = $this->guard_body_size($request)) {
             return $error;
         }
-        $session_id = (int) $request['id'];
+        $session_id = (string) $request['id'];
         if ($error = $this->guard_access($session_id)) {
             return $error;
         }
@@ -467,20 +472,20 @@ final class ChatSessions
         return null;
     }
 
-    private function guard_access(int $session_id): ?WP_Error
+    private function guard_access(string $session_id): ?WP_Error
     {
         global $wpdb;
         $table = $wpdb->prefix . 'pfaf_conversations';
         $owner = $wpdb->get_var($wpdb->prepare(
-            "SELECT owner_user_id FROM {$table} WHERE id = %d",
+            "SELECT owner_user_id FROM {$table} WHERE id = %s",
             $session_id
         ));
         if ($owner === null) {
             return new WP_Error('pfa_session_not_found', __('Chat session not found.', 'wp-pfagent'), ['status' => 404]);
         }
 
-        $current = get_current_user_id();
-        $is_owner = (int) $owner === $current;
+        $current = \ProjectFlash\Agent\PersonColumns::current();
+        $is_owner = $current !== '' && strtolower((string) $owner) === $current;
         $allowed = (bool) apply_filters('pfa_chat_session_can_access', $is_owner, $session_id, $current);
         if (!$allowed) {
             return new WP_Error('pfa_session_forbidden', __('You do not have access to this chat session.', 'wp-pfagent'), ['status' => 403]);
@@ -501,10 +506,12 @@ final class ChatSessions
         $last_turn = (string) ($row['last_turn_at'] ?? '');
         $created = (string) ($row['created_at'] ?? '');
         return [
-            'id' => (int) $row['id'],
+            'id' => (string) $row['id'],
             'label' => (string) $row['label'],
             'authorId' => (int) ($metadata['ownerUserId'] ?? 0),
-            'workflowId' => (int) ($metadata['workflowId'] ?? 0),
+            'workflowId' => WorkflowDependency::workflow_id_payload(
+                WorkflowDependency::normalize_workflow_id($metadata['workflowId'] ?? '')
+            ),
             'turnCount' => (int) ($row['turn_count'] ?? 0),
             'lastTurnAt' => $last_turn,
             'createdAt' => $created,
@@ -515,7 +522,7 @@ final class ChatSessions
     /**
      * @return array<string, mixed>|null
      */
-    private function serialize_full(int $session_id): ?array
+    private function serialize_full(string $session_id): ?array
     {
         global $wpdb;
         $convs = $wpdb->prefix . 'pfaf_conversations';
@@ -523,7 +530,7 @@ final class ChatSessions
 
         $row = $wpdb->get_row($wpdb->prepare(
             "SELECT id, label, status, created_at, last_turn_at, turn_count, metadata_json
-             FROM {$convs} WHERE id = %d",
+             FROM {$convs} WHERE id = %s",
             $session_id
         ), ARRAY_A);
         if (!is_array($row)) {
@@ -534,7 +541,7 @@ final class ChatSessions
 
         $message_rows = (array) $wpdb->get_results($wpdb->prepare(
             "SELECT ordinal, role, content_json, tool_call_id, created_at FROM {$msgs}
-             WHERE conversation_id = %d
+             WHERE conversation_id = %s
              ORDER BY ordinal ASC",
             $session_id
         ), ARRAY_A);
@@ -606,7 +613,7 @@ final class ChatSessions
      *
      * @return array<int, list<array<string, mixed>>>
      */
-    private function executions_by_ordinal(int $session_id): array
+    private function executions_by_ordinal(string $session_id): array
     {
         global $wpdb;
         $table = $wpdb->prefix . 'pfaf_tool_calls';
@@ -614,8 +621,8 @@ final class ChatSessions
             "SELECT message_ordinal, tool_name, arguments_json, status, result_json,
                     state_after_json, error_code, error_message, duration_ms, started_at, ended_at
              FROM {$table}
-             WHERE conversation_id = %d
-             ORDER BY id ASC",
+             WHERE conversation_id = %s
+             ORDER BY seq ASC",
             $session_id
         ), ARRAY_A);
 
@@ -658,19 +665,19 @@ final class ChatSessions
     /**
      * @return array<string, mixed>
      */
-    private function load_metadata(int $session_id): array
+    private function load_metadata(string $session_id): array
     {
         global $wpdb;
         $table = $wpdb->prefix . 'pfaf_conversations';
         $raw = $wpdb->get_var($wpdb->prepare(
-            "SELECT metadata_json FROM {$table} WHERE id = %d",
+            "SELECT metadata_json FROM {$table} WHERE id = %s",
             $session_id
         ));
         $metadata = json_decode((string) $raw, true);
         return is_array($metadata) ? $metadata : [];
     }
 
-    private function delete_conversation_row(int $id, string $msgs, string $tcs, string $traces, string $convs): int
+    private function delete_conversation_row(string $id, string $msgs, string $tcs, string $traces, string $convs): int
     {
         global $wpdb;
         // Cascade delete children first; the conversations table has no

@@ -14,6 +14,48 @@ final class WorkflowDependency
             || class_exists('\\ProjectFlash\\Workflow\\Plugin');
     }
 
+    /**
+     * Canonical string form of a PFW workflow id, or '' when shapeless.
+     * Mirrors PFW's WorkflowIdHelper::normalize (the P4.2 opaque-id
+     * contract): int / all-digits -> positive decimal string; uuid-shaped
+     * -> lowercased; anything else -> ''. Local on purpose - PFA must not
+     * fatal when PFW is inactive.
+     *
+     * @param mixed $id
+     */
+    public static function normalize_workflow_id($id): string
+    {
+        if (is_int($id) || (is_string($id) && $id !== '' && ctype_digit($id))) {
+            $int = (int) $id;
+
+            return $int > 0 ? (string) $int : '';
+        }
+        if (is_string($id)) {
+            $id = strtolower(trim($id));
+            if (preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/', $id) === 1) {
+                return $id;
+            }
+        }
+
+        return '';
+    }
+
+    /**
+     * Payload form of a normalized id: numeric ids keep travelling as int
+     * (byte-identical to the historic contract), uuid ids travel as the
+     * string they are, '' -> 0 (the historic "absent" sentinel).
+     *
+     * @return int|string
+     */
+    public static function workflow_id_payload(string $normalized)
+    {
+        if ($normalized === '') {
+            return 0;
+        }
+
+        return ctype_digit($normalized) ? (int) $normalized : $normalized;
+    }
+
     public static function rest_namespace(): string
     {
         if (defined('PFW_REST_NAMESPACE')) {

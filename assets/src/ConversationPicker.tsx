@@ -1,4 +1,4 @@
-import { __, sprintf } from '@wordpress/i18n';
+import { __, _n, sprintf } from '@wordpress/i18n';
 import { ChevronLeft, ChevronRight, Trash2 } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -9,7 +9,7 @@ const SESSIONS_PER_PAGE = 5;
 const PURGE_OLDER_THAN_DAYS = 7;
 
 interface ConversationPickerProps {
-  onLoadSession(sessionId: number): void;
+  onLoadSession(sessionId: string): void;
   /** Bump to force a reload from the server (e.g. after the wizard creates
    *  a new conversation or after the chevron-back from the session header). */
   refreshKey?: number;
@@ -119,7 +119,11 @@ export function ConversationPicker({ onLoadSession, refreshKey = 0 }: Conversati
               <button type="button" className="pfa-wizard__session" onClick={() => onLoadSession(session.id)}>
                 <strong>{session.label || `#${session.id}`}</strong>
                 <span className="pfa-wizard__session-meta">
-                  { sprintf(__('%1$d turn(s) · updated %2$s', 'wp-pfagent'), session.turnCount, formatDate(session.updatedAt || session.lastTurnAt)) }
+                  { sprintf(
+                    _n('%1$d turn · updated %2$s', '%1$d turns · updated %2$s', session.turnCount, 'wp-pfagent'),
+                    session.turnCount,
+                    formatDate(session.updatedAt || session.lastTurnAt)
+                  ) }
                 </span>
               </button>
               <button

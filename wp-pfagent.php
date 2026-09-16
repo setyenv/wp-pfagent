@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP-PFAgent
  * Description: Open-source AI agent console for the Setyenv suite. Drives WP-PFWorkflow and WP-PFManagement from natural language.
- * Version: 1.0.11
+ * Version: 1.2.8
  * Author: Setyenv Build
  * Requires PHP: 8.1
  * License: GPL-2.0-or-later
@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('WP_PFAGENT_VERSION')) {
-    define('WP_PFAGENT_VERSION', '1.0.11');
+    define('WP_PFAGENT_VERSION', '1.2.7');
 }
 if (!defined('WP_PFAGENT_FILE')) {
     define('WP_PFAGENT_FILE', __FILE__);
@@ -28,6 +28,7 @@ if (!defined('WP_PFAGENT_URL')) {
     define('WP_PFAGENT_URL', plugin_dir_url(__FILE__));
 }
 
+require_once WP_PFAGENT_DIR . 'includes/PersonColumns.php';
 require_once WP_PFAGENT_DIR . 'includes/UpdateChannel.php';
 require_once WP_PFAGENT_DIR . 'includes/Capabilities.php';
 require_once WP_PFAGENT_DIR . 'includes/RateLimiter.php';
@@ -37,6 +38,7 @@ require_once WP_PFAGENT_DIR . 'includes/ProviderPresets.php';
 require_once WP_PFAGENT_DIR . 'includes/CredentialStore.php';
 require_once WP_PFAGENT_DIR . 'includes/ProviderModelDiscovery.php';
 require_once WP_PFAGENT_DIR . 'includes/ProviderHealth.php';
+require_once WP_PFAGENT_DIR . 'includes/ProviderFailure.php';
 require_once WP_PFAGENT_DIR . 'includes/PromptCacheHelper.php';
 require_once WP_PFAGENT_DIR . 'includes/ProviderBackoff.php';
 require_once WP_PFAGENT_DIR . 'includes/ProviderRuntime.php';
@@ -82,6 +84,7 @@ require_once WP_PFAGENT_DIR . 'includes/ChatSessions.php';
 require_once WP_PFAGENT_DIR . 'includes/TraceLogger.php';
 require_once WP_PFAGENT_DIR . 'includes/BetaReadiness.php';
 require_once WP_PFAGENT_DIR . 'includes/RestApi.php';
+require_once WP_PFAGENT_DIR . 'includes/MaintenanceGate.php';
 require_once WP_PFAGENT_DIR . 'includes/AdminPage.php';
 require_once WP_PFAGENT_DIR . 'includes/DashboardWidget.php';
 
@@ -127,9 +130,9 @@ require_once WP_PFAGENT_DIR . 'includes/Framework/Llm/Prompts.php';
 require_once WP_PFAGENT_DIR . 'includes/Framework/LlmCompactor.php';
 require_once WP_PFAGENT_DIR . 'includes/FrameworkRuntime.php';
 
-// Canal de actualización (mecanismo estándar de WP: cabecera `Update URI:` +
-// filtro por host). Sin LicenseClient — PFAgent es OSS; el canal usa una
-// identidad anónima estable solo para el turno del escalonado.
+// Update channel (WP's standard mechanism: `Update URI:` header + per-host
+// filter). No LicenseClient — PFAgent is OSS; the channel uses a stable
+// anonymous identity only for its turn in the staggered rollout.
 \ProjectFlash\Agent\UpdateChannel::register(WP_PFAGENT_FILE, 'wp-pfagent', WP_PFAGENT_VERSION);
 
 register_activation_hook(WP_PFAGENT_FILE, ['\\ProjectFlash\\Agent\\TraceLogger', 'install']);
@@ -140,15 +143,30 @@ if (class_exists('\\ProjectFlash\\Agent\\Sourcecode\\DecompileCache')) {
     register_activation_hook(WP_PFAGENT_FILE, ['\\ProjectFlash\\Agent\\Sourcecode\\TemplateDecompileCache', 'activate']);
 }
 // Framework Loop tables (wp_pfaf_conversations/messages/tool_calls/traces).
-// dbDelta is safe to re-run, so this also handles upgrades when schema
-// evolves between plugin versions.
-register_activation_hook(WP_PFAGENT_FILE, static function (): void {
-    global $wpdb;
-    if (!$wpdb instanceof \wpdb) {
+register_activation_hook(WP_PFAGENT_FILE, ['\\ProjectFlash\\Agent\\Framework\\WordPress\\Storage\\WpDbStore', 'run_schema_upgrade']);
+
+// AND ON UPGRADE, which is the case that matters.
+//
+// This used to live only on the activation hook, with a comment saying dbDelta
+// would therefore handle version-to-version upgrades too. It does not: a
+// customer who UPDATES a plugin never calls activate(), so on exactly the
+// installs that have been running the longest the schema stayed where it was.
+//
+// Measured on the gate instance at 1.2.4: conversations were still keyed on the
+// pre-uuid auto-increment column, so every conversation the product created
+// wrote a uuid into a numeric key — MySQL coerced it, and reading the row back
+// by the uuid it had just minted found nothing. The chat answered "Chat session
+// not found after creation" and the whole product was unusable there, while a
+// freshly activated install was fine.
+//
+// The check costs one autoloaded option read per request and does nothing until
+// the version actually moves.
+add_action('plugins_loaded', static function (): void {
+    if (get_option('wp_pfagent_schema_version') === WP_PFAGENT_VERSION) {
         return;
     }
-    (new \ProjectFlash\Agent\Framework\WordPress\Storage\WpDbStore($wpdb))->migrate();
-});
+    \ProjectFlash\Agent\Framework\WordPress\Storage\WpDbStore::run_schema_upgrade();
+}, 1);
 
 // Keep each workflow's decompiled source in postmeta so the LLM's
 // virtual filesystem reads are instantaneous. The hook fires whenever
@@ -204,6 +222,12 @@ add_filter('determine_locale', static function ($locale) {
 }, 10, 1);
 
 add_action('plugins_loaded', static function (): void {
+    // BEFORE any table is reconciled. Our two person columns hold the sys_id of
+    // a PFM `user` row now, not a wp_users id, and dbDelta asked to reconcile
+    // CHAR(32) against a live BIGINT rewrites every id as its own digits, which
+    // name nobody. The engine resolves them through `user.account` first and
+    // does nothing at all once a column is already a person.
+    \ProjectFlash\Agent\PersonColumns::run_all();
     \ProjectFlash\Agent\TraceLogger::maybe_install();
 
     $rate_limiter = new \ProjectFlash\Agent\RateLimiter();
@@ -212,6 +236,10 @@ add_action('plugins_loaded', static function (): void {
     add_action('rest_api_init', [$chat_sessions, 'register_routes']);
 
     (new \ProjectFlash\Agent\RestApi())->init();
+    // Maintenance-mode consumer: REST choke point for our namespace + the
+    // status endpoint the SPA pre-warning toast polls. The admin-page gate
+    // hooks in AdminPage::render_full_screen.
+    \ProjectFlash\Agent\MaintenanceGate::register_hooks();
     (new \ProjectFlash\Agent\AdminPage())->init();
     (new \ProjectFlash\Agent\DashboardWidget())->init();
 
