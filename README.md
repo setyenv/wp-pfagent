@@ -28,7 +28,7 @@
 
 **WP-PFAgent puts an AI agent in your WordPress dashboard.** Tell it what you need in plain language — it finds, writes and edits content, moderates comments, runs WooCommerce tasks, tunes your SEO and more — always showing you what it wants to change and waiting for your click. Bring your own AI provider key: your data stays in your own database, and nothing is ever sent to us.
 
-It is the **open-source AI layer of the [Setyenv™](https://setyenv.com) suite**. On its own it manages your WordPress site conversationally; alongside the premium platform it designs whole data schemas and visual workflows from a one-line description — every change gated behind your confirmation.
+It is the **open-source AI layer of the [Setyenv™](https://setyenv.com) suite**. On its own it manages your WordPress site conversationally; alongside WP-PFManagement and WP-PFWorkflow it designs whole data schemas and visual workflows from a one-line description — every change gated behind your confirmation.
 
 <p align="center">
   <img src="assets/screens/pfa-chat.png" alt="The WP-PFAgent chat console inside the WordPress dashboard" width="820" />
@@ -207,12 +207,3 @@ WP-PFAgent is free software, licensed under **GPL-2.0-or-later**. See [LICENSE](
 
 Setyenv™, WP-PFWorkflow™, WP-PFManagement™ and WP-PFAgent™ are trademarks of Setyenv™.
 
----
-
-## PFAgent Lite
-
-**PFAgent Lite** is the free, transversal WordPress-core edition of this agent — the conversational site management described above (content, taxonomies, media, users, comments, settings, plus the WooCommerce, SEO, forms, LearnDash and MemberPress integrations), with no part of the premium suite required. It runs entirely on its own: no account, no locked features.
-
-We are publishing PFAgent Lite to the **WordPress.org plugin directory** for one-click install. **Current status: _Awaiting Review_.** Until it lands there, you can install this open-source edition directly from this repository.
-
-The premium Setyenv™ suite — WP-PFManagement™ and WP-PFWorkflow™ — is optional, and extends the same conversational approach to data modeling and automation, driven natively by the full edition of PFAgent.
